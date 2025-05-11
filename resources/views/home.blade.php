@@ -307,7 +307,7 @@
                   </div>
                   <div class="member-info">
                     <h4>Bryan</h4>
-                    <span>Adeknya Ipall</span>
+                    <span>adeknya ipal</span>
                   </div>
                 </div>
               </div>
