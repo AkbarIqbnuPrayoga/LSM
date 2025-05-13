@@ -16,17 +16,10 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $arr = ['Super Admin', 'Admin', 'Member'];
+    $arr = ['Admin', 'Member'];
         foreach ($arr as $key => $value) {
             Role::create(['name' => $value]);
         }
-        $superadmin = User::create([
-            'name'     => 'Superadmin 1',
-            'email'    => 'superadmin@mail.com',
-            'password' => Hash::make(123123),
-        ]);
-        $superadmin->assignRole('Super Admin');
-        
         $admin = User::create([
             'name'     => 'Admin 1',
             'email'    => 'admin@mail.com',

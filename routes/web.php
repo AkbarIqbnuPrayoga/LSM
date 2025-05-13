@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminpageController;
+use App\Http\Controllers\PelatihanController;  
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,17 +17,27 @@ use App\Http\Controllers\AdminpageController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Route edit
+Route::get('/pelatihan/{id}/edit', [PelatihanController::class, 'edit'])->name('pelatihan.edit');
+// Route update
+Route::put('/pelatihan/{id}', [PelatihanController::class, 'update'])->name('pelatihan.update');
+// Route hapus banyak
+Route::delete('/pelatihan/bulk-delete', [PelatihanController::class, 'bulkDelete'])->name('pelatihan.bulkDelete');
 
-// Route::view('admin', 'admin.index');
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/home', [PelatihanController::class, 'index'])->name('home');
+Route::post('/pelatihan/store', [PelatihanController::class, 'store'])->name('pelatihan.store');
+
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 Route::resource('admin', AdminpageController::class);
 Route::get('/logout', [App\Http\Controllers\AdminpageController::class, 'logout'])->name('logout');
 
-// Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin');
+Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin');
 
-Route::get('/', function () {
-    return view('home');
-    // return view('home');
-});
+// Route::get('/', function () {
+//     return view('home');
+//     // return view('home');
+// });
 Route::get('/contact', function () {
     return view('contact');
 });

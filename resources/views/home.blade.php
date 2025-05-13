@@ -13,91 +13,73 @@
     </section><!-- End Hero -->
 
     <main id="main">
-        <!-- ======= Featured Services Section ======= -->
-        <section id="team" class="team section-bg">
-            <div class="container aos-init aos-animate" data-aos="fade-up">
+              <!-- ======= Featured Services Section ======= -->
+              <section id="team" class="team section-bg py-5">
+                  <div class="container" data-aos="fade-up">
+                      <div class="section-title text-center mb-4">
+                          <h2>Daftar</h2>
+                          <h3>Skema <span>Pendaftaran</span></h3>
+                          <p>Latih Skill Mu Dengan Mendaftar Kompetensi Bersetifikat di LSM</p>
+                      </div>
 
-                <div class="section-title">
-                    <h2>Daftar</h2>
-                    <h3>Skema <span>Pendaftaran</span></h3>
-                    <p>Latih Skill Mu Dengan Mendaftar Kompetensi Bersetifikat di LSM</p>
-                </div>
-                <div class="back-slick">
-                    <div class="your-schema">
-                        <div class="p-1 p-md-2" data-aos="fade-up" data-aos-delay="100">
-                            <div class="member">
-                            <div class="member-img">
-                                <img src="{{ asset('images') }}/home/1.png" class="img-fluid" alt="">
-                                <div class="social schema-more">
-                                    <a href="{{ route('procurement', 'Login') }}"></i></a>
-                                </div>
-                            </div>
+                      <div class="row g-3 justify-content-center">
+                          <div class="col-12 col-sm-6 col-md-4">
+                              <div class="card text-center h-100">
+                                  <div class="card-body">
+                                      <h5 class="card-title">Login</h5>
+                                      <a href="{{ route('procurement', 'Login') }}" class="btn btn-primary mt-2">Selengkapnya</a>
+                                  </div>
+                              </div>
                           </div>
-                        </div>
-                        <div class="p-1 p-md-2" data-aos="fade-up" data-aos-delay="100">
-                            <div class="member">
-                            <div class="member-img">
-                                <img src="{{ asset('images') }}/home/2.png" class="img-fluid" alt="">
-                                <div class="social schema-more">
-                                    <a href="{{ route('procurement',  'Procurement Senior Staff') }}">Selengkapnya</i></a>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="p-1 p-md-2" data-aos="fade-up" data-aos-delay="100">
-                            <div class="member">
-                            <div class="member-img">
-                                <img src="{{ asset('images') }}/home/3.png" class="img-fluid" alt="">
-                                <div class="social schema-more">
-                                    <a href="{{ route('procurement',  'Procurement Coordinator') }}">Selengkapnya</i></a>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="p-1 p-md-2" data-aos="fade-up" data-aos-delay="100">
-                            <div class="member">
-                            <div class="member-img">
-                                <img src="{{ asset('images') }}/home/4.png" class="img-fluid" alt="">
-                                <div class="social schema-more">
-                                    <a href="{{ route('procurement',  'Procurement Supervisor') }}">Selengkapnya</i></a>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="p-1 p-md-2" data-aos="fade-up" data-aos-delay="100">
-                            <div class="member">
-                            <div class="member-img">
-                                <img src="{{ asset('images') }}/home/5.png" class="img-fluid" alt="">
-                                <div class="social schema-more">
-                                    <a href="{{ route('procurement',  'Procurement Asistant Manager') }}">Selengkapnya</i></a>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="p-1 p-md-2" data-aos="fade-up" data-aos-delay="100">
-                            <div class="member">
-                            <div class="member-img">
-                                <img src="{{ asset('images') }}/home/6.png" class="img-fluid" alt="">
-                                <div class="social schema-more">
-                                    <a href="{{ route('procurement',  'Procurement Manager') }}">Selengkapnya</i></a>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
 
+                          <div class="col-12 col-sm-6 col-md-4">
+                              <div class="card text-center h-100">
+                                  <div class="card-body">
+                                      <h5 class="card-title">Procurement Senior Staff</h5>
+                                      <a href="{{ route('procurement', 'Procurement Senior Staff') }}" class="btn btn-primary mt-2">Selengkapnya</a>
+                                  </div>
+                              </div>
+                          </div>
 
-                    </div>
-                    <div class="schema-prev desktop">
-                        <span><i class="fa-solid fa-angle-left"></i></span>
-                    </div>
-                    <div class="schema-next desktop">
-                        <span><i class="fa-solid fa-angle-right"></i></span>
-                    </div>
-                </div>
+                          <div class="col-12 col-sm-6 col-md-4">
+                              <div class="card text-center h-100">
+                                  <div class="card-body">
+                                      <h5 class="card-title">Procurement Coordinator</h5>
+                                      <a href="{{ route('procurement', 'Procurement Coordinator') }}" class="btn btn-primary mt-2">Selengkapnya</a>
+                                  </div>
+                              </div>
+                          </div>
 
-            </div>
-        </section>
-        <!-- ======= END Featured Services Section ======= -->
+                          <div class="col-12 col-sm-6 col-md-4">
+                              <div class="card text-center h-100">
+                                  <div class="card-body">
+                                      <h5 class="card-title">Procurement Supervisor</h5>
+                                      <a href="{{ route('procurement', 'Procurement Supervisor') }}" class="btn btn-primary mt-2">Selengkapnya</a>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="col-12 col-sm-6 col-md-4">
+                              <div class="card text-center h-100">
+                                  <div class="card-body">
+                                      <h5 class="card-title">Procurement Assistant Manager</h5>
+                                      <a href="{{ route('procurement', 'Procurement Asistant Manager') }}" class="btn btn-primary mt-2">Selengkapnya</a>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="col-12 col-sm-6 col-md-4">
+                              <div class="card text-center h-100">
+                                  <div class="card-body">
+                                      <h5 class="card-title">Procurement Manager</h5>
+                                      <a href="{{ route('procurement', 'Procurement Manager') }}" class="btn btn-primary mt-2">Selengkapnya</a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </section>
+              <!-- ======= END Featured Services Section ======= -->
 
 
         <!-- ======= Clients Section ======= -->
@@ -154,79 +136,28 @@
               <div class="col-lg-12 d-flex justify-content-center">
                 <ul id="portfolio-flters">
                   <li data-filter="*" class="filter-active">All</li>
-                  <li data-filter=".filter-on">Online</li>
-                  <li data-filter=".filter-off">Offline</li>
+                  <li data-filter=".filter-online">Online</li>
+                  <li data-filter=".filter-offline">Offline</li>
                   <li data-filter=".filter-buku">Book</li>
                 </ul>
               </div>
             </div>
 
+          <!-- Daftar Pelatihan -->
             <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
-
-              <div class="col-lg-4 col-md-6 portfolio-item filter-on">
-                <img src="{{ asset('biz') }}/assets/img/portfolio/bukus.jpg" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <h4>Online 1</h4>
-                  <p>Online</p>
-                  <a href="{{ asset('biz') }}/assets/img/portfolio/bukus.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="App 1"><i class="bx bx-plus"></i></a>
-                  <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-                </div>
-              </div>
-
-              <div class="col-lg-4 col-md-6 portfolio-item filter-on">
-                <img src="{{ asset('biz') }}/assets/img/portfolio/bukus.jpg" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <h4>Online 2</h4>
-                  <p>Online</p>
-                  <a href="{{ asset('biz') }}/assets/img/portfolio/bukus.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="App 1"><i class="bx bx-plus"></i></a>
-                  <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-                </div>
-              </div>
-
-              <div class="col-lg-4 col-md-6 portfolio-item filter-off">
-                <img src="{{ asset('biz') }}/assets/img/portfolio/bukus.jpg" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <h4>Offline 1</h4>
-                  <p>Offline</p>
-                  <a href="{{ asset('biz') }}/assets/img/portfolio/bukus.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="App 1"><i class="bx bx-plus"></i></a>
-                  <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-                </div>
-              </div>
-
-              <div class="col-lg-4 col-md-6 portfolio-item filter-off">
-                <img src="{{ asset('biz') }}/assets/img/portfolio/bukus.jpg" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <h4>Offline 2</h4>
-                  <p>Offline</p>
-                  <a href="{{ asset('biz') }}/assets/img/portfolio/bukus.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="App 1"><i class="bx bx-plus"></i></a>
-                  <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-                </div>
-              </div>
-
-              <div class="col-lg-4 col-md-6 portfolio-item filter-buku">
-                <img src="{{ asset('biz') }}/assets/img/portfolio/bukus.jpg" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <h4>Buku 1</h4>
-                  <p>Buku</p>
-                  <a href="{{ asset('biz') }}/assets/img/portfolio/bukus.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="App 1"><i class="bx bx-plus"></i></a>
-                  <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-                </div>
-              </div>
-
-              <div class="col-lg-4 col-md-6 portfolio-item filter-buku">
-                <img src="{{ asset('biz') }}/assets/img/portfolio/bukus.jpg" class="img-fluid" alt="">
-                <div class="portfolio-info">
-                  <h4>Buku 2</h4>
-                  <p>Buku</p>
-                  <a href="{{ asset('biz') }}/assets/img/portfolio/bukus.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="App 1"><i class="bx bx-plus"></i></a>
-                  <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-                </div>
-              </div>
-
+                @foreach($pelatihan as $item)
+                    <div class="col-lg-4 col-md-6 portfolio-item filter-{{ strtolower($item->tag) }}">
+                        <img src="{{ asset('storage/' . $item->gambar) }}" class="img-fluid" alt="Gambar Pelatihan">
+                        <div class="portfolio-info">
+                            <h4>{{ $item->nama }}</h4>
+                            <p>{{ ucfirst($item->tag) }}</p>
+                            <a href="{{ asset('storage/' . $item->gambar) }}" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="{{ $item->nama }}"><i class="bx bx-plus"></i></a>
+                            <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+                        </div>
+                    </div>
+                @endforeach
             </div>
-
-          </div>
-        </section><!-- End Portfolio Section -->
+        <!-- End Portfolio Section -->
 
         <!-- ======= Team Section ======= -->
         <section id="team" class="team section-bg">

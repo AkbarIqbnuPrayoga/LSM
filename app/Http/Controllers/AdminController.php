@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Pelatihan;
 
 class AdminController extends Controller
 {
@@ -14,7 +15,8 @@ class AdminController extends Controller
 
     public function index()
     {
-        return view('admin.index');
+        $pelatihan = Pelatihan::all(); // Ambil semua data pelatihan
+        return view('admin.index', compact('pelatihan'));
     }
 
     public function logout(Request $request)

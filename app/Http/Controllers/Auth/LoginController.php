@@ -40,12 +40,21 @@ class LoginController extends Controller
 
     protected function redirectTo()
     {
-        if (\Auth::user()->roles->pluck('name')[0] == "Admin") {
-            return '/admin';
-        }else if(\Auth::user()->roles->pluck('name')[0] == "Super Admin"){
-            return '/superadmin';
-        }else {
-            return '/home';
+        $user = \Auth::user();
+        $roles = $user->roles->pluck('name');
+
+        if ($roles->isEmpty()) {
+            return '/home'; // Default jika user tidak punya role
+        }
+
+        switch ($roles[0]) {
+            case 'Admin':
+                return '/admin';
+            case 'Super Admin':
+                return '/superadmin';
+            default:
+                return '/home';
         }
     }
+
 }

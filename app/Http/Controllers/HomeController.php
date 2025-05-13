@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pelatihan;
 use Illuminate\Http\Request;
+
 
 class HomeController extends Controller
 {
@@ -23,6 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $pelatihan = Pelatihan::all(); // Mengambil semua data pelatihan
+        return view('home', compact('pelatihan')); // Kirim data ke view
     }
 }

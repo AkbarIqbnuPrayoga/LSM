@@ -1,141 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('index')
+@section('content')
+<main id="main">
+<div class="container mt-4">
+    <h2 class="mb-4">Tambah Pelatihan</h2>
+    <form action="{{ route('pelatihan.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    
-    <!-- theme meta -->
-    <meta name="theme-name" content="quixlab" />
+        <div class="mb-3">
+            <label for="gambar" class="form-label">Gambar</label>
+            <input type="file" class="form-control" id="gambar" name="gambar" required>
+        </div>
 
-    <title>Quixlab - Bootstrap Admin Dashboard Template by Themefisher.com</title>
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
-    <!-- Pignose Calender -->
-    <link href="{{asset('template_admin/plugins/pg-calendar/css/pignose.calendar.min.css')}}" rel="stylesheet">
-    <!-- Chartist -->
-    <link rel="stylesheet" href="{{asset('template_admin/plugins/chartist/css/chartist.min.css')}}">
-    <link rel="stylesheet" href="{{asset('template_admin/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css')}}">
-    <!-- Custom Stylesheet -->
-    <link href="{{asset('template_admin/css/style.css')}}" rel="stylesheet">
+        <div class="mb-3">
+            <label for="nama" class="form-label">Nama Pelatihan</label>
+            <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama pelatihan" required>
+        </div>
 
-</head>
-
-<body>
-
-    <!--*******************
-        Preloader start
-        ********************-->
-        <div id="preloader">
-            <div class="loader">
-                <svg class="circular" viewBox="25 25 50 50">
-                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
-                </svg>
+        <div class="mb-3">
+            <label class="form-label">Tag:</label><br>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="tag[]" value="offline" id="tagOffline">
+                <label class="form-check-label" for="tagOffline">Offline</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="tag[]" value="online" id="tagOnline">
+                <label class="form-check-label" for="tagOnline">Online</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="tag[]" value="buku" id="tagBuku">
+                <label class="form-check-label" for="tagBuku">Buku</label>
             </div>
         </div>
-    <!--*******************
-        Preloader end
-        ********************-->
 
+        <button type="submit" class="btn btn-primary">Simpan Pelatihan</button>
+    </form>
 
-    <!--**********************************
-        Main wrapper start
-        ***********************************-->
-        <div id="main-wrapper">
+    <hr class="my-4">
 
-        <!--**********************************
-            Nav header start
-            ***********************************-->
-            <div class="nav-header">
-                <div class="brand-logo">
-                    <a href="index.html">
-                        <b class="logo-abbr"><img src="{{asset('template_admin/images/logo.png')}}" alt=""> </b>
-                        <span class="logo-compact"><img src="{{asset('template_admin/images/logo-compact.png')}}" alt=""></span>
-                        <span class="brand-title">
-                            <img src="{{asset('template_admin/images/logo-text.png')}}" alt="">
-                        </span>
-                    </a>
-                </div>
+    {{-- Daftar Pelatihan --}}
+    <h2 class="mb-3">Kelola Pelatihan</h2>
+    <form action="{{ route('pelatihan.bulkDelete') }}" method="POST" id="bulkDeleteForm">
+        @csrf
+        @method('DELETE')
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Pilih</th>
+                <th>Gambar</th>
+                <th>Nama</th>
+                <th>Tag</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($pelatihan as $item)
+                <tr>
+                    <td><input type="checkbox" name="ids[]" value="{{ $item->id }}"></td>
+                    <td><img src="{{ asset('storage/' . $item->gambar) }}" width="100"></td>
+                    <td>{{ $item->nama }}</td>
+                    <td>{{ ucfirst($item->tag) }}</td>
+                    <td><a href="{{ route('pelatihan.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a></td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Hapus Yang Dipilih</button>
+</form>
+
+{{-- Modal Konfirmasi Hapus --}}
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Penghapusan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        <!--**********************************
-            Nav header end
-            ***********************************-->
-
-        <!--**********************************
-            Header start
-            ***********************************-->
-            @include('layouts_admin.header')
-        <!--**********************************
-            Header end ti-comment-alt
-            ***********************************-->
-
-        <!--**********************************
-            Sidebar start
-            ***********************************-->
-            @include('layouts_admin.sidebar')
-        <!--**********************************
-            Sidebar end
-            ***********************************-->
-
-        <!--**********************************
-            Content body start
-            ***********************************-->
-            <div class="content-body">
-
-                <div class="container-fluid mt-3">
-                    @yield('contents')
-                </div>
-                <!-- #/ container -->
+            <div class="modal-body">
+                <p>Apakah Anda yakin ingin menghapus pelatihan yang dipilih? Aksi ini tidak dapat dibatalkan.</p>
             </div>
-        <!--**********************************
-            Content body end
-            ***********************************-->
-
-
-        <!--**********************************
-            Footer start
-            ***********************************-->
-            @include('layouts_admin.footer')
-        <!--**********************************
-            Footer end
-            ***********************************-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-danger" form="bulkDeleteForm">Ya, Hapus</button>
+            </div>
         </div>
-    <!--**********************************
-        Main wrapper end
-        ***********************************-->
+    </div>
+</div>
 
-    <!--**********************************
-        Scripts
-        ***********************************-->
-        <script src="{{asset('template_admin/plugins/common/common.min.js')}}"></script>
-        <script src="{{asset('template_admin/js/custom.min.js')}}"></script>
-        <script src="{{asset('template_admin/js/settings.js')}}"></script>
-        <script src="{{asset('template_admin/js/gleek.js')}}"></script>
-        <script src="{{asset('template_admin/js/styleSwitcher.js')}}"></script>
-
-        <!-- Chartjs -->
-        <script src="{{asset('template_admin/plugins/chart.js/Chart.bundle.min.js')}}"></script>
-        <!-- Circle progress -->
-        <script src="{{asset('template_admin/plugins/circle-progress/circle-progress.min.js')}}"></script>
-        <!-- Datamap -->
-        <script src="{{asset('template_admin/plugins/d3v3/index.js')}}"></script>
-        <script src="{{asset('template_admin/plugins/topojson/topojson.min.js')}}"></script>
-        <script src="{{asset('template_admin/plugins/datamaps/datamaps.world.min.js')}}"></script>
-        <!-- Morrisjs -->
-        <script src="{{asset('template_admin/plugins/raphael/raphael.min.js')}}"></script>
-        <script src="{{asset('template_admin/plugins/morris/morris.min.js')}}"></script>
-        <!-- Pignose Calender -->
-        <script src="{{asset('template_admin/plugins/moment/moment.min.js')}}"></script>
-        <script src="{{asset('template_admin/plugins/pg-calendar/js/pignose.calendar.min.js')}}"></script>
-        <!-- ChartistJS -->
-        <script src="{{asset('template_admin/plugins/chartist/js/chartist.min.js')}}"></script>
-        <script src="{{asset('template_admin/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js')}}"></script>
-
-
-
-        <script src="{{asset('template_admin/js/dashboard/dashboard-1.js')}}"></script>
-
-    </body>
-
-    </html>
+@endsection
