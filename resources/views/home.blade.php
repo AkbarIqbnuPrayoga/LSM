@@ -169,7 +169,7 @@
                   <h4>Online 1</h4>
                   <p>Online</p>
                   <a href="{{ asset('biz') }}/assets/img/portfolio/bukus.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="App 1"><i class="bx bx-plus"></i></a>
-                  <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+                  <a href="{{ route('buku.show', 'hukum-pengadaan-barang-dan-jasa') }}" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
                 </div>
               </div>
 
