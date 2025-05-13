@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminpageController;
 use App\Http\Controllers\PelatihanController;  
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Buku1Controller;
 
 
 /*
@@ -56,6 +57,7 @@ Route::get('/ujikompetensi', [App\Http\Controllers\SertifikasiController::class,
 Route::get('/sertifikat', [App\Http\Controllers\SertifikasiController::class, 'sertifikat'])->name('sertifikat');
 Route::get('/procurement/{name}', [App\Http\Controllers\SertifikasiController::class, 'procurement'])->name('procurement');
 
+Route::get('/buku/{slug}', [Buku1Controller::class, 'show'])->name('buku.show');
 
 // Route::get('/logout', [App\Http\Controllers\AdminController::class, 'logout'])->name('logout');
 

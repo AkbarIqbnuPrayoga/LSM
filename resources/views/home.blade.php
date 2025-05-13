@@ -238,7 +238,7 @@
                   </div>
                   <div class="member-info">
                     <h4>Bryan</h4>
-                    <span>Adeknya Ipall</span>
+                    <span>Sepuh Gamedev</span>
                   </div>
                 </div>
               </div>
