@@ -22,7 +22,7 @@
                 <div class="info-box  mb-4">
                   <i class="bx bx-envelope"></i>
                   <h3>Email Us</h3>
-                  <p>Sepuh@Mikir.com</p>
+                  <p>Admin@LSM.com</p>
                 </div>
               </div>
 

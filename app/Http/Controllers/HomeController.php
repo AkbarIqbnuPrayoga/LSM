@@ -25,7 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $pelatihan = Pelatihan::all(); // Mengambil semua data pelatihan
-        return view('home', compact('pelatihan')); // Kirim data ke view
+        $pelatihan = Pelatihan::where('status', 'public')->get(); // hanya tampilkan yang public
+        return view('home', compact('pelatihan'));
     }
+
 }

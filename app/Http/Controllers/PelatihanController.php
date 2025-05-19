@@ -12,10 +12,11 @@ class PelatihanController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'nama' => 'required|string',
-            'tag' => 'required|array'
+            'tag' => 'required|array',
+            'konten' => 'required|string'
         ]);
 
         // Upload gambar
@@ -25,7 +26,8 @@ class PelatihanController extends Controller
         Pelatihan::create([
             'nama' => $request->nama,
             'gambar' => $gambarPath,
-            'tag' => implode(',', $request->tag)
+            'tag' => implode(',', $request->tag),
+            'konten' => $validated['konten'],
         ]);
 
         return redirect()->back()->with('success', 'Pelatihan berhasil disimpan!');
@@ -78,10 +80,11 @@ class PelatihanController extends Controller
     public function update(Request $request, $id)
     {
         $pelatihan = Pelatihan::findOrFail($id);
-        $request->validate([
+        $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'tag' => 'required|string',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'konten' => 'required|string'
         ]);
 
         if ($request->hasFile('gambar')) {
@@ -94,9 +97,51 @@ class PelatihanController extends Controller
 
         $pelatihan->nama = $request->nama;
         $pelatihan->tag = $request->tag;
+        $pelatihan->konten = $validated['konten'];
+        $pelatihan->status = $request->status;
         $pelatihan->save();
 
-        return redirect()->route('home')->with('success', 'Pelatihan berhasil diupdate.');
+        return redirect()->route('admin')->with('success', 'Pelatihan berhasil diupdate.');
+    }
+
+    public function show($id)
+    {
+        $pelatihan = Pelatihan::findOrFail($id);
+        return view('pelatihan.show', compact('pelatihan'));
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $pelatihan = Pelatihan::findOrFail($id);
+        $pelatihan->status = $request->status; // 'public' atau 'private'
+        $pelatihan->save();
+
+        return redirect()->back()->with('success', 'Status pelatihan berhasil diperbarui.');
+    }
+
+    public function daftar($id)
+    {
+        $user = Auth::user();
+
+        // Cek apakah user sudah daftar
+        $sudahDaftar = DB::table('pendaftaran')
+            ->where('user_id', $user->id)
+            ->where('pelatihan_id', $id)
+            ->exists();
+
+        if ($sudahDaftar) {
+            return redirect()->back()->with('warning', 'Anda sudah mendaftar pelatihan ini.');
+        }
+
+        // Simpan ke tabel pendaftaran
+        DB::table('pendaftaran')->insert([
+            'user_id' => $user->id,
+            'pelatihan_id' => $id,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Berhasil mendaftar pelatihan!');
     }
 
     

@@ -2,7 +2,7 @@
 <section id="topbar" class="d-flex align-items-center">
     <div class="container d-flex justify-content-center justify-content-md-between">
       <div class="contact-info d-flex align-items-center">
-        <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:Sepuh@Mikir.com<">Sepuh@Mikir.com</a></i>
+        <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:Admin@LSM.com<">Admin@LSM.com</a></i>
         <i class="bi bi-phone d-flex align-items-center ms-4"><span>+62 888 8118 8118</span></i>
       </div>
       <div class="social-links d-none d-md-flex align-items-center">
@@ -44,7 +44,7 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto {{$activehome}}" href="{{route('home')}}">Home</a></li>
-          <li class="dropdown"><a href="#" class="{{$activeprofile}}"><span>Profile</span> <i class="bi bi-chevron-down"></i></a>
+          <li class="dropdown"><a href="#" class="{{$activeprofile}}"><span>About Us</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a href="{{route('visimisi')}}">Visi Misi</a></li>
               <!-- <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
@@ -60,14 +60,9 @@
               <li><a href="{{route('strukturorganisasi')}}">Struktur Organisasi</a></li>
             </ul>
           </li>
-          <li class="dropdown"><a href="#" class="{{$activesertifikasi}}"><span>Sertifikasi</span> <i class="bi bi-chevron-down"></i></a>
-            <ul>
-              <li><a href="{{route('skemasertifikasi')}}">Skema Sertifikasi</a></li>
-              <li><a href="{{route('ujikompetensi')}}">Tempat Uji Kompetensi </a></li>
-              <li><a href="{{route('sertifikat')}}">Sertifikat</a></li>
-            </ul>
+          <li class="dropdown"><a href="#portfolio"><span>Pelatihan</span></a>
           </li>
-          <li><a class="nav-link scrollto {{$activecontact}}" href="{{ route('contact') }}">Contact</a></li>
+          <li><a href="#contact">Contact</a></li>
           @guest
           <li>
             <a class="nav-link {{$activelogin}}" href="{{ route('login') }}">{{ __('Login') }}</a>

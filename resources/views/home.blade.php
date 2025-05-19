@@ -6,7 +6,7 @@
             <h1>LSM</h1>
             <h2>Latih Skill Mu Dengan Mendaftar Kompetensi Bersetifikat di LSM</h2>
             <div class="d-flex">
-            <a href="#about" class="btn-get-started scrollto">Get Started</a>
+            <a href="#portfolio" class="btn-get-started scrollto">Get Started</a>
             <a href="https://www.youtube.com/watch?" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
             </div>
         </div>
@@ -35,7 +35,7 @@
                           <div class="col-12 col-sm-6 col-md-4">
                               <div class="card text-center h-100">
                                   <div class="card-body">
-                                      <h5 class="card-title">Procurement Senior Staff</h5>
+                                      <h5 class="card-title">Pilih Pelatihan</h5>
                                       <a href="{{ route('procurement', 'Procurement Senior Staff') }}" class="btn btn-primary mt-2">Selengkapnya</a>
                                   </div>
                               </div>
@@ -44,7 +44,7 @@
                           <div class="col-12 col-sm-6 col-md-4">
                               <div class="card text-center h-100">
                                   <div class="card-body">
-                                      <h5 class="card-title">Procurement Coordinator</h5>
+                                      <h5 class="card-title">Daftar Pelatihan</h5>
                                       <a href="{{ route('procurement', 'Procurement Coordinator') }}" class="btn btn-primary mt-2">Selengkapnya</a>
                                   </div>
                               </div>
@@ -53,7 +53,7 @@
                           <div class="col-12 col-sm-6 col-md-4">
                               <div class="card text-center h-100">
                                   <div class="card-body">
-                                      <h5 class="card-title">Procurement Supervisor</h5>
+                                      <h5 class="card-title">Pembayaran Pelatihan</h5>
                                       <a href="{{ route('procurement', 'Procurement Supervisor') }}" class="btn btn-primary mt-2">Selengkapnya</a>
                                   </div>
                               </div>
@@ -62,7 +62,7 @@
                           <div class="col-12 col-sm-6 col-md-4">
                               <div class="card text-center h-100">
                                   <div class="card-body">
-                                      <h5 class="card-title">Procurement Assistant Manager</h5>
+                                      <h5 class="card-title">Mengikuti Pelatihan</h5>
                                       <a href="{{ route('procurement', 'Procurement Asistant Manager') }}" class="btn btn-primary mt-2">Selengkapnya</a>
                                   </div>
                               </div>
@@ -71,7 +71,7 @@
                           <div class="col-12 col-sm-6 col-md-4">
                               <div class="card text-center h-100">
                                   <div class="card-body">
-                                      <h5 class="card-title">Procurement Manager</h5>
+                                      <h5 class="card-title">Menerima Sertifikat</h5>
                                       <a href="{{ route('procurement', 'Procurement Manager') }}" class="btn btn-primary mt-2">Selengkapnya</a>
                                   </div>
                               </div>
@@ -138,7 +138,7 @@
                   <li data-filter="*" class="filter-active">All</li>
                   <li data-filter=".filter-online">Online</li>
                   <li data-filter=".filter-offline">Offline</li>
-                  <li data-filter=".filter-buku">Book</li>
+                  <li data-filter=".filter-hybrid">Hybrid</li>
                 </ul>
               </div>
             </div>
@@ -152,7 +152,7 @@
                             <h4>{{ $item->nama }}</h4>
                             <p>{{ ucfirst($item->tag) }}</p>
                             <a href="{{ asset('storage/' . $item->gambar) }}" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="{{ $item->nama }}"><i class="bx bx-plus"></i></a>
-                            <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+                            <a href="{{ route('pelatihan.show', $item->id) }}" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
                         </div>
                     </div>
                 @endforeach
@@ -246,7 +246,8 @@
             </div>
 
           </div>
-        </section><!-- End Team Section -->
+        </section>
+        <!-- End Team Section -->
 
         <!-- ======= Frequently Asked Questions Section ======= -->
         <section id="faq" class="faq section-bg">

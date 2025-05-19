@@ -6,6 +6,7 @@ use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Buku1Controller;
+use App\Http\Controllers\UserController;
 
 
 /*
@@ -24,6 +25,8 @@ Route::get('/pelatihan/{id}/edit', [PelatihanController::class, 'edit'])->name('
 Route::put('/pelatihan/{id}', [PelatihanController::class, 'update'])->name('pelatihan.update');
 // Route hapus banyak
 Route::delete('/pelatihan/bulk-delete', [PelatihanController::class, 'bulkDelete'])->name('pelatihan.bulkDelete');
+Route::get('/pelatihan/{id}', [PelatihanController::class, 'show'])->name('pelatihan.show');
+Route::post('/pelatihan/{id}/daftar', [PelatihanController::class, 'daftar'])->name('pelatihan.daftar')->middleware('auth');
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/home', [PelatihanController::class, 'index'])->name('home');
@@ -34,6 +37,16 @@ Route::resource('admin', AdminpageController::class);
 Route::get('/logout', [App\Http\Controllers\AdminpageController::class, 'logout'])->name('logout');
 
 Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin');
+Route::get('/admin/users', [UserController::class, 'index'])->name('user.index');
+
+Route::get('/admin/users/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+Route::put('/admin/users/{id}/edit', [UserController::class, 'updateEmail'])->name('user.updateEmail');
+
+Route::get('/admin/users/{id}/password', [UserController::class, 'updatePasswordForm'])->name('user.updatePasswordForm');
+Route::put('/admin/users/{id}/password', [UserController::class, 'updatePassword'])->name('user.updatePassword');
+    
+Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+
 
 // Route::get('/', function () {
 //     return view('home');

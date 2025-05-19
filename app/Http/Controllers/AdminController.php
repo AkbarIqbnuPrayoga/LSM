@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Pelatihan;
+use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -16,7 +17,8 @@ class AdminController extends Controller
     public function index()
     {
         $pelatihan = Pelatihan::all(); // Ambil semua data pelatihan
-        return view('admin.index', compact('pelatihan'));
+        $users = User::all();
+        return view('admin.index', compact('users', 'pelatihan'));
     }
 
     public function logout(Request $request)

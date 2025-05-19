@@ -48,7 +48,40 @@
             margin-top: 25px;
             font-size: 24px;
             font-weight: bold;
-            color:rgb(249, 249, 249);
+            color: rgb(249, 249, 249);
+        }
+
+        .pay-box {
+            margin-top: 30px;
+            background-color: #C62828;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .pay-box button {
+            background-color:rgb(255, 213, 0);
+            color: white;
+            padding: 12px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .pay-box button:hover {
+            background-color:rgb(159, 133, 0);
+        }
+
+        .info-box {
+            display: none;
+            margin-top: 15px;
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 12px;
+            border: 1px solid #ffeeba;
+            border-radius: 8px;
+            font-weight: bold;
         }
 
         @media (max-width: 768px) {
@@ -78,7 +111,21 @@
             </ul>
 
             <p class="price">Harga buku: Rp{{ number_format($book['price'], 0, ',', '.') }}</p>
+
+            <div class="pay-box">
+                <p style="color: white; font-weight: bold; font-size: 18px;">Tertarik? Segera bayar sekarang!</p>
+                <button onclick="showInfo()">Bayar Sekarang</button>
+                <div class="info-box" id="infoBox">
+                    Fitur pembayaran belum tersedia. Silakan coba lagi nanti.
+                </div>
+            </div>
         </div>
     </div>
+
+    <script>
+        function showInfo() {
+            document.getElementById("infoBox").style.display = "block";
+        }
+    </script>
 </body>
 </html>
