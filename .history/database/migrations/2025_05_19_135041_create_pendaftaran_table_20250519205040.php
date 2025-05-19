@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePelatihanTable extends Migration
+class CreatePendaftaranTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,8 @@ class CreatePelatihanTable extends Migration
      */
     public function up()
     {
-        Schema::create('pelatihan', function (Blueprint $table) {
+        Schema::create('pendaftaran', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('gambar');
-            $table->string('tag'); // simpan tag sebagai string (misal: 'offline,online')
-            $table->longText('konten');
-            $table->string('status')->default('public');
             $table->timestamps();
         });
     }
@@ -31,6 +26,6 @@ class CreatePelatihanTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pelatihan');
+        Schema::dropIfExists('pendaftaran');
     }
 }
