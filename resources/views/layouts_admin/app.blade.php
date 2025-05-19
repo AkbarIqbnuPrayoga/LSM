@@ -8,6 +8,7 @@
             <a href="#" class="list-group-item list-group-item-action rounded-2" onclick="showContent('tambahPelatihan')">Tambah Pelatihan</a>
             <a href="#" class="list-group-item list-group-item-action rounded-2" onclick="showContent('kelolaPelatihan')">Kelola Pelatihan</a>
             <a href="#" class="list-group-item list-group-item-action rounded-2" onclick="showContent('kelolaUser')">Kelola User</a>
+            <a href="#" class="list-group-item list-group-item-action rounded-2" onclick="showContent('kuotaPelatihan')">Kuota Pelatihan</a>
         </div>
     </div>
 
@@ -29,9 +30,14 @@
                             <input type="text" class="form-control rounded" id="nama" name="nama" required>
                         </div>
                         <div class="mb-3">
+                            <label for="kuota" class="form-label">Kuota Pelatihan</label>
+                            <input type="number" class="form-control rounded" id="kuota" name="kuota" min="1" required>
+                        </div>
+                        <div class="mb-3">
                             <label for="konten" class="form-label">Isi Berita / Konten</label>
                             <textarea class="form-control rounded" id="konten" name="konten" rows="5" required></textarea>
                         </div>
+
                         <div class="mb-3">
                             <label class="form-label">Tag:</label><br>
                             <div class="form-check form-check-inline">
@@ -62,6 +68,7 @@
                                     <th>Pilih</th>
                                     <th>Gambar</th>
                                     <th>Nama</th>
+                                    <th>Kuota</th> {{-- Tambah header Kuota --}}
                                     <th>Tag</th>
                                     <th>Edit</th>
                                 </tr>
@@ -72,6 +79,7 @@
                                         <td><input type="checkbox" name="ids[]" value="{{ $item->id }}"></td>
                                         <td><img src="{{ asset('storage/' . $item->gambar) }}" width="100" class="rounded"></td>
                                         <td>{{ $item->nama }}</td>
+                                        <td>{{ $item->kuota }}</td> {{-- Tampilkan kuota --}}
                                         <td>{{ ucfirst($item->tag) }}</td>
                                         <td><a href="{{ route('pelatihan.edit', $item->id) }}" class="btn btn-sm btn-warning rounded">Edit</a></td>
                                     </tr>
@@ -80,6 +88,7 @@
                         </table>
                         <button type="button" class="btn btn-danger rounded" data-bs-toggle="modal" data-bs-target="#deleteModal">Hapus Yang Dipilih</button>
                     </form>
+                </div>
 
                     {{-- Modal Hapus --}}
                     <div class="modal fade" id="deleteModal" tabindex="-1">
@@ -206,6 +215,25 @@
                         </div>
                     </div>
                 </div>
+                    {{-- Kuota Pelatihan --}}
+                    <div id="kuotaPelatihan" class="content-section" style="display: none;">
+                        <h2 class="mb-4">Kuota Pelatihan</h2>
+                        <div class="row">
+                            @foreach($pelatihans as $pelatihan)
+                                <div class="col-md-4">
+                                    <div class="card mb-4 shadow-sm">
+                                        <img src="{{ asset('storage/' . $pelatihan->gambar) }}" class="card-img-top" alt="Gambar Pelatihan" width="150" style="object-fit: contain;">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-truncate" style="max-width: 100%;">{{ $pelatihan->nama }}</h5>
+                                            <p class="card-text">Kuota: {{ $pelatihan->kuota }}</p>
+                                            <p class="card-text">Sudah daftar: {{ $pelatihan->pendaftar_count ?? 0 }}</p>
+                                            <a href="{{ route('admin.peserta', $pelatihan->id) }}" class="btn btn-primary">Lihat</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
 
             </div>
         </main>
@@ -264,5 +292,15 @@
             const passwordModal = new bootstrap.Modal(document.getElementById('editPasswordModal'));
             passwordModal.show();
         }
+        document.addEventListener('DOMContentLoaded', function () {
+            const kuotaBtn = document.querySelector('a[onclick="showContent(\'kuotaPelatihan\')"]');
+            if (kuotaBtn) {
+                kuotaBtn.addEventListener('click', function(e) {
+                    e.preventDefault();  // supaya tidak reload halaman
+                    showKuotaPelatihan();
+                });
+            }
+        });
+
     </script>
     @endsection

@@ -18,6 +18,7 @@ class PelatihanController extends Controller
             'nama' => 'required|string',
             'tag' => 'required|array',
             'konten' => 'required|string'
+
         ]);
 
         // Upload gambar
@@ -29,6 +30,7 @@ class PelatihanController extends Controller
             'gambar' => $gambarPath,
             'tag' => implode(',', $request->tag),
             'konten' => $validated['konten'],
+            'kuota' => $request->kuota,
         ]);
 
         return redirect()->back()->with('success', 'Pelatihan berhasil disimpan!');
@@ -143,6 +145,19 @@ class PelatihanController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Berhasil mendaftar pelatihan!');
+    }
+
+    public function index()
+    {
+        $pelatihans = Pelatihan::withCount('pendaftar')->get();
+        return view('admin.kuota.index', compact('pelatihans'));
+    }
+
+    public function peserta($id)
+    {
+        $pendaftarans = Pendaftaran::with('user')->where('pelatihan_id', $id)->get();
+        $pelatihan = Pelatihan::findOrFail($id);
+        return view('admin.kuota.peserta', compact('pendaftarans', 'pelatihan'));
     }
 
     

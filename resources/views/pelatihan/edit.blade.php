@@ -31,6 +31,12 @@
                 <option value="hybrid" {{ $pelatihan->tag == 'hybrid' ? 'selected' : '' }}>Hybrid</option>
             </select>
         </div>
+
+        {{-- Kuota --}}
+        <div class="mb-3">
+            <label for="kuota" class="form-label">Kuota Pelatihan</label>
+            <input type="number" class="form-control" id="kuota" name="kuota" min="1" value="{{ old('kuota', $pelatihan->kuota) }}" required>
+        </div>
         
         {{-- Status --}}
         <div class="mb-3">
@@ -46,7 +52,6 @@
             <label for="konten" class="form-label">Isi Berita / Konten</label>
             <textarea class="form-control" id="konten" name="konten" rows="6" required>{{ old('konten', $pelatihan->konten) }}</textarea>
         </div>
-
 
         {{-- Tombol --}}
         <button type="submit" class="btn btn-success">Update Pelatihan</button>

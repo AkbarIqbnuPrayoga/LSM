@@ -23,6 +23,9 @@
 
         <div style="text-align: justify;" class="mb-4">
             {!! $pelatihan->konten !!}
+            <p>Kuota: {{ $pelatihan->kuota }}</p>
+            <p>Terdaftar: {{ $pelatihan->pendaftar()->count() }}</p>
+            <p>Sisa Kuota: {{ $pelatihan->kuota - $pelatihan->pendaftar()->count() }}</p>
         </div>
 
         {{-- Kotak Daftar Sekarang --}}
@@ -30,10 +33,20 @@
             <h4 class="mb-3">Tertarik dengan pelatihan ini?</h4>
 
             @auth
-                <form action="{{ route('pelatihan.daftar', $pelatihan->id) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-primary btn-lg rounded">Daftar Sekarang</button>
-                </form>
+                @php
+                    $jumlahPeserta = $pelatihan->pendaftar()->count();
+                    $kuota = $pelatihan->kuota;
+                    $sisaKuota = $kuota - $jumlahPeserta;
+                @endphp
+
+                @if($sisaKuota <= 0)
+                    <button class="btn btn-secondary btn-lg rounded" disabled>Kuota Penuh</button>
+                @else
+                    <form action="{{ route('pelatihan.daftar', $pelatihan->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-primary btn-lg rounded">Daftar Sekarang</button>
+                    </form>
+                @endif
             @else
                 <a href="{{ route('login') }}" class="btn btn-primary btn-lg rounded">Daftar Sekarang</a>
             @endauth

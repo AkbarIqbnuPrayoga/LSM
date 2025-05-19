@@ -46,6 +46,9 @@ Route::get('/admin/users/{id}/password', [UserController::class, 'updatePassword
 Route::put('/admin/users/{id}/password', [UserController::class, 'updatePassword'])->name('user.updatePassword');
     
 Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+Route::get('/admin/kuota-pelatihan', [PelatihanController::class, 'index'])->name('admin.kuota');
+Route::get('/admin/kuota-pelatihan/{id}', [PelatihanController::class, 'peserta'])->name('admin.peserta');
+Route::get('/admin/kuota-pelatihan/{id}/peserta', [AdminController::class, 'lihatPeserta'])->name('admin.peserta');
 
 
 // Route::get('/', function () {
