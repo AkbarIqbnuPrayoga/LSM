@@ -24,9 +24,9 @@ class PendaftaranController extends Controller
             'pelatihan_id' => $pelatihan_id,
             'user_id' => auth()->id(),
             'nama_lengkap' => $validated['nama_lengkap'],
-            'email' => $validated['email'],
-            'no_telp' => $validated['no_telp'],
-            'instansi' => $validated['instansi'],
+        'email' => $validated['email'],
+        'no_telp' => $validated['no_telp'],
+        'instansi' => $validated['instansi'],
             // field lain jika ada
         ]);
 

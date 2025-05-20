@@ -23,10 +23,6 @@ class PendaftaranController extends Controller
         Pendaftaran::create([
             'pelatihan_id' => $pelatihan_id,
             'user_id' => auth()->id(),
-            'nama_lengkap' => $validated['nama_lengkap'],
-            'email' => $validated['email'],
-            'no_telp' => $validated['no_telp'],
-            'instansi' => $validated['instansi'],
             // field lain jika ada
         ]);
 
