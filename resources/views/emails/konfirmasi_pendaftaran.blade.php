@@ -7,4 +7,4 @@
     <li><strong>Instansi:</strong> {{ $data['instansi'] }}</li>
     <li><strong>Pelatihan:</strong> {{ $data['pelatihan'] }}</li>
 </ul>
-<p>Silakan lakukan pembayaran ke rekening berikut: <br><strong>123456789 - BNI a.n Panitia Pelatihan</strong></p>
+<p>Silakan lakukan pembayaran ke rekening berikut: <br><strong>123456789 - BNI a.n Panitia LSM</strong></p>

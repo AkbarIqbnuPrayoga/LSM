@@ -60,7 +60,7 @@
               <li><a href="{{route('strukturorganisasi')}}">Struktur Organisasi</a></li>
             </ul>
           </li>
-          <li class="dropdown"><a href="#portfolio"><span>Pelatihan</span></a>
+          <li class="dropdown"><a href="{{ route('pelatihan.saya') }}"><span>Pelatihan</span></a>
           </li>
           <li><a href="#contact">Contact</a></li>
           @guest

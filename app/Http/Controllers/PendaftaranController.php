@@ -36,4 +36,12 @@ class PendaftaranController extends Controller
     {
         return $this->hasMany(Pendaftaran::class);
     }
+    public function pelatihanSaya()
+    {
+        $pendaftaran = Pendaftaran::with('pelatihan')
+            ->where('user_id', auth()->id())
+            ->get();
+
+        return view('pelatihan.saya', compact('pendaftaran'));
+    }
 }

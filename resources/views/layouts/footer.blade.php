@@ -11,7 +11,7 @@
               Tomang, Grogol petamburan, Jakarta 11440<br>
               Indonesia <br><br>
               <strong>Phone:</strong> +62 888 8118 8118<br>
-              <strong>Email:</strong> Admin@LSM.com<<br>
+              <strong>Email:</strong> Admin@LSM.com<br>
             </p>
           </div>
 
