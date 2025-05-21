@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PendaftaranPelatihanMail;
+use App\Models\Pendaftaran;
 
 class PelatihanController extends Controller
 {
@@ -122,11 +125,17 @@ class PelatihanController extends Controller
         return redirect()->back()->with('success', 'Status pelatihan berhasil diperbarui.');
     }
 
-    public function daftar($id)
+    public function daftar(Request $request, $id)
     {
         $user = Auth::user();
 
-        // Cek apakah user sudah daftar
+        $request->validate([
+            'nama_lengkap' => 'required|string',
+            'email' => 'required|email',
+            'no_telp' => 'required|string',
+            'instansi' => 'required|string',
+        ]);
+
         $sudahDaftar = DB::table('pendaftaran')
             ->where('user_id', $user->id)
             ->where('pelatihan_id', $id)
@@ -136,17 +145,33 @@ class PelatihanController extends Controller
             return redirect()->back()->with('warning', 'Anda sudah mendaftar pelatihan ini.');
         }
 
-        // Simpan ke tabel pendaftaran
+        $pelatihan = Pelatihan::findOrFail($id);
+
+        // Simpan ke database
         DB::table('pendaftaran')->insert([
             'user_id' => $user->id,
             'pelatihan_id' => $id,
+            'nama_lengkap' => $request->nama_lengkap,
+            'email' => $request->email,
+            'no_telp' => $request->no_telp,
+            'instansi' => $request->instansi,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
-        return redirect()->back()->with('success', 'Berhasil mendaftar pelatihan!');
-    }
+        // Kirim email
+        $emailData = [
+            'nama_lengkap' => $request->nama_lengkap,
+            'email' => $request->email,
+            'no_telp' => $request->no_telp,
+            'instansi' => $request->instansi,
+            'pelatihan' => $pelatihan->nama,
+        ];
 
+        Mail::to($request->email)->send(new PendaftaranPelatihanMail($emailData));
+
+        return redirect()->back()->with('success', 'Pendaftaran berhasil! Silakan cek email Anda.');
+    }
     public function index()
     {
         $pelatihans = Pelatihan::withCount('pendaftar')->get();
