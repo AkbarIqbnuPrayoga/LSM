@@ -21,12 +21,16 @@ use App\Http\Controllers\DashboardUserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::post('/pendaftaran/{id}/kirim-notif', [App\Http\Controllers\PendaftaranController::class, 'kirimNotif'])->name('pendaftaran.kirim_notif');
+
 Route::get('/pelatihan/saya', [PendaftaranController::class, 'pelatihanSaya'])->name('pelatihan.saya')->middleware('auth');
 
 // Route edit
 Route::get('/pelatihan/{id}/edit', [PelatihanController::class, 'edit'])->name('pelatihan.edit');
 // Route update
 Route::put('/pelatihan/{id}', [PelatihanController::class, 'update'])->name('pelatihan.update');
+Route::delete('/pendaftaran/{id}', [PendaftaranController::class, 'destroy'])->name('pendaftaran.destroy');
 // Route hapus banyak
 Route::delete('/pelatihan/bulk-delete', [PelatihanController::class, 'bulkDelete'])->name('pelatihan.bulkDelete');
 Route::get('/pelatihan/{id}', [PelatihanController::class, 'show'])->name('pelatihan.show');

@@ -13,6 +13,7 @@
         <h2 class="mb-3 text-center">{{ $pelatihan->nama }}</h2>
         
         <p class="text-center mb-4"><strong>Tag:</strong> {{ ucfirst($pelatihan->tag) }}</p>
+        <p class="text-center"><strong>Tanggal Pelatihan:</strong> {{ \Carbon\Carbon::parse($pelatihan->tanggal)->format('d M Y') }}</p>
         
         <div class="text-center mb-4">
             <img src="{{ asset('storage/' . $pelatihan->gambar) }}" 

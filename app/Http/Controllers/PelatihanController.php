@@ -20,7 +20,9 @@ class PelatihanController extends Controller
             'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'nama' => 'required|string',
             'tag' => 'required|array',
-            'konten' => 'required|string'
+            'kuota' => 'required|integer',
+            'konten' => 'required|string',
+            'tanggal' => 'required|date',
 
         ]);
 
@@ -32,6 +34,7 @@ class PelatihanController extends Controller
             'nama' => $request->nama,
             'gambar' => $gambarPath,
             'tag' => implode(',', $request->tag),
+            'tanggal' => $request->tanggal,
             'konten' => $validated['konten'],
             'kuota' => $request->kuota,
         ]);
@@ -89,6 +92,8 @@ class PelatihanController extends Controller
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'tag' => 'required|string',
+            'kuota' => 'required|integer|min:1',
+            'tanggal' => 'required|date',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'konten' => 'required|string'
         ]);
@@ -103,6 +108,8 @@ class PelatihanController extends Controller
 
         $pelatihan->nama = $request->nama;
         $pelatihan->tag = $request->tag;
+        $pelatihan->kuota = $request->kuota;
+        $pelatihan->tanggal = $request->input('tanggal');
         $pelatihan->konten = $validated['konten'];
         $pelatihan->status = $request->status;
         $pelatihan->save();
@@ -184,7 +191,4 @@ class PelatihanController extends Controller
         $pelatihan = Pelatihan::findOrFail($id);
         return view('admin.kuota.peserta', compact('pendaftarans', 'pelatihan'));
     }
-
-    
-
 }

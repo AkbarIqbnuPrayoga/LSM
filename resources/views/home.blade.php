@@ -16,63 +16,63 @@
               <!-- ======= Featured Services Section ======= -->
               <section id="team" class="team section-bg py-5">
                   <div class="container" data-aos="fade-up">
-                      <div class="section-title text-center mb-4">
+                      <div class="section-title text-center mb-5">
                           <h2>Daftar</h2>
                           <h3>Skema <span>Pendaftaran</span></h3>
                           <p>Latih Skill Mu Dengan Mendaftar Kompetensi Bersetifikat di LSM</p>
                       </div>
 
-                      <div class="row g-3 justify-content-center">
-                          <div class="col-12 col-sm-6 col-md-4">
-                              <div class="card text-center h-100">
-                                  <div class="card-body">
-                                      <h5 class="card-title">Login</h5>
-                                      <a href="{{ route('procurement', 'Login') }}" class="btn btn-primary mt-2">Selengkapnya</a>
+                          <div class="d-flex flex-wrap justify-content-center align-items-center">
+                              {{-- Langkah 1 --}}
+                              <div class="text-center me-3">
+                                  <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
+                                      style="width: 120px; height: 120px;">
+                                      <span>Login</span>
                                   </div>
                               </div>
-                          </div>
+                              <i class="bi bi-arrow-right fs-2 me-3"></i>
 
-                          <div class="col-12 col-sm-6 col-md-4">
-                              <div class="card text-center h-100">
-                                  <div class="card-body">
-                                      <h5 class="card-title">Pilih Pelatihan</h5>
-                                      <a href="{{ route('procurement', 'Procurement Senior Staff') }}" class="btn btn-primary mt-2">Selengkapnya</a>
+                              {{-- Langkah 2 --}}
+                              <div class="text-center me-3">
+                                  <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center text-center"
+                                      style="width: 120px; height: 120px;">
+                                      <span>Pilih<br>Pelatihan</span>
                                   </div>
                               </div>
-                          </div>
+                              <i class="bi bi-arrow-right fs-2 me-3"></i>
 
-                          <div class="col-12 col-sm-6 col-md-4">
-                              <div class="card text-center h-100">
-                                  <div class="card-body">
-                                      <h5 class="card-title">Daftar Pelatihan</h5>
-                                      <a href="{{ route('procurement', 'Procurement Coordinator') }}" class="btn btn-primary mt-2">Selengkapnya</a>
+                              {{-- Langkah 3 --}}
+                              <div class="text-center me-3">
+                                  <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center text-center"
+                                      style="width: 120px; height: 120px;">
+                                      <span>Daftar<br>Pelatihan</span>
                                   </div>
                               </div>
-                          </div>
+                              <i class="bi bi-arrow-right fs-2 me-3"></i>
 
-                          <div class="col-12 col-sm-6 col-md-4">
-                              <div class="card text-center h-100">
-                                  <div class="card-body">
-                                      <h5 class="card-title">Pembayaran Pelatihan</h5>
-                                      <a href="{{ route('procurement', 'Procurement Supervisor') }}" class="btn btn-primary mt-2">Selengkapnya</a>
+                              {{-- Langkah 4 --}}
+                              <div class="text-center me-3">
+                                  <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center text-center"
+                                      style="width: 120px; height: 120px;">
+                                      <span>Pembayaran</span>
                                   </div>
                               </div>
-                          </div>
+                              <i class="bi bi-arrow-right fs-2 me-3"></i>
 
-                          <div class="col-12 col-sm-6 col-md-4">
-                              <div class="card text-center h-100">
-                                  <div class="card-body">
-                                      <h5 class="card-title">Mengikuti Pelatihan</h5>
-                                      <a href="{{ route('procurement', 'Procurement Asistant Manager') }}" class="btn btn-primary mt-2">Selengkapnya</a>
+                              {{-- Langkah 5 --}}
+                              <div class="text-center me-3">
+                                  <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center text-center"
+                                      style="width: 120px; height: 120px;">
+                                      <span>Mengikuti<br>Pelatihan</span>
                                   </div>
                               </div>
-                          </div>
+                              <i class="bi bi-arrow-right fs-2 me-3"></i>
 
-                          <div class="col-12 col-sm-6 col-md-4">
-                              <div class="card text-center h-100">
-                                  <div class="card-body">
-                                      <h5 class="card-title">Menerima Sertifikat</h5>
-                                      <a href="{{ route('procurement', 'Procurement Manager') }}" class="btn btn-primary mt-2">Selengkapnya</a>
+                              {{-- Langkah 6 --}}
+                              <div class="text-center">
+                                  <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center text-center"
+                                      style="width: 120px; height: 120px;">
+                                      <span>Sertifikat</span>
                                   </div>
                               </div>
                           </div>

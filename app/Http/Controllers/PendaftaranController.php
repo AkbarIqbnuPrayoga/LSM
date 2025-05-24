@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pelatihan;
 use App\Models\Pendaftaran;
+use App\Mail\PengingatPelatihanMail;
+use Illuminate\Support\Facades\Mail;
+use Carbon\Carbon;
 
 class PendaftaranController extends Controller
 {
@@ -44,4 +47,32 @@ class PendaftaranController extends Controller
 
         return view('pelatihan.saya', compact('pendaftaran'));
     }
+    public function destroy($id)
+    {
+        $pendaftaran = Pendaftaran::findOrFail($id);
+        $pendaftaran->delete();
+
+        return redirect()->back()->with('success', 'Peserta berhasil dihapus.');
+    }
+    public function kirimNotif($id)
+    {
+        $pendaftaran = Pendaftaran::with('user', 'pelatihan')->findOrFail($id);
+        $pelatihan = $pendaftaran->pelatihan;
+
+        if (!$pendaftaran->user || !$pendaftaran->user->email) {
+            return back()->with('warning', 'Email peserta tidak tersedia.');
+        }
+        $data = [
+        'nama_lengkap' => $pendaftaran->user->name,
+        'email' => $pendaftaran->user->email,
+        'pelatihan' => $pelatihan->nama,
+        'tanggal_pelatihan' => Carbon::parse($pelatihan->tanggal)->translatedFormat('d F Y'),
+        'tag' => $pelatihan->tag,
+        ];
+
+        Mail::to($pendaftaran->user->email)->send(new PengingatPelatihanMail($pelatihan, $pendaftaran));
+
+        return back()->with('success', 'Email pengingat berhasil dikirim ke ' . $pendaftaran->user->email);
+    }
+    
 }
