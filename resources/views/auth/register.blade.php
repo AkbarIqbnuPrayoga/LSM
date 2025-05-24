@@ -20,7 +20,7 @@
                         <div class="card login-form mb-0">
                             <div class="card-body pt-5">
                                 <a class="text-center" href="{{ url('/') }}">
-                                    <h4>Login</h4>
+                                    <h4>Register</h4>
                                 </a>
 
                                 <form class="mt-5 mb-5 login-input" method="POST" action="{{ route('register') }}">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -54,6 +55,13 @@ class LoginController extends Controller
                 return '/superadmin';
             default:
                 return '/home';
+        }
+    }
+    protected function authenticated($request, $user)
+    {
+        if (! $user->hasVerifiedEmail()) {
+            Auth::logout();
+            return redirect('/login')->with('error', 'Silakan verifikasi email Anda terlebih dahulu.');
         }
     }
 

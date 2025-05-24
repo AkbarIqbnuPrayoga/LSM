@@ -8,6 +8,7 @@ use App\Models\Pendaftaran;
 use App\Mail\PengingatPelatihanMail;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
+use App\Mail\BuktiValidMail;
 
 class PendaftaranController extends Controller
 {
@@ -74,5 +75,52 @@ class PendaftaranController extends Controller
 
         return back()->with('success', 'Email pengingat berhasil dikirim ke ' . $pendaftaran->user->email);
     }
+    public function uploadBukti(Request $request)
+    {
+        $request->validate([
+            'pendaftaran_id' => 'required|exists:pendaftaran,id',
+            'bukti' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+        ]);
+
+        $pendaftaran = Pendaftaran::findOrFail($request->pendaftaran_id);
+
+        // Simpan file bukti
+        $path = $request->file('bukti')->store('bukti_pembayaran', 'public');
+
+        // Simpan path ke database (buat kolom bukti_pembayaran di tabel pendaftaran)
+        $pendaftaran->bukti_pembayaran = $path;
+        $pendaftaran->save();
+
+        return redirect()->back()->with('success', 'Bukti pembayaran berhasil diupload.');
+    }
+    public function validasi(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:valid,tidak valid',
+        ]);
+
+        // Ambil data pendaftaran beserta user dan pelatihan
+        $pendaftaran = Pendaftaran::with(['user', 'pelatihan'])->findOrFail($id);
+
+        // Update status validasi
+        $pendaftaran->status_validasi = $request->status;
+        $pendaftaran->save();
+
+        // Jika status valid dan user punya email, kirim email notifikasi
+        if ($request->status === 'valid' && $pendaftaran->user && $pendaftaran->user->email) {
+            $data = [
+                'nama_user' => $pendaftaran->user->name,
+                'email_user' => $pendaftaran->user->email,
+                'nama_pelatihan' => $pendaftaran->pelatihan->nama,
+                'tanggal_pelatihan' => $pendaftaran->pelatihan->tanggal,
+                'mode' => $pendaftaran->pelatihan->tag,
+            ];
+
+            Mail::to($data['email_user'])->send(new \App\Mail\BuktiValidMail($data));
+        }
+
+        return redirect()->back()->with('success', 'Status validasi telah diperbarui.');
+    }
+
     
 }

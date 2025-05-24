@@ -25,6 +25,10 @@ use App\Http\Controllers\DashboardUserController;
 Route::post('/pendaftaran/{id}/kirim-notif', [App\Http\Controllers\PendaftaranController::class, 'kirimNotif'])->name('pendaftaran.kirim_notif');
 
 Route::get('/pelatihan/saya', [PendaftaranController::class, 'pelatihanSaya'])->name('pelatihan.saya')->middleware('auth');
+Route::get('/pelatihan/cari', [PelatihanController::class, 'cari'])->name('pelatihan.cari');
+Route::post('/bukti-upload', [PendaftaranController::class, 'uploadBukti'])->name('bukti.upload')->middleware('auth');
+Route::post('/pendaftaran/validasi/{id}', [PendaftaranController::class, 'validasi'])->name('pendaftaran.validasi');
+
 
 // Route edit
 Route::get('/pelatihan/{id}/edit', [PelatihanController::class, 'edit'])->name('pelatihan.edit');
@@ -38,6 +42,7 @@ Route::post('/pelatihan/{id}/daftar', [PelatihanController::class, 'daftar'])->n
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/home', [PelatihanController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('home');
 Route::post('/pelatihan/store', [PelatihanController::class, 'store'])->name('pelatihan.store');
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
@@ -58,6 +63,8 @@ Route::get('/admin/kuota-pelatihan', [PelatihanController::class, 'index'])->nam
 Route::get('/admin/kuota-pelatihan/{id}', [PelatihanController::class, 'peserta'])->name('admin.peserta');
 Route::get('/admin/kuota-pelatihan/{id}/peserta', [AdminController::class, 'lihatPeserta'])->name('admin.peserta');
 
+
+Auth::routes(['verify' => true]);
 
 // Route::get('/', function () {
 //     return view('home');

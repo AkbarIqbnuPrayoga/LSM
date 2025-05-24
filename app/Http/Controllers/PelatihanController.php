@@ -191,4 +191,16 @@ class PelatihanController extends Controller
         $pelatihan = Pelatihan::findOrFail($id);
         return view('admin.kuota.peserta', compact('pendaftarans', 'pelatihan'));
     }
+    public function cari(Request $request)
+    {
+        $query = Pelatihan::query();
+
+        if ($request->has('search')) {
+            $query->where('nama', 'like', '%' . $request->search . '%');
+        }
+
+        $pelatihan = $query->get();
+
+        return view('home', compact('pelatihan')); // ganti 'home' jika bukan nama view-nya
+    }
 }

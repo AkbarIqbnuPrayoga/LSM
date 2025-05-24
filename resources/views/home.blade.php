@@ -122,7 +122,7 @@
           </div>
         </section><!-- End Clients Section -->
 
-        <!-- ======= Portfolio Section ======= -->
+        <!-- ======= Daftar Pelatihan Section ======= -->
         <section id="portfolio" class="portfolio">
           <div class="container" data-aos="fade-up">
 
@@ -143,7 +143,7 @@
               </div>
             </div>
 
-          <!-- Daftar Pelatihan -->
+          <!-- ISI Daftar Pelatihan -->
             <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
                 @foreach($pelatihan as $item)
                     <div class="col-lg-4 col-md-6 portfolio-item filter-{{ strtolower($item->tag) }}">
@@ -157,7 +157,7 @@
                     </div>
                 @endforeach
             </div>
-        <!-- End Portfolio Section -->
+        <!-- End Daftar Pelatihan -->
 
         <!-- ======= Team Section ======= -->
         <section id="team" class="team section-bg">
@@ -398,6 +398,5 @@
         </section><!-- End Contact Section -->
 
       </main><!-- End #main -->
-
 
 @endsection
