@@ -9,6 +9,7 @@
             <a href="#" class="list-group-item list-group-item-action rounded-2" onclick="showContent('kelolaPelatihan')">Kelola Pelatihan</a>
             <a href="#" class="list-group-item list-group-item-action rounded-2" onclick="showContent('kelolaUser')">Kelola User</a>
             <a href="#" class="list-group-item list-group-item-action rounded-2" onclick="showContent('kuotaPelatihan')">Kuota Pelatihan</a>
+            <a href="#" class="list-group-item list-group-item-action rounded-2" onclick="showContent('riwayatPelatihan')">Riwayat</a>
         </div>
     </div>
 
@@ -239,6 +240,25 @@
                                             <p class="card-text">Sudah daftar: {{ $pelatihan->pendaftar_count ?? 0 }}</p>
                                             <p class="card-text">Tanggal Pelatihan: {{ \Carbon\Carbon::parse($pelatihan->tanggal)->format('d-m-Y') }}</p>
                                             <a href="{{ route('admin.peserta', $pelatihan->id) }}" class="btn btn-primary">Lihat</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    {{-- Riwayat Pelatihan --}}
+                    <div id="riwayatPelatihan" class="content-section" style="display: none;">
+                        <h2 class="mb-4">Riwayat Pelatihan</h2>
+                        <div class="row">
+                            @foreach($riwayatPelatihans as $pelatihan)
+                                <div class="col-md-4">
+                                    <div class="card mb-4 shadow-sm">
+                                        <img src="{{ asset('storage/' . $pelatihan->gambar) }}" class="card-img-top" alt="Gambar Pelatihan" width="150" style="object-fit: contain;">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-truncate" style="max-width: 100%;">{{ $pelatihan->nama }}</h5>
+                                            <p class="card-text">Kuota: {{ $pelatihan->kuota }}</p>
+                                            <p class="card-text">Tanggal Pelatihan: {{ \Carbon\Carbon::parse($pelatihan->tanggal)->format('d-m-Y') }}</p>
+                                            <p class="text-muted">Sudah dihapus</p>
                                         </div>
                                     </div>
                                 </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pelatihan;
+use App\Models\RiwayatPelatihan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -62,23 +63,32 @@ class PelatihanController extends Controller
 
     public function bulkDelete(Request $request)
     {
-        $ids = $request->input('ids');
+        $ids = $request->ids;
 
         if ($ids) {
+            // Ambil data pelatihan sebelum dihapus
             $pelatihans = Pelatihan::whereIn('id', $ids)->get();
 
-            foreach ($pelatihans as $item) {
-                if ($item->gambar && \Storage::exists('public/' . $item->gambar)) {
-                    \Storage::delete('public/' . $item->gambar);
-                }
-                $item->delete();
+            // Simpan data pelatihan ke tabel riwayat (buat model RiwayatPelatihan & tabel riwayat_pelatihan)
+            foreach ($pelatihans as $pelatihan) {
+                RiwayatPelatihan::create([
+                    'nama' => $pelatihan->nama,
+                    'gambar' => $pelatihan->gambar,
+                    'kuota' => $pelatihan->kuota,
+                    'tanggal' => $pelatihan->tanggal,
+                    'tag' => $pelatihan->tag,
+                ]);
             }
 
-            return redirect()->back()->with('success', 'Pelatihan berhasil dihapus.');
+            // Hapus pelatihan yang dipilih
+            Pelatihan::whereIn('id', $ids)->delete();
+
+            return redirect()->back()->with('success', 'Pelatihan berhasil dihapus dan dimasukkan ke riwayat.');
         }
 
         return redirect()->back()->with('error', 'Tidak ada pelatihan yang dipilih.');
     }
+
 
     public function edit($id)
     {
