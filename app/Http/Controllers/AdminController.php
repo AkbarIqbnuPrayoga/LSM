@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Pendaftaran;
 use App\Models\Pelatihan;
 use App\Models\User;
+use App\Models\RiwayatPelatihan;
 
 class AdminController extends Controller
 {
@@ -20,7 +21,8 @@ class AdminController extends Controller
         $pelatihan = Pelatihan::all(); // Ambil semua data pelatihan
         $users = User::all();
         $pelatihans = Pelatihan::withCount('pendaftar')->get();
-        return view('admin.index', compact('users', 'pelatihan', 'pelatihans'));
+        $riwayatPelatihans = RiwayatPelatihan::all();
+        return view('admin.index', compact('users', 'pelatihan', 'pelatihans', 'riwayatPelatihans'));
     }
 
     public function logout(Request $request)
