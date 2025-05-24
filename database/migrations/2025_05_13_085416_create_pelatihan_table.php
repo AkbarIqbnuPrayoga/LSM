@@ -18,6 +18,7 @@ class CreatePelatihanTable extends Migration
             $table->string('nama');
             $table->string('gambar');
             $table->string('tag'); // simpan tag sebagai string (misal: 'offline,online')
+            $table->date('tanggal');
             $table->longText('konten');
             $table->integer('kuota')->default(0);
             $table->string('status')->default('public');

@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Buku1Controller;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\DashboardUserController;
 
 
@@ -20,10 +21,20 @@ use App\Http\Controllers\DashboardUserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::post('/pendaftaran/{id}/kirim-notif', [App\Http\Controllers\PendaftaranController::class, 'kirimNotif'])->name('pendaftaran.kirim_notif');
+
+Route::get('/pelatihan/saya', [PendaftaranController::class, 'pelatihanSaya'])->name('pelatihan.saya')->middleware('auth');
+Route::get('/pelatihan/cari', [PelatihanController::class, 'cari'])->name('pelatihan.cari');
+Route::post('/bukti-upload', [PendaftaranController::class, 'uploadBukti'])->name('bukti.upload')->middleware('auth');
+Route::post('/pendaftaran/validasi/{id}', [PendaftaranController::class, 'validasi'])->name('pendaftaran.validasi');
+
+
 // Route edit
 Route::get('/pelatihan/{id}/edit', [PelatihanController::class, 'edit'])->name('pelatihan.edit');
 // Route update
 Route::put('/pelatihan/{id}', [PelatihanController::class, 'update'])->name('pelatihan.update');
+Route::delete('/pendaftaran/{id}', [PendaftaranController::class, 'destroy'])->name('pendaftaran.destroy');
 // Route hapus banyak
 Route::delete('/pelatihan/bulk-delete', [PelatihanController::class, 'bulkDelete'])->name('pelatihan.bulkDelete');
 Route::get('/pelatihan/{id}', [PelatihanController::class, 'show'])->name('pelatihan.show');
@@ -31,6 +42,7 @@ Route::post('/pelatihan/{id}/daftar', [PelatihanController::class, 'daftar'])->n
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/home', [PelatihanController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('home');
 Route::post('/pelatihan/store', [PelatihanController::class, 'store'])->name('pelatihan.store');
 
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
@@ -51,6 +63,8 @@ Route::get('/admin/kuota-pelatihan', [PelatihanController::class, 'index'])->nam
 Route::get('/admin/kuota-pelatihan/{id}', [PelatihanController::class, 'peserta'])->name('admin.peserta');
 Route::get('/admin/kuota-pelatihan/{id}/peserta', [AdminController::class, 'lihatPeserta'])->name('admin.peserta');
 
+
+Auth::routes(['verify' => true]);
 
 // Route::get('/', function () {
 //     return view('home');

@@ -33,6 +33,10 @@
                             <label for="kuota" class="form-label">Kuota Pelatihan</label>
                             <input type="number" class="form-control rounded" id="kuota" name="kuota" min="1" required>
                         </div>
+                        <div class="mb-3 col-md-4">
+                            <label for="tanggal" class="form-label">Tanggal Pelatihan</label>
+                            <input type="date" name="tanggal" id="tanggal" class="form-control form-control-sm">
+                        </div>
                         <div class="mb-3">
                             <label for="konten" class="form-label">Isi Berita / Konten</label>
                             <textarea class="form-control rounded" id="konten" name="konten" rows="5" required></textarea>
@@ -70,17 +74,23 @@
                                     <th>Nama</th>
                                     <th>Kuota</th> {{-- Tambah header Kuota --}}
                                     <th>Tag</th>
+                                    <th>Tanggal Pelatihan</th>
                                     <th>Edit</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($pelatihan as $item)
                                     <tr>
-                                        <td><input type="checkbox" name="ids[]" value="{{ $item->id }}"></td>
+                                        <td class="align-middle text-center">
+                                            <div class="form-check d-flex justify-content-center align-items-center" style="height: 100%;">
+                                                <input type="checkbox" class="form-check-input" style="transform: scale(1.5);" name="ids[]" value="{{ $item->id }}">
+                                            </div>
+                                        </td>
                                         <td><img src="{{ asset('storage/' . $item->gambar) }}" width="100" class="rounded"></td>
                                         <td>{{ $item->nama }}</td>
                                         <td>{{ $item->kuota }}</td> {{-- Tampilkan kuota --}}
                                         <td>{{ ucfirst($item->tag) }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}</td>
                                         <td><a href="{{ route('pelatihan.edit', $item->id) }}" class="btn btn-sm btn-warning rounded">Edit</a></td>
                                     </tr>
                                 @endforeach
@@ -227,6 +237,7 @@
                                             <h5 class="card-title text-truncate" style="max-width: 100%;">{{ $pelatihan->nama }}</h5>
                                             <p class="card-text">Kuota: {{ $pelatihan->kuota }}</p>
                                             <p class="card-text">Sudah daftar: {{ $pelatihan->pendaftar_count ?? 0 }}</p>
+                                            <p class="card-text">Tanggal Pelatihan: {{ \Carbon\Carbon::parse($pelatihan->tanggal)->format('d-m-Y') }}</p>
                                             <a href="{{ route('admin.peserta', $pelatihan->id) }}" class="btn btn-primary">Lihat</a>
                                         </div>
                                     </div>

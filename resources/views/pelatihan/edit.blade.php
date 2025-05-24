@@ -37,6 +37,13 @@
             <label for="kuota" class="form-label">Kuota Pelatihan</label>
             <input type="number" class="form-control" id="kuota" name="kuota" min="1" value="{{ old('kuota', $pelatihan->kuota) }}" required>
         </div>
+
+        {{-- Tanggal Pelatihan --}}
+        <div class="mb-3 col-md-4">
+            <label for="tanggal" class="form-label">Tanggal Pelatihan</label>
+            <input type="date" class="form-control" id="tanggal" name="tanggal" 
+                value="{{ old('tanggal', \Carbon\Carbon::parse($pelatihan->tanggal)->format('Y-m-d')) }}" required>
+        </div>
         
         {{-- Status --}}
         <div class="mb-3">

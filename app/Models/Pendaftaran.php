@@ -15,6 +15,8 @@ class Pendaftaran extends Model
     protected $fillable = [
         'user_id',
         'pelatihan_id',
+        'bukti_pembayaran',
+        'status_validasi'
         // tambahkan kolom lain jika perlu
     ];
 

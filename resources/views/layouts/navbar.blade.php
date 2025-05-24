@@ -41,26 +41,22 @@
             }
           @endphp
 
-      <nav id="navbar" class="navbar">
+      <nav id="navbar" class="navbar d-flex align-items-center">
+        <!-- Form pencarian di sebelah kiri menu -->
+        <form method="GET" action="{{ route('pelatihan.cari') }}" class="d-flex me-3">
+            <input type="text" name="search" class="form-control rounded-pill me-2" placeholder="Cari pelatihan...">
+            <button type="submit" class="btn btn-primary rounded-pill">Cari</button>
+        </form>
         <ul>
           <li><a class="nav-link scrollto {{$activehome}}" href="{{route('home')}}">Home</a></li>
           <li class="dropdown"><a href="#" class="{{$activeprofile}}"><span>About Us</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a href="{{route('visimisi')}}">Visi Misi</a></li>
-              <!-- <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
-                <ul>
-                  <li><a href="#">Deep Drop Down 1</a></li>
-                  <li><a href="#">Deep Drop Down 2</a></li>
-                  <li><a href="#">Deep Drop Down 3</a></li>
-                  <li><a href="#">Deep Drop Down 4</a></li>
-                  <li><a href="#">Deep Drop Down 5</a></li>
-                </ul>
-              </li> -->
               <li><a href="{{route('tujuan')}}">Tujuan</a></li>
               <li><a href="{{route('strukturorganisasi')}}">Struktur Organisasi</a></li>
             </ul>
           </li>
-          <li class="dropdown"><a href="#portfolio"><span>Pelatihan</span></a>
+          <li class="dropdown"><a href="{{ route('pelatihan.saya') }}"><span>Pelatihan</span></a>
           </li>
           <li><a href="#contact">Contact</a></li>
           @guest

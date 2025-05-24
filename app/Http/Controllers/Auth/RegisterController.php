@@ -8,6 +8,9 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -36,7 +39,7 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct()   
     {
         $this->middleware('guest');
     }
@@ -70,4 +73,25 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        event(new Registered($user)); // Kirim email verifikasi
+
+        Auth::login($user);
+
+        return redirect('/email/verify')->with('status', 'Akun berhasil dibuat! Silakan cek email untuk verifikasi.'); // arahkan ke halaman verifikasi
+    }
+
 }
