@@ -28,6 +28,10 @@ Route::get('/pelatihan/saya', [PendaftaranController::class, 'pelatihanSaya'])->
 Route::get('/pelatihan/cari', [PelatihanController::class, 'cari'])->name('pelatihan.cari');
 Route::post('/bukti-upload', [PendaftaranController::class, 'uploadBukti'])->name('bukti.upload')->middleware('auth');
 Route::post('/pendaftaran/validasi/{id}', [PendaftaranController::class, 'validasi'])->name('pendaftaran.validasi');
+Route::post('/sertifikat/kirim', [PelatihanController::class, 'kirimSertifikat'])->name('sertifikat.kirim');
+Route::post('/admin/kirim-sertifikat', [PelatihanController::class, 'kirimSertifikat'])->name('sertifikat.kirim');
+
+
 
 
 // Route edit
