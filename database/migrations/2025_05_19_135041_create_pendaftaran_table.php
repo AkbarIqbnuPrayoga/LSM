@@ -19,6 +19,7 @@ class CreatePendaftaranTable extends Migration
         $table->foreignId('pelatihan_id')->constrained('pelatihan')->onDelete('cascade');
         $table->string('bukti_pembayaran')->nullable();// atau after kolom terakhir sesuai kebutuhan
         $table->enum('status_validasi', ['pending', 'valid', 'tidak valid'])->default('pending');
+        $table->string('sertifikat')->nullable();
         $table->timestamps();
     });
 }

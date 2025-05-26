@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PendaftaranPelatihanMail;
 use App\Models\Pendaftaran;
+use App\Mail\KirimSertifikat;
 
 class PelatihanController extends Controller
 {
@@ -213,4 +214,49 @@ class PelatihanController extends Controller
 
         return view('home', compact('pelatihan')); // ganti 'home' jika bukan nama view-nya
     }
+    public function kirimSertifikat(Request $request)
+    {
+        $request->validate([
+            'sertifikat' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'pelatihan_id' => 'required|exists:pelatihan,id',
+        ]);
+
+        // Simpan file sertifikat ke penyimpanan permanen
+        $path = $request->file('sertifikat')->store('public/sertifikat');
+        $filename = str_replace('public/', '', $path); // agar bisa digunakan di asset()
+
+        // Ambil semua peserta pelatihan
+        $peserta = DB::table('pendaftaran')
+            ->join('users', 'users.id', '=', 'pendaftaran.user_id')
+            ->join('pelatihan', 'pelatihan.id', '=', 'pendaftaran.pelatihan_id')
+            ->where('pendaftaran.pelatihan_id', $request->pelatihan_id)
+            ->select(
+                'pendaftaran.id as pendaftaran_id',
+                'pendaftaran.nama_lengkap',
+                'pendaftaran.email',
+                'pendaftaran.no_telp',
+                'pendaftaran.instansi',
+                'pelatihan.nama as nama_pelatihan'
+            )
+            ->get();
+
+        foreach ($peserta as $user) {
+            // Simpan path sertifikat ke database
+            DB::table('pendaftaran')
+                ->where('id', $user->pendaftaran_id)
+                ->update(['sertifikat' => $filename]);
+
+            // Kirim email sertifikat
+            Mail::to($user->email)->send(new KirimSertifikat(
+                $user->nama_lengkap,
+                $user->nama_pelatihan,
+                $user->instansi,
+                $user->no_telp,
+                storage_path('app/public/' . $filename)
+            ));
+        }
+
+        return back()->with('success', 'Sertifikat berhasil dikirim ke semua peserta dan disimpan di database.');
+    }
+
 }
