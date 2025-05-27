@@ -244,47 +244,49 @@ class PelatihanController extends Controller
     }
     public function kirimSertifikat(Request $request)
     {
+        // Validasi input
         $request->validate([
             'sertifikat' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
-            'pelatihan_id' => 'required|exists:pelatihan,id',
+            'pendaftaran_id' => 'required|exists:pendaftaran,id',
         ]);
 
-        // Simpan file sertifikat ke penyimpanan permanen
+        // Simpan file sertifikat ke storage (folder public/sertifikat)
         $path = $request->file('sertifikat')->store('public/sertifikat');
-        $filename = str_replace('public/', '', $path); // agar bisa digunakan di asset()
+        $filename = str_replace('public/', '', $path); // supaya bisa diakses via asset()
 
-        // Ambil semua peserta pelatihan
-        $peserta = DB::table('pendaftaran')
-            ->join('users', 'users.id', '=', 'pendaftaran.user_id')
+        // Ambil data pendaftaran peserta yang sesuai dengan pendaftaran_id
+        $pendaftaran = DB::table('pendaftaran')
             ->join('pelatihan', 'pelatihan.id', '=', 'pendaftaran.pelatihan_id')
-            ->where('pendaftaran.pelatihan_id', $request->pelatihan_id)
+            ->where('pendaftaran.id', $request->pendaftaran_id)
             ->select(
-                'pendaftaran.id as pendaftaran_id',
+                'pendaftaran.id',
                 'pendaftaran.nama_lengkap',
                 'pendaftaran.email',
                 'pendaftaran.no_telp',
                 'pendaftaran.instansi',
                 'pelatihan.nama as nama_pelatihan'
             )
-            ->get();
+            ->first();
 
-        foreach ($peserta as $user) {
-            // Simpan path sertifikat ke database
-            DB::table('pendaftaran')
-                ->where('id', $user->pendaftaran_id)
-                ->update(['sertifikat' => $filename]);
-
-            // Kirim email sertifikat
-            Mail::to($user->email)->send(new KirimSertifikat(
-                $user->nama_lengkap,
-                $user->nama_pelatihan,
-                $user->instansi,
-                $user->no_telp,
-                storage_path('app/public/' . $filename)
-            ));
+        if (!$pendaftaran) {
+            return back()->withErrors(['error' => 'Data peserta tidak ditemukan.']);
         }
 
-        return back()->with('success', 'Sertifikat berhasil dikirim ke semua peserta dan disimpan di database.');
+        // Update path sertifikat di database
+        DB::table('pendaftaran')
+            ->where('id', $pendaftaran->id)
+            ->update(['sertifikat' => $filename]);
+
+        // Kirim email ke peserta
+        Mail::to($pendaftaran->email)->send(new KirimSertifikat(
+            $pendaftaran->nama_lengkap,
+            $pendaftaran->nama_pelatihan,
+            $pendaftaran->instansi,
+            $pendaftaran->no_telp,
+            storage_path('app/public/' . $filename)
+        ));
+
+        return back()->with('success', 'Sertifikat berhasil dikirim ke peserta dan disimpan di database.');
     }
 
 }

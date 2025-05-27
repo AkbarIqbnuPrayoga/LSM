@@ -389,13 +389,6 @@
                 });
             }
         });
-        const sertifikatModal = document.getElementById('sertifikatModal');
-        sertifikatModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
-            const pelatihanId = button.getAttribute('data-id');
-            const inputPelatihanId = sertifikatModal.querySelector('#modalPelatihanId');
-            inputPelatihanId.value = pelatihanId;
-        });
 
     </script>
     @endsection

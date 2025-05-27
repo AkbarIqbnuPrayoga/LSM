@@ -76,7 +76,6 @@
                 </div>
                 {{-- Statistik Pengunjung --}}
                 <div class="text-center mt-4" style="background-color: blue; color: white; border: 5px dashed white; border-radius: 12px; padding: 20px;">
-                    <p>Pengunjung Online : {{ $online }}</p>
                     <p>Pengunjung Hari ini : {{ $today }}</p>
                     <p>Total Pengunjung : {{ number_format($total) }}</p>
                 </div>

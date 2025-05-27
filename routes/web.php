@@ -34,6 +34,7 @@ Route::post('/admin/kirim-sertifikat', [PelatihanController::class, 'kirimSertif
 
 
 
+
 // Route edit
 Route::get('/pelatihan/{id}/edit', [PelatihanController::class, 'edit'])->name('pelatihan.edit');
 // Route update
