@@ -145,19 +145,19 @@
 
           <!-- ISI Daftar Pelatihan -->
             <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
-                @foreach($pelatihan as $item)
-                    <div class="col-lg-4 col-md-6 portfolio-item filter-{{ strtolower($item->tag) }}">
-                        <a href="{{ route('pelatihan.show', $item->id) }}">
-                            <img src="{{ asset('storage/' . $item->gambar) }}" class="img-fluid" alt="Gambar Pelatihan">
-                        </a>
-                        <div class="portfolio-info">
-                            <h4>{{ $item->nama }}</h4>
-                            <p>{{ ucfirst($item->tag) }}</p>
-                            <a href="{{ asset('storage/' . $item->gambar) }}" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="{{ $item->nama }}"><i class="bx bx-plus"></i></a>
-                            <a href="{{ route('pelatihan.show', $item->id) }}" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-                        </div>
-                    </div>
-                @endforeach
+              @foreach($pelatihan as $item)
+    <div class="col-lg-4 col-md-6 portfolio-item filter-{{ strtolower($item->tag) }}">
+        <a href="{{ route('pelatihan.show', $item->id) }}">
+            <img src="{{ asset('storage/' . $item->gambar) }}" class="img-fluid" alt="Gambar Pelatihan">
+        </a>
+        <div class="portfolio-info">
+            <h4>{{ $item->nama }}</h4>
+            <p>{{ ucfirst($item->tag) }}</p>
+            <a href="{{ asset('storage/' . $item->gambar) }}" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="{{ $item->nama }}"><i class="bx bx-plus"></i></a>
+            <a href="{{ route('pelatihan.show', $item->id) }}" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+        </div>
+    </div>
+@endforeach
             </div>
         <!-- End Daftar Pelatihan -->
 

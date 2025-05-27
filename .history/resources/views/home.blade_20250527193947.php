@@ -145,7 +145,7 @@
 
           <!-- ISI Daftar Pelatihan -->
             <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
-                @foreach($pelatihan as $item)
+                              @foreach($pelatihan as $item)
                     <div class="col-lg-4 col-md-6 portfolio-item filter-{{ strtolower($item->tag) }}">
                         <a href="{{ route('pelatihan.show', $item->id) }}">
                             <img src="{{ asset('storage/' . $item->gambar) }}" class="img-fluid" alt="Gambar Pelatihan">
