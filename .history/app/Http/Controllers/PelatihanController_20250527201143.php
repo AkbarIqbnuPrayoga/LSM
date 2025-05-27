@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\PendaftaranPelatihanMail;
 use App\Models\Pendaftaran;
 use App\Mail\KirimSertifikat;
-use App\Models\Visitor;
-use Carbon\Carbon;
+
 class PelatihanController extends Controller
 {
 
@@ -129,39 +128,12 @@ class PelatihanController extends Controller
         return redirect()->route('admin')->with('success', 'Pelatihan berhasil diupdate.');
     }
 
-   public function show($id)
-{
-    $pelatihan = Pelatihan::findOrFail($id);
-    $now = Carbon::now();
-
-    if (Auth::check()) {
-        $userId = Auth::id();
-
-        // Cek apakah user sudah tercatat hari ini
-        $recentVisit = Visitor::where('user_id', $userId)
-            ->where('pelatihan_id', $id)
-            ->whereDate('visited_at', $now->toDateString())
-            ->first();
-
-        if (!$recentVisit) {
-            Visitor::create([
-                'user_id' => $userId,
-                'pelatihan_id' => $id,
-                'visited_at' => $now,
-            ]);
-        }
-
-        // Statistik berdasarkan user
-        $online = Visitor::where('visited_at', '>=', $now->copy()->subMinutes(5))->distinct('user_id')->count('user_id');
-        $today = Visitor::whereDate('visited_at', $now->toDateString())->distinct('user_id')->count('user_id');
-        $total = Visitor::distinct('user_id')->count('user_id');
-
-    } else {
-        $online = $today = $total = 0;
+    public function show($id)
+    {
+        $pelatihan = Pelatihan::findOrFail($id);
+        return view('pelatihan.show', compact('pelatihan'));
     }
 
-    return view('pelatihan.show', compact('pelatihan', 'online', 'today', 'total'));
-}
     public function updateStatus(Request $request, $id)
     {
         $pelatihan = Pelatihan::findOrFail($id);

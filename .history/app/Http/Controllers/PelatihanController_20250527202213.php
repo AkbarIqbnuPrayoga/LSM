@@ -132,33 +132,26 @@ class PelatihanController extends Controller
    public function show($id)
 {
     $pelatihan = Pelatihan::findOrFail($id);
+
+    $ip = request()->ip();
     $now = Carbon::now();
 
-    if (Auth::check()) {
-        $userId = Auth::id();
+    // Cek apakah sudah ada kunjungan dari IP ini dalam 10 menit terakhir
+    $recentVisit = Visitor::where('ip_address', $ip)
+        ->where('visited_at', '>=', $now->copy()->subMinutes(10))
+        ->first();
 
-        // Cek apakah user sudah tercatat hari ini
-        $recentVisit = Visitor::where('user_id', $userId)
-            ->where('pelatihan_id', $id)
-            ->whereDate('visited_at', $now->toDateString())
-            ->first();
-
-        if (!$recentVisit) {
-            Visitor::create([
-                'user_id' => $userId,
-                'pelatihan_id' => $id,
-                'visited_at' => $now,
-            ]);
-        }
-
-        // Statistik berdasarkan user
-        $online = Visitor::where('visited_at', '>=', $now->copy()->subMinutes(5))->distinct('user_id')->count('user_id');
-        $today = Visitor::whereDate('visited_at', $now->toDateString())->distinct('user_id')->count('user_id');
-        $total = Visitor::distinct('user_id')->count('user_id');
-
-    } else {
-        $online = $today = $total = 0;
+    if (!$recentVisit) {
+        Visitor::create([
+            'ip_address' => $ip,
+            'visited_at' => $now
+        ]);
     }
+
+    // Hitung statistik
+    $online = Visitor::where('visited_at', '>=', $now->copy()->subMinutes(5))->count();
+    $today = Visitor::whereDate('visited_at', $now->toDateString())->count();
+    $total = Visitor::count();
 
     return view('pelatihan.show', compact('pelatihan', 'online', 'today', 'total'));
 }
