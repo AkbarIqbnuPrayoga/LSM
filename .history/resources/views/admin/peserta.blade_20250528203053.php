@@ -131,18 +131,17 @@
                 </td>
 
                 {{-- Kolom Sertifikat --}}
-              <td>
-    @if ($pendaftaran->sertifikat)
-        <span class="badge bg-success">
-            <i class="bi bi-check-circle"></i> Terkirim
-        </span>
-        <a href="{{ asset('storage/' . $pendaftaran->sertifikat) }}" target="_blank" class="btn btn-sm btn-outline-secondary ms-2">
-            Lihat
+                {{-- Kolom Sertifikat --}}
+<td>
+    @if($pendaftaran->sertifikat)
+        <span class="badge bg-success">Terkirim</span>
+        <a href="{{ asset('storage/sertifikat/' . $pendaftaran->sertifikat) }}" target="_blank" class="btn btn-sm btn-outline-success ms-2">
+            <i class="bi bi-file-earmark-arrow-down"></i> Lihat
         </a>
     @else
-        <button type="button" class="btn btn-sm btn-primary rounded"
-                data-bs-toggle="modal"
-                data-bs-target="#sertifikatModal"
+        <button type="button" class="btn btn-sm btn-primary rounded" 
+                data-bs-toggle="modal" 
+                data-bs-target="#sertifikatModal" 
                 data-pendaftaranid="{{ $pendaftaran->id }}">
             Kirim Sertifikat
         </button>
@@ -188,6 +187,13 @@
         const pendaftaranId = button.getAttribute('data-pendaftaranid');
         const inputPendaftaran = sertifikatModal.querySelector('#modalPendaftaranId');
         inputPendaftaran.value = pendaftaranId;
+    });
+    const sertifikatModal = document.getElementById('sertifikatModal');
+    sertifikatModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+    const pendaftaranId = button.getAttribute('data-pendaftaranid');
+    const inputId = sertifikatModal.querySelector('#modalPendaftaranId');
+    inputId.value = pendaftaranId;
     });
 </script>
 @endsection
