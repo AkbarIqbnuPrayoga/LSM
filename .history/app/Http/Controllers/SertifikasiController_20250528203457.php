@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Pendaftaran;
+
 use Illuminate\Http\Request;
 
 class SertifikasiController extends Controller
@@ -27,18 +27,18 @@ class SertifikasiController extends Controller
     }
 
     public function kirim(Request $request)
-    {
-        $request->validate([
-            'sertifikat' => 'required|mimes:jpg,png,pdf|max:2048',
-            'pendaftaran_id' => 'required|exists:pendaftaran,id',
-        ]);
+{
+    $request->validate([
+        'sertifikat' => 'required|mimes:jpg,png,pdf|max:2048',
+        'pendaftaran_id' => 'required|exists:pendaftaran,id',
+    ]);
 
-        $path = $request->file('sertifikat')->store('sertifikat', 'public');
+    $path = $request->file('sertifikat')->store('sertifikat', 'public');
 
-        $pendaftaran = Pendaftaran::findOrFail($request->pendaftaran_id);
-        $pendaftaran->sertifikat = $path;
-        $pendaftaran->save();
+    $pendaftaran = Pendaftaran::findOrFail($request->pendaftaran_id);
+    $pendaftaran->sertifikat = $path;
+    $pendaftaran->save();
 
-        return back()->with('success', 'Sertifikat berhasil dikirim.');
-    }
+    return back()->with('success', 'Sertifikat berhasil dikirim.');
+}
 }

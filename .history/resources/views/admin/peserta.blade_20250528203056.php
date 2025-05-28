@@ -4,8 +4,6 @@
 <div class="container mt-4">
     <h2>Peserta Pelatihan: {{ $pelatihan->nama }}</h2>
     <a href="{{ route('admin') }}" class="btn btn-secondary mb-3">Kembali</a>
-    <a href="{{ route('admin.download.bukti', $pelatihan->id) }}" class="btn btn-success mb-3 ms-2">Download Semua Bukti</a>
-
 
     @if($pelatihan->pendaftar->count() > 0)
     <table class="table table-bordered">
@@ -133,22 +131,10 @@
                 </td>
 
                 {{-- Kolom Sertifikat --}}
-              <td>
-                    @if ($pendaftaran->sertifikat)
-                        <span class="badge bg-success">
-                            <i class="bi bi-check-circle"></i> Terkirim
-                        </span>
-                        <a href="{{ asset('storage/' . $pendaftaran->sertifikat) }}" target="_blank" class="btn btn-sm btn-outline-secondary ms-2">
-                            Lihat
-                        </a>
-                    @else
-                        <button type="button" class="btn btn-sm btn-primary rounded"
-                                data-bs-toggle="modal"
-                                data-bs-target="#sertifikatModal"
-                                data-pendaftaranid="{{ $pendaftaran->id }}">
-                            Kirim Sertifikat
-                        </button>
-                    @endif
+                <td>
+                    <button type="button" class="btn btn-sm btn-primary rounded" data-bs-toggle="modal" data-bs-target="#sertifikatModal" data-pendaftaranid="{{ $pendaftaran->id }}">
+                        Kirim Sertifikat
+                    </button>
                 </td>
             </tr>
             @endforeach
