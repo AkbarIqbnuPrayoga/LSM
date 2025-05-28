@@ -3,8 +3,8 @@
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="d-flex align-items-center">
         <div class="container" data-aos="zoom-out" data-aos-delay="100">
-            <h1>LSM</h1>
-            <h2>Latih Skill Mu Dengan Mendaftar Kompetensi Bersetifikat di LSM</h2>
+            <h1>PUSDIKLAT</h1>
+            <h2>Pusat Pendidikan Dan Pelatihan Kompetensi Bersetifikat</h2>
             <div class="d-flex">
             <a href="#portfolio" class="btn-get-started scrollto">Get Started</a>
             <a href="https://www.youtube.com/watch?" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
@@ -19,7 +19,7 @@
                       <div class="section-title text-center mb-5">
                           <h2>Daftar</h2>
                           <h3>Skema <span>Pendaftaran</span></h3>
-                          <p>Latih Skill Mu Dengan Mendaftar Kompetensi Bersetifikat di LSM</p>
+                          <p>Pusat Pendidikan Dan Pelatihan Kompetensi Bersetifikat</p>
                       </div>
 
                           <div class="d-flex flex-wrap justify-content-center align-items-center">

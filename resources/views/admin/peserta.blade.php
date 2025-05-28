@@ -4,6 +4,8 @@
 <div class="container mt-4">
     <h2>Peserta Pelatihan: {{ $pelatihan->nama }}</h2>
     <a href="{{ route('admin') }}" class="btn btn-secondary mb-3">Kembali</a>
+    <a href="{{ route('admin.download.bukti', $pelatihan->id) }}" class="btn btn-success mb-3 ms-2">Download Semua Bukti</a>
+
 
     @if($pelatihan->pendaftar->count() > 0)
     <table class="table table-bordered">

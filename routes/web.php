@@ -30,7 +30,7 @@ Route::post('/bukti-upload', [PendaftaranController::class, 'uploadBukti'])->nam
 Route::post('/pendaftaran/validasi/{id}', [PendaftaranController::class, 'validasi'])->name('pendaftaran.validasi');
 Route::post('/sertifikat/kirim', [PelatihanController::class, 'kirimSertifikat'])->name('sertifikat.kirim');
 Route::post('/admin/kirim-sertifikat', [PelatihanController::class, 'kirimSertifikat'])->name('sertifikat.kirim');
-
+Route::get('/admin/bukti/download/{pelatihanId}', [PelatihanController::class, 'downloadSemuaBukti'])->name('admin.download.bukti');
 
 
 

@@ -14,6 +14,9 @@ use App\Models\Pendaftaran;
 use App\Mail\KirimSertifikat;
 use App\Models\Visitor;
 use Carbon\Carbon;
+use ZipArchive;
+use Illuminate\Support\Str;
+
 class PelatihanController extends Controller
 {
 
@@ -287,6 +290,26 @@ class PelatihanController extends Controller
         ));
 
         return back()->with('success', 'Sertifikat berhasil dikirim ke peserta dan disimpan di database.');
+    }
+    public function downloadSemuaBukti($pelatihanId)
+    {
+        $pelatihan = Pelatihan::with('pendaftar.user')->findOrFail($pelatihanId);
+        $zipFileName = 'bukti-pembayaran-' . Str::slug($pelatihan->nama) . '.zip';
+        $zipPath = storage_path("app/public/{$zipFileName}");
+
+        $zip = new ZipArchive;
+        if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+            foreach ($pelatihan->pendaftar as $pendaftaran) {
+                if ($pendaftaran->bukti_pembayaran && Storage::disk('public')->exists($pendaftaran->bukti_pembayaran)) {
+                    $filePath = storage_path('app/public/' . $pendaftaran->bukti_pembayaran);
+                    $fileName = 'bukti_' . ($pendaftaran->user->name ?? 'guest') . '_' . $pendaftaran->id . '.' . pathinfo($filePath, PATHINFO_EXTENSION);
+                    $zip->addFile($filePath, $fileName);
+                }
+            }
+            $zip->close();
+        }
+
+        return response()->download($zipPath)->deleteFileAfterSend(true);
     }
 
 }

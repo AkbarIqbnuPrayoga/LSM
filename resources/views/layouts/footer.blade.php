@@ -5,13 +5,13 @@
         <div class="row">
 
           <div class="col-lg-3 col-md-6 footer-contact">
-            <h3>LSM<span>.</span></h3>
+            <h3>PUSDIKLAT<span>.</span></h3>
             <p>
               Jalan Letjen S. Parman No. 1 <br>
               Tomang, Grogol petamburan, Jakarta 11440<br>
               Indonesia <br><br>
               <strong>Phone:</strong> +62 888 8118 8118<br>
-              <strong>Email:</strong> Admin@LSM.com<br>
+              <strong>Email:</strong> PUSDIKLAT@admin.com<br>
             </p>
           </div>
 
@@ -55,7 +55,7 @@
 
     <div class="container py-4">
       <div class="copyright">
-        &copy; Copyright <strong><span>LSM</span></strong>. All Rights Reserved
+        &copy; Copyright <strong><span>PUSDIKLAT</span></strong>. All Rights Reserved
       </div>
       <div class="credits">
         Designed by <a>Julius</a>
