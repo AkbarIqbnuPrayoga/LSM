@@ -48,7 +48,7 @@
             <button type="submit" class="btn btn-primary rounded-pill">Cari</button>
         </form>
         <ul>
-          <!-- <li><a class="nav-link scrollto {{$activehome}}" href="{{route('admin')}}">Dashboard Admin</a></li> -->
+          <li><a class="nav-link scrollto {{$activehome}}" href="{{route('home')}}">Home</a></li>
           <li><a class="nav-link scrollto {{$activehome}}" href="{{route('home')}}">Home</a></li>
           <li class="dropdown"><a href="#" class="{{$activeprofile}}"><span>About Us</span> <i class="bi bi-chevron-down"></i></a>
             <ul>

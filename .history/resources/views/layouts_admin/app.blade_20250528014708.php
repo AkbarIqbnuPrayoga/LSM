@@ -115,7 +115,7 @@
                                             </div>
                                         </td>
                                         <td><img src="{{ asset('storage/' . $item->gambar) }}" width="100" class="rounded"></td>
-                                        <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $item->nama }}">
+                                        <td style="max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $item->nama }}">
                                             {{ $item->nama }}
                                         </td>
                                         <td>{{ $item->kuota }}</td> {{-- Tampilkan kuota --}}

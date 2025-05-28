@@ -115,9 +115,7 @@
                                             </div>
                                         </td>
                                         <td><img src="{{ asset('storage/' . $item->gambar) }}" width="100" class="rounded"></td>
-                                        <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $item->nama }}">
-                                            {{ $item->nama }}
-                                        </td>
+                                        <td>{{ $item->nama }}</td>
                                         <td>{{ $item->kuota }}</td> {{-- Tampilkan kuota --}}
                                         <td>{{ ucfirst($item->tag) }}</td>
                                         <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}</td>
@@ -264,7 +262,7 @@
                 </div>
                     {{-- Kuota Pelatihan --}}
                     <div id="kuotaPelatihan" class="content-section" style="display: none;">
-                        <h4><i class='bx bx-bar-chart-alt me-2'></i>Kuota Pelatihan</h4>
+                        <h4><i class='bx bx-bar-chart-alt me-3'></i>Kuota Pelatihan</h4>
                         <div class="row">
                             @foreach($pelatihans as $pelatihan)
                                 <div class="col-md-4 mb-3">

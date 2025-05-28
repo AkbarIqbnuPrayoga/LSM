@@ -27,7 +27,7 @@
             </li>
         </ul>
 
-        <h5 class="text-black mb-3">User</h5>
+        <h5 class="text-black mb-3">Akun</h5>
         <ul class="nav flex-column">
             <li class="nav-item mb-2">
                 <a href="#" class="nav-link text-black d-flex align-items-center" onclick="showContent('kelolaUser')">
@@ -103,7 +103,7 @@
                                     <th><i class="bi bi-text-left me-1"></i>Tag</th>
                                     <th><i class="bi bi-calendar-event me-1"></i>Tanggal Pelatihan</th>
                                     <th><i class="bi bi-card-heading me-1"></i>Edit</th>
-                                 
+                                    <th><i class="bi bi-card-heading me-1"></i>Sertifikat</th> <!-- kolom baru -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -115,14 +115,12 @@
                                             </div>
                                         </td>
                                         <td><img src="{{ asset('storage/' . $item->gambar) }}" width="100" class="rounded"></td>
-                                        <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $item->nama }}">
-                                            {{ $item->nama }}
-                                        </td>
+                                        <td>{{ $item->nama }}</td>
                                         <td>{{ $item->kuota }}</td> {{-- Tampilkan kuota --}}
                                         <td>{{ ucfirst($item->tag) }}</td>
                                         <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}</td>
                                         <td><a href="{{ route('pelatihan.edit', $item->id) }}" class="btn btn-sm btn-primary rounded">Edit</a></td>
-                                      
+                                        <td><button type="button" class="btn btn-sm btn-primary rounded" data-bs-toggle="modal" data-bs-target="#sertifikatModal" data-id="{{ $item->id }}">Kirim Sertifikat</button></td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -145,7 +143,28 @@
                         </div>
                     </div>
                 </div>
-           
+                <!-- Modal kirim sertifikat -->
+                <div class="modal fade" id="sertifikatModal" tabindex="-1" aria-labelledby="sertifikatModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form action="{{ route('sertifikat.kirim') }}" method="POST" enctype="multipart/form-data" class="modal-content">
+                            @csrf
+                            <input type="hidden" name="pelatihan_id" id="modalPelatihanId"> <!-- input dinamis -->
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="sertifikatModalLabel">Unggah Sertifikat</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="sertifikat" class="form-label">Upload Sertifikat (gambar/pdf)</label>
+                                    <input type="file" class="form-control" name="sertifikat" accept=".jpg,.jpeg,.png,.pdf" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Kirim ke Semua Peserta</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
                 {{-- Kelola User --}}
                 <div id="kelolaUser" class="content-section" style="display: none;">

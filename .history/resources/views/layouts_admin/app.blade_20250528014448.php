@@ -114,10 +114,8 @@
                                                 <input type="checkbox" class="form-check-input" style="transform: scale(1.5);" name="ids[]" value="{{ $item->id }}">
                                             </div>
                                         </td>
-                                        <td><img src="{{ asset('storage/' . $item->gambar) }}" width="100" class="rounded"></td>
-                                        <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $item->nama }}">
-                                            {{ $item->nama }}
-                                        </td>
+                                        <td><img src="{{ asset('storage/' . $item->gambar) }}" width="50" class="rounded"></td>
+                                        <td>{{ $item->nama }}</td>
                                         <td>{{ $item->kuota }}</td> {{-- Tampilkan kuota --}}
                                         <td>{{ ucfirst($item->tag) }}</td>
                                         <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}</td>

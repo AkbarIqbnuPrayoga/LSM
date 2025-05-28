@@ -115,14 +115,12 @@
                                             </div>
                                         </td>
                                         <td><img src="{{ asset('storage/' . $item->gambar) }}" width="100" class="rounded"></td>
-                                        <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $item->nama }}">
-                                            {{ $item->nama }}
-                                        </td>
+                                        <td>{{ $item->nama }}</td>
                                         <td>{{ $item->kuota }}</td> {{-- Tampilkan kuota --}}
                                         <td>{{ ucfirst($item->tag) }}</td>
                                         <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}</td>
                                         <td><a href="{{ route('pelatihan.edit', $item->id) }}" class="btn btn-sm btn-primary rounded">Edit</a></td>
-                                      
+                                        <td><button type="button" class="btn btn-sm btn-primary rounded" data-bs-toggle="modal" data-bs-target="#sertifikatModal" data-id="{{ $item->id }}">Kirim Sertifikat</button></td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -145,7 +143,7 @@
                         </div>
                     </div>
                 </div>
-           
+             
 
                 {{-- Kelola User --}}
                 <div id="kelolaUser" class="content-section" style="display: none;">
