@@ -122,16 +122,15 @@
           </div>
         </section><!-- End Clients Section -->
 
-        <!-- ======= Daftar Pelatihan Section ======= -->
         <section id="portfolio" class="portfolio">
           <div class="container" data-aos="fade-up">
-
             <div class="section-title">
               <h2>Pelatihan</h2>
               <h3>Berbagai <span>Pelatihan</span></h3>
               <p>Daftar Pelatihan</p>
             </div>
 
+            {{-- Filter Buttons --}}
             <div class="row" data-aos="fade-up" data-aos-delay="100">
               <div class="col-lg-12 d-flex justify-content-center">
                 <ul id="portfolio-flters">
@@ -143,113 +142,42 @@
               </div>
             </div>
 
-          <!-- ISI Daftar Pelatihan -->
-            <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
-                @foreach($pelatihan as $item)
-                    <div class="col-lg-4 col-md-6 portfolio-item filter-{{ strtolower($item->tag) }}">
+            {{-- List Pelatihan Berdasarkan Bulan --}}
+            @foreach($groupedByMonthYear as $monthYear => $items)
+              <div class="mb-5">
+                <h4 class="text-center mb-4">{{ $monthYear }}</h4>
+
+                <div class="row" data-aos="fade-up" data-aos-delay="200">
+                  @foreach($items as $item)
+                    <div class="col-lg-4 col-md-6 mb-4 portfolio-item filter-{{ strtolower($item->tag) }}">
+                      <div 
+                        class="card border-0 shadow-sm position-relative overflow-hidden" 
+                        onmouseover="this.querySelector('.overlay-info').style.transform='translateY(0)'" 
+                        onmouseout="this.querySelector('.overlay-info').style.transform='translateY(100%)'">
+
+                        {{-- Gambar --}}
                         <a href="{{ route('pelatihan.show', $item->id) }}">
-                            <img src="{{ asset('storage/' . $item->gambar) }}" class="img-fluid" alt="Gambar Pelatihan">
+                          <img src="{{ asset('storage/' . $item->gambar) }}" class="card-img-top" alt="Gambar Pelatihan">
                         </a>
-                        <div class="portfolio-info">
-                            <h4>{{ $item->nama }}</h4>
-                            <p>{{ ucfirst($item->tag) }}</p>
-                            <a href="{{ asset('storage/' . $item->gambar) }}" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="{{ $item->nama }}"><i class="bx bx-plus"></i></a>
-                            <a href="{{ route('pelatihan.show', $item->id) }}" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+
+                        {{-- Overlay hitam bawah saat hover --}}
+                        <div class="overlay-info position-absolute bottom-0 w-100 bg-dark bg-opacity-75 text-white text-center py-3 px-2"
+                            style="transform: translateY(100%); transition: transform 0.3s;">
+                          <h5 class="mb-1">{{ $item->nama }}</h5>
+                          <p class="mb-2">{{ ucfirst($item->tag) }}</p>
+                          <a href="{{ route('pelatihan.show', $item->id) }}" class="btn btn-light btn-sm">Selengkapnya</a>
                         </div>
+
+                      </div>
                     </div>
-                @endforeach
-            </div>
-        <!-- End Daftar Pelatihan -->
-
-        <!-- ======= Team Section ======= -->
-        <section id="team" class="team section-bg">
-          <div class="container" data-aos="fade-up">
-
-            <div class="section-title">
-              <h2>Team</h2>
-              <h3>Our Hardworking <span>Team</span></h3>
-              <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque vitae autem.</p>
-            </div>
-
-            <div class="row">
-
-              <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
-                <div class="member">
-                  <div class="member-img">
-                    <img src="{{ asset('biz') }}/assets/img/team/team-1.jpg" class="img-fluid" alt="">
-                    <div class="social">
-                      <a href=""><i class="bi bi-twitter"></i></a>
-                      <a href=""><i class="bi bi-facebook"></i></a>
-                      <a href=""><i class="bi bi-instagram"></i></a>
-                      <a href=""><i class="bi bi-linkedin"></i></a>
-                    </div>
-                  </div>
-                  <div class="member-info">
-                    <h4>Julius Juan</h4>
-                    <span>Sesepuh</span>
-                  </div>
+                  @endforeach
                 </div>
               </div>
-
-              <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
-                <div class="member">
-                  <div class="member-img">
-                    <img src="{{ asset('biz') }}/assets/img/team/team-1.jpg" class="img-fluid" alt="">
-                    <div class="social">
-                      <a href=""><i class="bi bi-twitter"></i></a>
-                      <a href=""><i class="bi bi-facebook"></i></a>
-                      <a href=""><i class="bi bi-instagram"></i></a>
-                      <a href=""><i class="bi bi-linkedin"></i></a>
-                    </div>
-                  </div>
-                  <div class="member-info">
-                    <h4>Akbar Iqbnu Prayoga</h4>
-                    <span>Sepuh Minkrep</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
-                <div class="member">
-                  <div class="member-img">
-                    <img src="{{ asset('biz') }}/assets/img/team/team-1.jpg" class="img-fluid" alt="">
-                    <div class="social">
-                      <a href=""><i class="bi bi-twitter"></i></a>
-                      <a href=""><i class="bi bi-facebook"></i></a>
-                      <a href=""><i class="bi bi-instagram"></i></a>
-                      <a href=""><i class="bi bi-linkedin"></i></a>
-                    </div>
-                  </div>
-                  <div class="member-info">
-                    <h4>Ifhal Faizi</h4>
-                    <span>Sepuh GPT</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
-                <div class="member">
-                  <div class="member-img">
-                    <img src="{{ asset('biz') }}/assets/img/team/team-1.jpg" class="img-fluid" alt="">
-                    <div class="social">
-                      <a href=""><i class="bi bi-twitter"></i></a>
-                      <a href=""><i class="bi bi-facebook"></i></a>
-                      <a href=""><i class="bi bi-instagram"></i></a>
-                      <a href=""><i class="bi bi-linkedin"></i></a>
-                    </div>
-                  </div>
-                  <div class="member-info">
-                    <h4>Bryan</h4>
-                    <span>Sepuh Gamedev</span>
-                  </div>
-                </div>
-              </div>
-
-            </div>
+            @endforeach
 
           </div>
         </section>
-        <!-- End Team Section -->
+        <!-- End Daftar Pelatihan -->
 
         <!-- ======= Frequently Asked Questions Section ======= -->
         <section id="faq" class="faq section-bg">
@@ -400,5 +328,46 @@
         </section><!-- End Contact Section -->
 
       </main><!-- End #main -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const filterButtons = document.querySelectorAll('#portfolio-flters li');
+  const portfolioItems = document.querySelectorAll('.portfolio-item');
+  const monthContainers = document.querySelectorAll('.mb-5');
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+      // Hapus class active dari semua tombol
+      filterButtons.forEach(b => b.classList.remove('filter-active'));
+
+      // Tambah class active ke tombol yang diklik
+      this.classList.add('filter-active');
+
+      const filterValue = this.getAttribute('data-filter');
+
+      portfolioItems.forEach(item => {
+        if (filterValue === '*' || item.classList.contains(filterValue.substring(1))) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+
+      // Cek tiap container bulan, sembunyikan jika tidak ada item tampil
+      monthContainers.forEach(container => {
+        // Cari semua .portfolio-item dalam container yang tampil
+        const visibleItems = container.querySelectorAll('.portfolio-item:not([style*="display: none"])');
+
+        if (visibleItems.length === 0) {
+          container.style.display = 'none'; // sembunyikan container bulan
+        } else {
+          container.style.display = 'block'; // tampilkan container bulan
+        }
+      });
+    });
+  });
+});
+</script>
+
 
 @endsection

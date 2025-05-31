@@ -120,7 +120,6 @@ class PendaftaranController extends Controller
         }
 
         return redirect()->back()->with('success', 'Status validasi telah diperbarui.');
-    }
+    }  
 
-    
 }

@@ -18,7 +18,10 @@
   <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
-      <h1 class="logo"><a href="{{route('home')}}">PUSDIKLAT</a></h1>
+      <h1 class="logo d-flex align-items-center">
+        <img src="{{ asset('images/logountar.png') }}" alt="Logo" style="height: 1.5em; margin-right: 0.3em; margin-bottom: 0.3em">
+        <a href="{{ route('home') }}" class="text-decoration-none">PUSDIKLAT</a>
+      </h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo"><img src="{{ asset('biz') }}/assets/img/logo.png" alt=""></a>-->
        @php

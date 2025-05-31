@@ -9,6 +9,7 @@
     @if (session('warning'))
     <div class="alert alert-warning">{{ session('warning') }}</div>
     @endif
+
     <div class="card shadow p-4">
         <h2 class="mb-3 text-center">{{ $pelatihan->nama }}</h2>
         
@@ -25,68 +26,107 @@
         <div style="text-align: justify;" class="mb-4">
             {!! $pelatihan->konten !!}
             <p>Kuota: {{ $pelatihan->kuota }}</p>
-            <p>Terdaftar: {{ $pelatihan->pendaftar()->count() }}</p>
-            <p>Sisa Kuota: {{ $pelatihan->kuota - $pelatihan->pendaftar()->count() }}</p>
+            <p>Terdaftar: {{ $pelatihan->pendaftar()->where('status_validasi', 'valid')->count() }}</p>
+            <p>Sisa Kuota: {{ $pelatihan->kuota - $pelatihan->pendaftar()->where('status_validasi', 'valid')->count() }}</p>
         </div>
 
         {{-- Kotak Daftar Sekarang --}}
         <div class="border rounded p-4 bg-light shadow-sm">
-    <h4 class="mb-3 text-center">Tertarik dengan pelatihan ini?</h4>
+            <h4 class="mb-3 text-center">Tertarik dengan pelatihan ini?</h4>
 
-    @auth
-        @php
-            $jumlahPeserta = $pelatihan->pendaftar()->count();
-            $kuota = $pelatihan->kuota;
-            $sisaKuota = $kuota - $jumlahPeserta;
-        @endphp
+            @auth
+                @php
+                    $jumlahPeserta = $pelatihan->pendaftar()->where('status_validasi', 'valid')->count();
+                    $kuota = $pelatihan->kuota;
+                    $sisaKuota = $kuota - $jumlahPeserta;
+                    $pendaftaranSaya = $pelatihan->pendaftar()->where('user_id', auth()->id())->first();
+                @endphp
 
-        @if($sisaKuota <= 0)
-            <div class="text-center">
-                <button class="btn btn-secondary btn-lg rounded" disabled>Kuota Penuh</button>
-            </div>
-        @else
-            <form action="{{ route('pelatihan.daftar', $pelatihan->id) }}" method="POST">
-                @csrf
+                @if ($pendaftaranSaya)
+                    @if ($pendaftaranSaya->status_validasi == 'pending')
+                        <div class="alert alert-info text-center">
+                            Anda sudah mendaftar. <strong>Menunggu validasi dari admin.</strong>
+                        </div>
+                    @elseif ($pendaftaranSaya->status_validasi == 'valid')
+                        <div class="alert alert-success">
+                            <h5 class="text-center mb-3">Anda sudah <strong>Terdaftar</strong> dalam pelatihan ini.</h5>
 
-                {{-- Form Biodata --}}
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="nama_lengkap" class="form-label">Nama Lengkap</label>
-                        <input type="text" id="nama_lengkap" name="nama_lengkap" class="form-control" required>
+                            <form>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="nama_lengkap" class="form-label">Nama Lengkap</label>
+                                        <input type="text" id="nama_lengkap" name="nama_lengkap" class="form-control" value="{{ $pendaftaranSaya->nama_lengkap }}" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" id="email" name="email" class="form-control" value="{{ $pendaftaranSaya->email }}" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="no_telp" class="form-label">No. Telepon</label>
+                                        <input type="text" id="no_telp" name="no_telp" class="form-control" value="{{ $pendaftaranSaya->no_telp }}" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="instansi" class="form-label">Instansi</label>
+                                        <input type="text" id="instansi" name="instansi" class="form-control" value="{{ $pendaftaranSaya->instansi }}" readonly>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    @elseif ($pendaftaranSaya->status_validasi == 'tidak valid')
+                        <div class="alert alert-danger text-center">
+                            Pendaftaran Anda <strong>Tidak Valid</strong>. Silakan Upload Pembayaran Ulang.
+                        </div>
+                    @endif
+                @elseif($sisaKuota <= 0)
+                    <div class="text-center">
+                        <button class="btn btn-secondary btn-lg rounded" disabled>Kuota Penuh</button>
                     </div>
-                    <div class="col-md-6">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" id="email" name="email" value="{{ auth()->user()->email }}" class="form-control" required>
-                    </div>
-                </div>
+                @else
+                    {{-- Form Pendaftaran --}}
+                    <form action="{{ route('pelatihan.daftar', $pelatihan->id) }}" method="POST">
+                        @csrf
 
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="no_telp" class="form-label">No. Telepon</label>
-                        <input type="text" id="no_telp" name="no_telp" class="form-control" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="instansi" class="form-label">Instansi</label>
-                        <input type="text" id="instansi" name="instansi" class="form-control" required>
-                    </div>
-                </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="nama_lengkap" class="form-label">Nama Lengkap</label>
+                                <input type="text" id="nama_lengkap" name="nama_lengkap" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" id="email" name="email" value="{{ auth()->user()->email }}" class="form-control" required>
+                            </div>
+                        </div>
 
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="no_telp" class="form-label">No. Telepon</label>
+                                <input type="text" id="no_telp" name="no_telp" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="instansi" class="form-label">Instansi</label>
+                                <input type="text" id="instansi" name="instansi" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg rounded">Daftar Sekarang</button>
+                        </div>
+
+                        <div class="text-center mt-4" style="background-color: blue; color: white; border: 5px dashed white; border-radius: 12px; padding: 20px;">
+                            <p>Pengunjung Hari ini : {{ $today }}</p>
+                            <p>Total Pengunjung : {{ number_format($total) }}</p>
+                        </div>
+                    </form>
+                @endif
+            @else
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-lg rounded">Daftar Sekarang</button>
+                    <a href="{{ route('login') }}" class="btn btn-primary btn-lg rounded">Login untuk Daftar</a>
                 </div>
-                {{-- Statistik Pengunjung --}}
-                <div class="text-center mt-4" style="background-color: blue; color: white; border: 5px dashed white; border-radius: 12px; padding: 20px;">
-                    <p>Pengunjung Hari ini : {{ $today }}</p>
-                    <p>Total Pengunjung : {{ number_format($total) }}</p>
-                </div>
-            </form>
-        @endif
-    @else
-        <div class="text-center">
-            <a href="{{ route('login') }}" class="btn btn-primary btn-lg rounded">Login untuk Daftar</a>
+            @endauth
         </div>
-    @endauth
-</div>
     </div>
 </div>
 @endsection

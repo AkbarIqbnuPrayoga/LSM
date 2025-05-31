@@ -48,7 +48,7 @@
                         @csrf
                         <div class="mb-3">
                             <label for="gambar" class="form-label"><i class="bi bi-image me-1"></i>Gambar</label>
-                            <input type="file" class="form-control rounded" id="gambar" name="gambar" accept="image/*" required>
+                            <input type="file" class="form-control rounded form-control sm w-auto" id="gambar" name="gambar" accept="image/*" required>
                         </div>
                         <div class="mb-3">
                             <label for="nama" class="form-label"><i class="bi bi-card-heading me-1"></i>Nama Pelatihan</label>
@@ -56,7 +56,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="kuota" class="form-label"><i class="bi bi-people-fill me-1"></i>Kuota Pelatihan</label>
-                            <input type="number" class="form-control rounded" id="kuota" name="kuota" min="1" required>
+                            <input type="number" class="form-control rounded form-control sm w-auto" id="kuota" name="kuota" min="1" required>
                         </div>
                         <div class="mb-3 col-md-4">
                             <label for="tanggal" class="form-label">
@@ -156,7 +156,7 @@
                                 <th><i class="bi bi-person me-1"></i>Nama</th>
                                 <th><i class="bi bi-envelope me-1"></i>Email</th>
                                 <th><i class="bi bi-clock me-1"></i>Terdaftar</th>
-                                <th><i class="bi bi-gear me-1"></i>Aksi</th>
+                                <th><i class="bi bi-gear me-1"></i>Pengaturan</th>
                             </tr>
                         </thead>
                         <tbody>

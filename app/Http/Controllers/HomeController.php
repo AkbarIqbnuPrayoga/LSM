@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pelatihan;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 
 class HomeController extends Controller
@@ -25,8 +26,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $pelatihan = Pelatihan::where('status', 'public')->get(); // hanya tampilkan yang public
-        return view('home', compact('pelatihan'));
+        $pelatihan = Pelatihan::where('status', 'public')->get();
+
+        // Kelompokkan berdasarkan bulan dari created_at
+        $groupedByMonthYear = $pelatihan->groupBy(function ($item) {
+        return Carbon::parse($item->tanggal)->format('F Y');
+        // Contoh output: "January 2025"
+    });
+
+    return view('home', compact('pelatihan', 'groupedByMonthYear'));  
+
     }
 
 }
