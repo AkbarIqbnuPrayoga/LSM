@@ -198,13 +198,6 @@
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->created_at->format('d-m-Y') }}</td>
                                 <td>
-                                    <a href="#" class="btn btn-warning btn-sm rounded mb-1" onclick="openEditEmailModal({{ $user->id }}, '{{ $user->email }}')">
-                                        <i class="bi bi-pencil-square me-1"></i>Edit Email
-                                    </a>
-                                    <a href="#" class="btn btn-info btn-sm text-white rounded mb-1" onclick="openEditPasswordModal({{ $user->id }})">
-                                        <i class="bi bi-key me-1"></i>Ganti Password
-                                    </a>
-
                                     @auth
                                         @if(auth()->user()->id !== $user->id)
                                             <form id="delete-form-{{ $user->id }}" action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:none;" class="d-inline">
