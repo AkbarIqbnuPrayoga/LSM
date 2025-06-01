@@ -13,15 +13,15 @@ class CreateRiwayatPelatihansTable extends Migration
      */
     public function up()
     {
-       Schema::create('riwayat_pelatihan', function (Blueprint $table) {
-    $table->id();
-    $table->string('nama');
-    $table->date('tanggal')->nullable();
-    $table->string('tag')->nullable();
-    $table->string('lokasi')->nullable(); // tambahkan lokasi
-    $table->timestamps();
-});
-
+        Schema::create('riwayat_pelatihan', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama');
+            $table->string('gambar');
+            $table->integer('kuota');
+            $table->date('tanggal')->nullable();
+            $table->string('tag')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**

@@ -129,28 +129,26 @@
         </table>
 
         <!-- Tombol aksi -->
-        <!-- Tombol buka modal hapus -->
-<button type="button" class="btn btn-danger rounded" data-bs-toggle="modal" data-bs-target="#deleteModal">Hapus Yang Dipilih</button>
-
-<!-- Tombol langsung tambah ke riwayat -->
-<button type="button" class="btn btn-secondary rounded" onclick="submitToRiwayat()">Tambah ke Riwayat</button>
+        <button type="button" class="btn btn-danger rounded" data-bs-toggle="modal" data-bs-target="#deleteModal">Hapus Yang Dipilih</button>
+        <button type="button" class="btn btn-secondary rounded" onclick="submitToRiwayat()">Tambah ke Riwayat</button>
     </form>
 </div>
 
-            <div class="modal fade" id="deleteModal" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content rounded">
-                        <div class="modal-header"><h5>Konfirmasi</h5></div>
-                        <div class="modal-body">Apakah yakin ingin menghapus?</div>
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="button" class="btn btn-danger" onclick="setDeleteAction()">Ya, Hapus</button>
+                    {{-- Modal Hapus --}}
+                    <div class="modal fade" id="deleteModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content rounded">
+                                <div class="modal-header"><h5>Konfirmasi</h5></div>
+                                <div class="modal-body">Apakah yakin ingin menghapus?</div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                    <button type="submit" class="btn btn-danger" form="bulkDeleteForm">Ya, Hapus</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-                    
+           
 
                 {{-- Kelola User --}}
                 <div id="kelolaUser" class="content-section" style="display: none;">
@@ -303,7 +301,6 @@
                     <th><i class="bi bi-tags me-1"></i>Tag</th>
                     <th><i class="bi bi-geo-alt me-1"></i>Lokasi</th>
                     <th><i class="bi bi-lock me-1"></i>Pendaftaran</th>
-                    <th><i class="bi bi-trash me-1"></i>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -313,18 +310,11 @@
                         <td>{{ \Carbon\Carbon::parse($pelatihan->tanggal)->format('d-m-Y') }}</td>
                         <td>{{ ucfirst($pelatihan->tag) }}</td>
                         <td>{{ $pelatihan->lokasi ?? '-' }}</td>
-                        <td><span class="badge bg-secondary">Tutup</span></td>
-                        <td>
-                            <form action="{{ route('riwayatPelatihan.destroy', $pelatihan->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pelatihan ini dari riwayat?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-                            </form>
-                        </td>
+                        <td><span class="badge bg-danger">Tutup</span></td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center text-muted">Belum ada riwayat pelatihan.</td>
+                        <td colspan="5" class="text-center text-muted">Belum ada riwayat pelatihan.</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -400,7 +390,8 @@
                 });
             }
         });
- function setDeleteAction() {
+<script>
+    function setDeleteAction() {
         const form = document.getElementById('bulkActionForm');
 
         // Ubah action ke route hapus
@@ -434,5 +425,6 @@
 
         form.submit();
     }
-    </script>
+</script>
+
     @endsection

@@ -67,18 +67,33 @@ class PelatihanController extends Controller
     }
 
     public function bulkDelete(Request $request)
-{
-    $ids = $request->ids;
+    {
+        $ids = $request->ids;
 
-    if ($ids) {
-        // Langsung hapus dari tabel pelatihan tanpa masuk riwayat
-        Pelatihan::whereIn('id', $ids)->delete();
+        if ($ids) {
+            // Ambil data pelatihan sebelum dihapus
+            $pelatihans = Pelatihan::whereIn('id', $ids)->get();
 
-        return redirect()->back()->with('success', 'Pelatihan berhasil dihapus.');
+            // Simpan data pelatihan ke tabel riwayat (buat model RiwayatPelatihan & tabel riwayat_pelatihan)
+            foreach ($pelatihans as $pelatihan) {
+                RiwayatPelatihan::create([
+                    'nama' => $pelatihan->nama,
+                    'gambar' => $pelatihan->gambar,
+                    'kuota' => $pelatihan->kuota,
+                    'tanggal' => $pelatihan->tanggal,
+                    'tag' => $pelatihan->tag,
+                ]);
+            }
+
+            // Hapus pelatihan yang dipilih
+            Pelatihan::whereIn('id', $ids)->delete();
+
+            return redirect()->back()->with('success', 'Pelatihan berhasil dihapus dan dimasukkan ke riwayat.');
+        }
+
+        return redirect()->back()->with('error', 'Tidak ada pelatihan yang dipilih.');
     }
 
-    return redirect()->back()->with('error', 'Tidak ada pelatihan yang dipilih.');
-}
 
     public function edit($id)
     {
@@ -298,34 +313,25 @@ class PelatihanController extends Controller
     }
 public function addToRiwayat(Request $request)
 {
-    $ids = $request->input('ids');
+    $ids = $request->ids;
 
-    if (!$ids || count($ids) === 0) {
-        return back()->with('error', 'Tidak ada pelatihan yang dipilih.');
+    if ($ids) {
+        $pelatihans = Pelatihan::whereIn('id', $ids)->get();
+
+        foreach ($pelatihans as $pelatihan) {
+            RiwayatPelatihan::create([
+                'nama' => $pelatihan->nama,
+                'gambar' => null, // Tidak perlu gambar
+                'kuota' => null,  // Bisa kosongkan jika tidak dibutuhkan
+                'tanggal' => $pelatihan->tanggal,
+                'tag' => $pelatihan->tag,
+                'lokasi' => $pelatihan->lokasi ?? 'Tidak ada', // Pastikan ada kolom lokasi
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Pelatihan berhasil ditambahkan ke riwayat.');
     }
 
-    $pelatihans = Pelatihan::whereIn('id', $ids)->get();
-
-    foreach ($pelatihans as $item) {
-        RiwayatPelatihan::create([
-            'nama' => $item->nama,
-            'gambar' => $item->gambar ?? 'default.jpg', // jaga-jaga
-            'kuota' => $item->kuota,
-            'tanggal' => $item->tanggal,
-            'tag' => $item->tag,
-        ]);
-    }
-
-    // Lalu hapus dari pelatihan aktif agar tidak dobel?
-    // Pelatihan::whereIn('id', $ids)->delete();
-
-    return back()->with('success', 'Pelatihan berhasil ditambahkan ke riwayat.');
-}
-public function deleteRiwayat($id)
-{
-    $riwayat = RiwayatPelatihan::findOrFail($id);
-    $riwayat->delete();
-
-    return redirect()->back()->with('success', 'Riwayat pelatihan berhasil dihapus.');
+    return redirect()->back()->with('error', 'Tidak ada pelatihan yang dipilih.');
 }
 }

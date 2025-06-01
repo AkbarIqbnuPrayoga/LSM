@@ -88,69 +88,71 @@
                     </form>
                 </div>
 
-           {{-- Kelola Pelatihan --}}
-<div id="kelolaPelatihan" class="content-section" style="display: none;">
-    <h4><i class="bi bi-journal-text me-2"></i>Kelola Pelatihan</h4>
+                {{-- Kelola Pelatihan --}}
+                <div id="kelolaPelatihan" class="content-section" style="display: none;">
+                   <h4><i class="bi bi-journal-text me-2"></i>Kelola Pelatihan</h4>
+                    <form action="{{ route('pelatihan.bulkDelete') }}" method="POST" id="bulkDeleteForm" class="p-3 border rounded shadow-sm bg-light">
+                        <!-- Form Tambah ke Riwayat -->
+<form action="{{ route('pelatihan.addToRiwayat') }}" method="POST" id="addToRiwayatForm" style="display: none;">
+    @csrf
+    <input type="hidden" name="ids[]" id="riwayatIds">
+</form>
+                        @csrf @method('DELETE')
+                        <table class="table table-striped align-middle">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th>Pilih</th>
+                                    <th><i class="bi bi-card-heading me-1"></i>Gambar</th>
+                                    <th><i class="bi bi-card-heading me-1"></i>Nama</th>
+                                    <th><i class="bi bi-text-left me-1"></i>Kuota</th> {{-- Tambah header Kuota --}}
+                                    <th><i class="bi bi-text-left me-1"></i>Tag</th>
+                                    <th><i class="bi bi-calendar-event me-1"></i>Tanggal Pelatihan</th>
+                                    <th><i class="bi bi-card-heading me-1"></i>Edit</th>
+                                 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($pelatihan as $item)
+                                    <tr>
+                                        <td class="align-middle text-center">
+                                            <div class="form-check d-flex justify-content-center align-items-center" style="height: 100%;">
+                                                <input type="checkbox" class="form-check-input" style="transform: scale(1.5);" name="ids[]" value="{{ $item->id }}">
+                                            </div>
+                                        </td>
+                                        <td><img src="{{ asset('storage/' . $item->gambar) }}" width="100" class="rounded"></td>
+                                        <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $item->nama }}">
+                                            {{ $item->nama }}
+                                        </td>
+                                        <td>{{ $item->kuota }}</td> {{-- Tampilkan kuota --}}
+                                        <td>{{ ucfirst($item->tag) }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}</td>
+                                        <td><a href="{{ route('pelatihan.edit', $item->id) }}" class="btn btn-sm btn-primary rounded">Edit</a></td>
+                                      
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <button type="button" class="btn btn-danger rounded" data-bs-toggle="modal" data-bs-target="#deleteModal">Hapus Yang Dipilih</button>
+                        <!-- Tombol Tambah ke Riwayat -->
+                        <button type="submit" class="btn btn-secondary rounded" form="addToRiwayatForm">Tambah ke Riwayat</button>
+                    </form>
+                </div>
 
-    <form method="POST" id="bulkActionForm" class="p-3 border rounded shadow-sm bg-light">
-        @csrf
-        <!-- ini akan diganti JS dengan DELETE jika hapus -->
-        <table class="table table-striped align-middle">
-            <thead class="table-secondary">
-                <tr>
-                    <th>Pilih</th>
-                    <th><i class="bi bi-card-heading me-1"></i>Gambar</th>
-                    <th><i class="bi bi-card-heading me-1"></i>Nama</th>
-                    <th><i class="bi bi-text-left me-1"></i>Kuota</th>
-                    <th><i class="bi bi-text-left me-1"></i>Tag</th>
-                    <th><i class="bi bi-calendar-event me-1"></i>Tanggal Pelatihan</th>
-                    <th><i class="bi bi-card-heading me-1"></i>Edit</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($pelatihan as $item)
-                    <tr>
-                        <td class="align-middle text-center">
-                            <div class="form-check d-flex justify-content-center align-items-center" style="height: 100%;">
-                                <input type="checkbox" class="form-check-input" style="transform: scale(1.5);" name="ids[]" value="{{ $item->id }}">
+                    {{-- Modal Hapus --}}
+                    <div class="modal fade" id="deleteModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content rounded">
+                                <div class="modal-header"><h5>Konfirmasi</h5></div>
+                                <div class="modal-body">Apakah yakin ingin menghapus?</div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                    <button type="submit" class="btn btn-danger" form="bulkDeleteForm">Ya, Hapus</button>
+                                </div>
                             </div>
-                        </td>
-                        <td><img src="{{ asset('storage/' . $item->gambar) }}" width="100" class="rounded"></td>
-                        <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $item->nama }}">
-                            {{ $item->nama }}
-                        </td>
-                        <td>{{ $item->kuota }}</td>
-                        <td>{{ ucfirst($item->tag) }}</td>
-                        <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}</td>
-                        <td><a href="{{ route('pelatihan.edit', $item->id) }}" class="btn btn-sm btn-primary rounded">Edit</a></td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-
-        <!-- Tombol aksi -->
-        <!-- Tombol buka modal hapus -->
-<button type="button" class="btn btn-danger rounded" data-bs-toggle="modal" data-bs-target="#deleteModal">Hapus Yang Dipilih</button>
-
-<!-- Tombol langsung tambah ke riwayat -->
-<button type="button" class="btn btn-secondary rounded" onclick="submitToRiwayat()">Tambah ke Riwayat</button>
-    </form>
-</div>
-
-            <div class="modal fade" id="deleteModal" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content rounded">
-                        <div class="modal-header"><h5>Konfirmasi</h5></div>
-                        <div class="modal-body">Apakah yakin ingin menghapus?</div>
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="button" class="btn btn-danger" onclick="setDeleteAction()">Ya, Hapus</button>
                         </div>
                     </div>
                 </div>
-            </div>
-
-                    
+           
 
                 {{-- Kelola User --}}
                 <div id="kelolaUser" class="content-section" style="display: none;">
@@ -303,7 +305,6 @@
                     <th><i class="bi bi-tags me-1"></i>Tag</th>
                     <th><i class="bi bi-geo-alt me-1"></i>Lokasi</th>
                     <th><i class="bi bi-lock me-1"></i>Pendaftaran</th>
-                    <th><i class="bi bi-trash me-1"></i>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -313,18 +314,11 @@
                         <td>{{ \Carbon\Carbon::parse($pelatihan->tanggal)->format('d-m-Y') }}</td>
                         <td>{{ ucfirst($pelatihan->tag) }}</td>
                         <td>{{ $pelatihan->lokasi ?? '-' }}</td>
-                        <td><span class="badge bg-secondary">Tutup</span></td>
-                        <td>
-                            <form action="{{ route('riwayatPelatihan.destroy', $pelatihan->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pelatihan ini dari riwayat?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-                            </form>
-                        </td>
+                        <td><span class="badge bg-danger">Tutup</span></td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center text-muted">Belum ada riwayat pelatihan.</td>
+                        <td colspan="5" class="text-center text-muted">Belum ada riwayat pelatihan.</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -400,39 +394,24 @@
                 });
             }
         });
- function setDeleteAction() {
-        const form = document.getElementById('bulkActionForm');
+// Ambil semua checkbox
+    const checkboxes = document.querySelectorAll('input[name="ids[]"]');
+    const riwayatForm = document.getElementById('addToRiwayatForm');
+    const riwayatIdsInput = document.getElementById('riwayatIds');
 
-        // Ubah action ke route hapus
-        form.action = "{{ route('pelatihan.bulkDelete') }}";
-
-        // Tambah method spoofing DELETE
-        const methodInput = document.createElement('input');
-        methodInput.type = 'hidden';
-        methodInput.name = '_method';
-        methodInput.value = 'DELETE';
-        methodInput.id = 'deleteMethod';
-
-        // Hapus yang lama jika ada
-        const existing = document.getElementById('deleteMethod');
-        if (existing) existing.remove();
-
-        form.appendChild(methodInput);
-        form.submit();
-    }
-
-    function submitToRiwayat() {
-        const form = document.getElementById('bulkActionForm');
-
-        // Hapus method spoofing jika ada
-        const method = document.getElementById('deleteMethod');
-        if (method) method.remove();
-
-        // Ubah action ke tambah ke riwayat
-        form.action = "{{ route('pelatihan.addToRiwayat') }}";
-        form.method = "POST";
-
-        form.submit();
-    }
+    document.querySelector('[form="addToRiwayatForm"]').addEventListener('click', function () {
+        // Kosongkan input hidden dulu
+        riwayatForm.innerHTML = '@csrf';
+        // Tambahkan input hidden baru untuk setiap checkbox yang dicentang
+        checkboxes.forEach((checkbox) => {
+            if (checkbox.checked) {
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'ids[]';
+                hiddenInput.value = checkbox.value;
+                riwayatForm.appendChild(hiddenInput);
+            }
+        });
+    });
     </script>
     @endsection

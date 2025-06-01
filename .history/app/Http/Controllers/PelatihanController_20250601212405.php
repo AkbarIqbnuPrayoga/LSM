@@ -299,33 +299,25 @@ class PelatihanController extends Controller
 public function addToRiwayat(Request $request)
 {
     $ids = $request->input('ids');
-
-    if (!$ids || count($ids) === 0) {
-        return back()->with('error', 'Tidak ada pelatihan yang dipilih.');
-    }
+    if (!$ids) return redirect()->back()->with('error', 'Tidak ada pelatihan dipilih.');
 
     $pelatihans = Pelatihan::whereIn('id', $ids)->get();
 
-    foreach ($pelatihans as $item) {
+    foreach ($pelatihans as $pelatihan) {
+        if (!$pelatihan->gambar) {
+            return redirect()->back()->with('error', "Pelatihan '{$pelatihan->nama}' tidak memiliki gambar.");
+        }
+
         RiwayatPelatihan::create([
-            'nama' => $item->nama,
-            'gambar' => $item->gambar ?? 'default.jpg', // jaga-jaga
-            'kuota' => $item->kuota,
-            'tanggal' => $item->tanggal,
-            'tag' => $item->tag,
+            'nama' => $pelatihan->nama,
+            'gambar' => $pelatihan->gambar,
+            'kuota' => $pelatihan->kuota ?? 0,
+            'tanggal' => $pelatihan->tanggal,
+            'tag' => $pelatihan->tag ?? '-',
+            'lokasi' => $pelatihan->lokasi ?? '-',
         ]);
     }
 
-    // Lalu hapus dari pelatihan aktif agar tidak dobel?
-    // Pelatihan::whereIn('id', $ids)->delete();
-
-    return back()->with('success', 'Pelatihan berhasil ditambahkan ke riwayat.');
-}
-public function deleteRiwayat($id)
-{
-    $riwayat = RiwayatPelatihan::findOrFail($id);
-    $riwayat->delete();
-
-    return redirect()->back()->with('success', 'Riwayat pelatihan berhasil dihapus.');
+    return redirect()->back()->with('success', 'Berhasil ditambahkan ke riwayat.');
 }
 }

@@ -137,20 +137,20 @@
     </form>
 </div>
 
-            <div class="modal fade" id="deleteModal" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content rounded">
-                        <div class="modal-header"><h5>Konfirmasi</h5></div>
-                        <div class="modal-body">Apakah yakin ingin menghapus?</div>
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="button" class="btn btn-danger" onclick="setDeleteAction()">Ya, Hapus</button>
-                        </div>
-                    </div>
-                </div>
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content rounded">
+            <div class="modal-header"><h5>Konfirmasi</h5></div>
+            <div class="modal-body">Apakah yakin ingin menghapus?</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-danger" onclick="setDeleteAction()">Ya, Hapus</button>
             </div>
+        </div>
+    </div>
+</div>
 
-                    
+           
 
                 {{-- Kelola User --}}
                 <div id="kelolaUser" class="content-section" style="display: none;">

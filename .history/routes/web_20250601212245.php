@@ -41,7 +41,7 @@ Route::get('/pelatihan/{id}/edit', [PelatihanController::class, 'edit'])->name('
 Route::put('/pelatihan/{id}', [PelatihanController::class, 'update'])->name('pelatihan.update');
 Route::delete('/pendaftaran/{id}', [PendaftaranController::class, 'destroy'])->name('pendaftaran.destroy');
 // Route hapus banyak
-
+Route::delete('/pelatihan/bulk-delete', [PelatihanController::class, 'bulkDelete'])->name('pelatihan.bulkDelete');
 Route::get('/pelatihan/{id}', [PelatihanController::class, 'show'])->name('pelatihan.show');
 Route::post('/pelatihan/{id}/daftar', [PelatihanController::class, 'daftar'])->name('pelatihan.daftar')->middleware('auth');
 
@@ -70,7 +70,6 @@ Route::get('/admin/kuota-pelatihan/{id}/peserta', [AdminController::class, 'liha
 // web.php
 Route::delete('/pelatihan/bulk-delete', [PelatihanController::class, 'bulkDelete'])->name('pelatihan.bulkDelete');
 Route::post('/pelatihan/add-to-riwayat', [PelatihanController::class, 'addToRiwayat'])->name('pelatihan.addToRiwayat');
-Route::delete('/admin/riwayat/{id}', [PelatihanController::class, 'deleteRiwayat'])->name('riwayatPelatihan.destroy');
 
 
 Auth::routes(['verify' => true]);

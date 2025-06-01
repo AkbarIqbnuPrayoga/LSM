@@ -321,11 +321,4 @@ public function addToRiwayat(Request $request)
 
     return back()->with('success', 'Pelatihan berhasil ditambahkan ke riwayat.');
 }
-public function deleteRiwayat($id)
-{
-    $riwayat = RiwayatPelatihan::findOrFail($id);
-    $riwayat->delete();
-
-    return redirect()->back()->with('success', 'Riwayat pelatihan berhasil dihapus.');
-}
 }

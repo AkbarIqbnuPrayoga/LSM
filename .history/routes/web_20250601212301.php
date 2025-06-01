@@ -70,7 +70,6 @@ Route::get('/admin/kuota-pelatihan/{id}/peserta', [AdminController::class, 'liha
 // web.php
 Route::delete('/pelatihan/bulk-delete', [PelatihanController::class, 'bulkDelete'])->name('pelatihan.bulkDelete');
 Route::post('/pelatihan/add-to-riwayat', [PelatihanController::class, 'addToRiwayat'])->name('pelatihan.addToRiwayat');
-Route::delete('/admin/riwayat/{id}', [PelatihanController::class, 'deleteRiwayat'])->name('riwayatPelatihan.destroy');
 
 
 Auth::routes(['verify' => true]);
