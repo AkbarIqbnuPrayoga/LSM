@@ -62,8 +62,7 @@
           </li>
           <li class="dropdown"><a href="{{ route('pelatihan.saya') }}"><span>Pelatihan</span></a>
           </li>
-          <li><a class="nav-link scrollto {{ $activeriwayat ?? '' }}" href="{{ route('riwayat.index') }}">Riwayat Pelatihan</a></li>
-
+          
           <li><a href="#contact">Contact</a></li>
           @guest
           <li>

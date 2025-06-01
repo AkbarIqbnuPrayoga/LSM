@@ -7,7 +7,7 @@
             <h2>Pusat Pendidikan Dan Pelatihan Bersetifikat</h2>
             <div class="d-flex">
             <a href="#portfolio" class="btn-get-started scrollto">Get Started</a>
-            <a href="https://youtu.be/ko4BCK1H9eA" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+            <a href="https://www.youtube.com/watch?" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
             </div>
         </div>
     </section><!-- End Hero -->

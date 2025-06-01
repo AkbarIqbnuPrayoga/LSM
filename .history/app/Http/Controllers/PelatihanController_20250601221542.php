@@ -328,7 +328,7 @@ class PelatihanController extends Controller
 
         return redirect()->back()->with('success', 'Riwayat pelatihan berhasil dihapus.');
     }
-
+    use App\Models\RiwayatPelatihan;
 
 public function riwayatPelatihan(Request $request)
 {

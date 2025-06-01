@@ -62,8 +62,15 @@
           </li>
           <li class="dropdown"><a href="{{ route('pelatihan.saya') }}"><span>Pelatihan</span></a>
           </li>
-          <li><a class="nav-link scrollto {{ $activeriwayat ?? '' }}" href="{{ route('riwayat.index') }}">Riwayat Pelatihan</a></li>
-
+          <li class="dropdown">
+    <a href="#"><span>Riwayat Pelatihan</span> <i class="bi bi-chevron-down"></i></a>
+    <ul>
+        <li><a href="{{ route('riwayatPelatihan.index') }}">Semua Riwayat</a></li>
+        <li><a href="{{ route('riwayatPelatihan.filter', ['tahun' => now()->year]) }}">Tahun {{ now()->year }}</a></li>
+        <li><a href="{{ route('riwayatPelatihan.filter', ['tag' => 'online']) }}">Tag: Online</a></li>
+        <li><a href="{{ route('riwayatPelatihan.filter', ['tag' => 'offline']) }}">Tag: Offline</a></li>
+    </ul>
+</li>
           <li><a href="#contact">Contact</a></li>
           @guest
           <li>

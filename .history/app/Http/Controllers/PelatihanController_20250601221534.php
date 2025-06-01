@@ -16,7 +16,7 @@ use App\Models\Visitor;
 use Carbon\Carbon;
 use ZipArchive;
 use Illuminate\Support\Str;
-
+use App\Models\RiwayatPelatihan;
 class PelatihanController extends Controller
 {
 
@@ -328,7 +328,7 @@ class PelatihanController extends Controller
 
         return redirect()->back()->with('success', 'Riwayat pelatihan berhasil dihapus.');
     }
-
+    use App\Models\RiwayatPelatihan;
 
 public function riwayatPelatihan(Request $request)
 {
