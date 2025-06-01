@@ -296,36 +296,36 @@ class PelatihanController extends Controller
 
         return response()->download($zipPath)->deleteFileAfterSend(true);
     }
-public function addToRiwayat(Request $request)
-{
-    $ids = $request->input('ids');
+    public function addToRiwayat(Request $request)
+    {
+        $ids = $request->input('ids');
 
-    if (!$ids || count($ids) === 0) {
-        return back()->with('error', 'Tidak ada pelatihan yang dipilih.');
+        if (!$ids || count($ids) === 0) {
+            return back()->with('error', 'Tidak ada pelatihan yang dipilih.');
+        }
+
+        $pelatihans = Pelatihan::whereIn('id', $ids)->get();
+
+        foreach ($pelatihans as $item) {
+            RiwayatPelatihan::create([
+                'nama' => $item->nama,
+                'gambar' => $item->gambar ?? 'default.jpg', // jaga-jaga
+                'kuota' => $item->kuota,
+                'tanggal' => $item->tanggal,
+                'tag' => $item->tag,
+            ]);
+        }
+
+        // Lalu hapus dari pelatihan aktif agar tidak dobel?
+        // Pelatihan::whereIn('id', $ids)->delete();
+
+        return back()->with('success', 'Pelatihan berhasil ditambahkan ke riwayat.');
     }
+    public function deleteRiwayat($id)
+    {
+        $riwayat = RiwayatPelatihan::findOrFail($id);
+        $riwayat->delete();
 
-    $pelatihans = Pelatihan::whereIn('id', $ids)->get();
-
-    foreach ($pelatihans as $item) {
-        RiwayatPelatihan::create([
-            'nama' => $item->nama,
-            'gambar' => $item->gambar ?? 'default.jpg', // jaga-jaga
-            'kuota' => $item->kuota,
-            'tanggal' => $item->tanggal,
-            'tag' => $item->tag,
-        ]);
+        return redirect()->back()->with('success', 'Riwayat pelatihan berhasil dihapus.');
     }
-
-    // Lalu hapus dari pelatihan aktif agar tidak dobel?
-    // Pelatihan::whereIn('id', $ids)->delete();
-
-    return back()->with('success', 'Pelatihan berhasil ditambahkan ke riwayat.');
-}
-public function deleteRiwayat($id)
-{
-    $riwayat = RiwayatPelatihan::findOrFail($id);
-    $riwayat->delete();
-
-    return redirect()->back()->with('success', 'Riwayat pelatihan berhasil dihapus.');
-}
 }
