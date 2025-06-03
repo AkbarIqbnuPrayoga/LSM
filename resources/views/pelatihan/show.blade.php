@@ -34,8 +34,8 @@
                 </div>
                 <div class="col-md-3">
                     <div class="border rounded p-3 bg-light">
-                        <strong>Kuota:</strong><br>
-                        {{ $pelatihan->kuota }}
+                        <strong>Lokasi:</strong><br>
+                        {{ $pelatihan->lokasi ?? '-' }}
                     </div>
                 </div>
             </div>

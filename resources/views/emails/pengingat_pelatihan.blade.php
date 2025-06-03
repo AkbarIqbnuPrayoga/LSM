@@ -17,8 +17,16 @@
             <li><strong>Nama Pelatihan:</strong> {{ $pelatihan->nama }}</li>
             <li><strong>Tanggal Pelatihan:</strong> {{ \Carbon\Carbon::parse($pelatihan->tanggal)->format('d-m-Y') }}</li>
             <li><strong>Mode:</strong> {{ ucfirst($pelatihan->tag) }}</li>
-            <li><strong>Pelatihan Akan Dimulai: </strong> {{ $selisihHari }} Hari Lagi</li>
-            
+
+            @if(in_array($pelatihan->tag, ['offline', 'hybrid']))
+            <li><strong>Lokasi:</strong> {{ $pelatihan->lokasi ?? '-' }}</li>
+            @endif
+
+            @if(in_array($pelatihan->tag, ['online', 'hybrid']))
+            <li><strong>Link Zoom:</strong> {{ $pelatihan->zoom_link ?? '-' }}</li>
+            @endif
+
+            <li><strong>Pelatihan Akan Dimulai:</strong> {{ $selisihHari }} Hari Lagi</li>
         </ul>
 
         <p>Mohon pastikan Anda telah menyiapkan segala keperluan yang dibutuhkan untuk mengikuti pelatihan ini. Kami sangat menantikan kehadiran Anda.</p>
@@ -26,16 +34,21 @@
         @if($pelatihan->tag == 'online')
         <div style="background-color: #ecf0f1; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
             <strong>Catatan:</strong><br>
-            Pelatihan ini akan dilakukan secara online. Link Zoom akan dikirim H-1 melalui email dan WhatsApp.
+            Pelatihan ini akan dilakukan secara online melalui Zoom. Link Zoom tertera di atas. Harap bergabung 15 menit sebelum pelatihan dimulai.
+        </div>
+        @elseif($pelatihan->tag == 'hybrid')
+        <div style="background-color: #ecf0f1; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+            <strong>Catatan:</strong><br>
+            Pelatihan ini dilaksanakan secara hybrid: peserta dapat hadir di lokasi atau mengikuti melalui Zoom. Pastikan Anda memilih metode yang sesuai dan menyiapkan perlengkapan masing-masing.
         </div>
         @endif
 
-        <p>Jika ada pertanyaan, silakan hubungi kami melalui email ini atau melalui kontak resmi kami.</p>
+        <p>Jika ada pertanyaan, silakan hubungi kami melalui email ini atau kontak resmi kami.</p>
 
         <p style="margin-top: 30px;">Sampai jumpa pada hari pelatihan!</p>
 
-        <p>Salam hangat, Dari Panitia LSM<br>
-        <strong>Panitia Pelatihan LSM</strong></p>
+        <p>Salam hangat dari kami,<br>
+        <strong>Panitia PUSDIKLAT</strong></p>
     </div>
 </body>
 </html>

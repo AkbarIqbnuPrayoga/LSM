@@ -30,8 +30,7 @@ class PendaftaranController extends Controller
             'nama_lengkap' => $validated['nama_lengkap'],
             'email' => $validated['email'],
             'no_telp' => $validated['no_telp'],
-            'instansi' => $validated['instansi'],
-            // field lain jika ada
+            'instansi' => $validated['instansi'],   
         ]);
 
         return redirect()->back()->with('success', 'Pendaftaran berhasil.');
@@ -69,6 +68,7 @@ class PendaftaranController extends Controller
         'pelatihan' => $pelatihan->nama,
         'tanggal_pelatihan' => Carbon::parse($pelatihan->tanggal)->translatedFormat('d F Y'),
         'tag' => $pelatihan->tag,
+        'lokasi' => $pelatihan->lokasi,
         ];
 
         Mail::to($pendaftaran->user->email)->send(new PengingatPelatihanMail($pelatihan, $pendaftaran));
@@ -114,6 +114,8 @@ class PendaftaranController extends Controller
                 'nama_pelatihan' => $pendaftaran->pelatihan->nama,
                 'tanggal_pelatihan' => $pendaftaran->pelatihan->tanggal,
                 'mode' => $pendaftaran->pelatihan->tag,
+                'lokasi' => $request->lokasi,
+                'zoom_link' => $request->zoom_link,
             ];
 
             Mail::to($data['email_user'])->send(new \App\Mail\BuktiValidMail($data));

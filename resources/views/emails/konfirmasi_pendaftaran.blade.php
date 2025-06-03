@@ -17,22 +17,23 @@
             <li><strong>No. Telepon:</strong> {{ $data['no_telp'] }}</li>
             <li><strong>Instansi:</strong> {{ $data['instansi'] }}</li>
             <li><strong>Pelatihan:</strong> {{ $data['pelatihan'] }}</li>
+            <li><strong>Lokasi Pelatihan:</strong> {{ $data['lokasi'] ?? '-' }}</li>
         </ul>
 
         <p>Untuk menyelesaikan proses pendaftaran, silakan lakukan pembayaran ke rekening berikut:</p>
 
         <div style="background-color: #ecf0f1; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
-            <strong>No. Rekening:</strong> 123456789<br>
-            <strong>Bank:</strong> BNI<br>
-            <strong>a.n:</strong> Panitia LSM
+            <strong>No. Rekening:</strong> {{ $data['rekening'] ?? '-' }}<br>
+            <strong>Bank:</strong> {{ $data['bank'] ?? '-' }}<br>
+            <strong>a.n:</strong> {{ $data['atas_nama'] ?? '-' }}
         </div>
 
-        <p>Setelah melakukan pembayaran, harap konfirmasi melalui email atau WhatsApp kami dengan menyertakan bukti pembayaran.</p>
+        <p>Setelah melakukan pembayaran, harap konfirmasi melalui website dengan mngupload bukti pembayaran.</p>
 
         <p>Jika Anda memiliki pertanyaan, jangan ragu untuk menghubungi kami.</p>
 
         <p>Salam hangat,<br>
-        <strong>Panitia Pelatihan</strong></p>
+        <strong>Panitia PUSDIKLAT</strong></p>
     </div>
 </body>
 </html>

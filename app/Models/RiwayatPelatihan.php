@@ -9,5 +9,5 @@ class RiwayatPelatihan extends Model
 {
     protected $table = 'riwayat_pelatihan';
 
-    protected $fillable = ['nama', 'gambar', 'kuota', 'tanggal', 'tag'];
+    protected $fillable = ['nama', 'tanggal', 'tag', 'lokasi'];
 }

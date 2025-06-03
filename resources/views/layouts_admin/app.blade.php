@@ -41,52 +41,88 @@
     <div class="flex-grow-1 p-4 bg-white">
         <main id="main" class="w-100">
             <div class="container">
-                {{-- Tambah Pelatihan --}}
-                <div id="tambahPelatihan" class="content-section" style="display: none;">
-                    <h4><i class="bi bi-plus-circle me-2"></i>Tambah Pelatihan</h4>
-                    <form action="{{ route('pelatihan.store') }}" method="POST" enctype="multipart/form-data" class="border p-3 rounded shadow-sm bg-light">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="gambar" class="form-label"><i class="bi bi-image me-1"></i>Gambar</label>
-                            <input type="file" class="form-control rounded form-control sm w-auto" id="gambar" name="gambar" accept="image/*" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="nama" class="form-label"><i class="bi bi-card-heading me-1"></i>Nama Pelatihan</label>
-                            <input type="text" class="form-control rounded" id="nama" name="nama" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="kuota" class="form-label"><i class="bi bi-people-fill me-1"></i>Kuota Pelatihan</label>
-                            <input type="number" class="form-control rounded form-control sm w-auto" id="kuota" name="kuota" min="1" required>
-                        </div>
-                        <div class="mb-3 col-md-4">
-                            <label for="tanggal" class="form-label">
-                                <i class="bi bi-calendar-event me-1"></i>Tanggal Pelatihan
-                            </label>
-                            <input type="date" name="tanggal" id="tanggal" class="form-control form-control-sm w-auto">
-                        </div>
-                        <div class="mb-3">
-                            <label for="konten" class="form-label"><i class="bi bi-text-left me-1"></i>Isi Berita / Konten</label>
-                            <textarea class="form-control rounded" id="konten" name="konten" rows="5" required></textarea>
-                        </div>
+            {{-- Tambah Pelatihan --}}
+            <div id="tambahPelatihan" class="content-section" style="display: none;">
+                <h4><i class="bi bi-plus-circle me-2"></i>Tambah Pelatihan</h4>
+                <form action="{{ route('pelatihan.store') }}" method="POST" enctype="multipart/form-data" class="border p-3 rounded shadow-sm bg-light">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="gambar" class="form-label"><i class="bi bi-image me-1"></i>Gambar</label>
+                        <input type="file" class="form-control rounded form-control-sm w-auto" id="gambar" name="gambar" accept="image/*" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nama" class="form-label"><i class="bi bi-card-heading me-1"></i>Nama Pelatihan</label>
+                        <input type="text" class="form-control rounded" id="nama" name="nama" required>
+                    </div>
+                    {{-- Input Nomor Rekening --}}
+                    <div class="mb-3">
+                        <label for="rekening" class="form-label">
+                            <i class="bi bi-credit-card-2-front me-1"></i>Nomor Rekening Pelatihan
+                        </label>
+                        <input type="text" class="form-control rounded form-control-sm w-auto" id="rekening" name="rekening" required oninput="showAtasNama()">
+                    </div>
 
-                        <div class="mb-3">
-                            <label class="form-label"><i class="bi bi-tags me-1"></i>Tag:</label><br>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="tag[]" value="offline">
-                                <label class="form-check-label">Offline</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="tag[]" value="online">
-                                <label class="form-check-label">Online</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="tag[]" value="hybrid">
-                                <label class="form-check-label">Hybrid</label>
-                            </div>
+                    {{-- Input Atas Nama Rekening (muncul setelah isi nomor rekening) --}}
+                    <div class="mb-3" id="atasNamaContainer" style="display: none;">
+                        <label for="atas_nama" class="form-label">
+                            <i class="bi bi-person-badge me-1"></i>Atas Nama Rekening
+                        </label>
+                        <input type="text" class="form-control rounded form-control-sm w-auto" id="atas_nama" name="atas_nama" oninput="showBank()">
+                    </div>
+
+                    {{-- Input Nama Bank (muncul setelah isi atas nama) --}}
+                    <div class="mb-3" id="bankContainer" style="display: none;">
+                        <label for="bank" class="form-label">
+                            <i class="bi bi-bank me-1"></i>Nama Bank
+                        </label>
+                        <input type="text" class="form-control rounded form-control-sm w-auto" id="bank" name="bank">
+                    </div>
+                    <div class="mb-3">
+                        <label for="kuota" class="form-label"><i class="bi bi-people-fill me-1"></i>Kuota Pelatihan</label>
+                        <input type="number" class="form-control rounded form-control-sm w-auto" id="kuota" name="kuota" min="1" required>
+                    </div>
+                    <div class="mb-3 col-md-4">
+                        <label for="tanggal" class="form-label">
+                            <i class="bi bi-calendar-event me-1"></i>Tanggal Pelatihan
+                        </label>
+                        <input type="date" name="tanggal" id="tanggal" class="form-control form-control-sm w-auto">
+                    </div>
+                    <div class="mb-3">
+                        <label for="konten" class="form-label"><i class="bi bi-text-left me-1"></i>Isi Berita / Konten</label>
+                        <textarea class="form-control rounded" id="konten" name="konten" rows="5" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><i class="bi bi-tags me-1"></i>Tag:</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="tag[]" value="offline" id="tagOffline" onchange="selectOnlyThis(this)">
+                            <label class="form-check-label" for="tagOffline">Offline</label>
                         </div>
-                        <button type="submit" class="btn btn-primary rounded">Simpan Pelatihan</button>
-                    </form>
-                </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="tag[]" value="online" id="tagOnline" onchange="selectOnlyThis(this)">
+                            <label class="form-check-label" for="tagOnline">Online</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="tag[]" value="hybrid" id="tagHybrid" onchange="selectOnlyThis(this)">
+                            <label class="form-check-label" for="tagHybrid">Hybrid</label>
+                        </div>
+                    </div>
+
+                    {{-- Dynamic Input Fields --}}
+                    <div id="lokasiField" class="mb-3" style="display: none;">
+                        <label for="lokasi" class="form-label"><i class="bi bi-geo-alt me-1"></i>Lokasi Pelatihan</label>
+                        <input type="text" class="form-control rounded" id="lokasi" name="lokasi">
+                    </div>
+
+                    <div id="zoomField" class="mb-3" style="display: none;">
+                        <label for="zoom_link" class="form-label"><i class="bi bi-link-45deg me-1"></i>Link Zoom Pelatihan</label>
+                        <input type="url" class="form-control rounded" id="zoom_link" name="zoom_link">
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary rounded">Simpan Pelatihan</button>
+                </form>
+            </div>
 
            {{-- Kelola Pelatihan --}}
             <div id="kelolaPelatihan" class="content-section" style="display: none;">
@@ -499,5 +535,54 @@
             const form = document.getElementById('formHapusRiwayat');
             form.action = `/admin/riwayat/${id}`;
         }
+        function selectOnlyThis(checkbox) {
+                const checkboxes = document.querySelectorAll('input[name="tag[]"]');
+                checkboxes.forEach((cb) => {
+                    if (cb !== checkbox) cb.checked = false;
+                });
+                handleTagChange(); // Update input tampilannya
+            }
+
+            function handleTagChange() {
+                const offline = document.getElementById('tagOffline').checked;
+                const online = document.getElementById('tagOnline').checked;
+                const hybrid = document.getElementById('tagHybrid').checked;
+
+                document.getElementById('lokasiField').style.display = 'none';
+                document.getElementById('zoomField').style.display = 'none';
+
+                if (offline) {
+                    document.getElementById('lokasiField').style.display = 'block';
+                } else if (online) {
+                    document.getElementById('zoomField').style.display = 'block';
+                } else if (hybrid) {
+                    document.getElementById('lokasiField').style.display = 'block';
+                    document.getElementById('zoomField').style.display = 'block';
+                }
+            }
+
+            function showAtasNama() {
+                const rekening = document.getElementById('rekening').value.trim();
+                const atasNamaContainer = document.getElementById('atasNamaContainer');
+                atasNamaContainer.style.display = rekening ? 'block' : 'none';
+
+                // Jika rekening dihapus, sembunyikan input selanjutnya
+                if (!rekening) {
+                    document.getElementById('bankContainer').style.display = 'none';
+                    document.getElementById('atas_nama').value = '';
+                    document.getElementById('bank').value = '';
+                }
+            }
+
+            function showBank() {
+                const atasNama = document.getElementById('atas_nama').value.trim();
+                const bankContainer = document.getElementById('bankContainer');
+                bankContainer.style.display = atasNama ? 'block' : 'none';
+
+                // Jika atas nama dihapus, sembunyikan nama bank
+                if (!atasNama) {
+                    document.getElementById('bank').value = '';
+                }
+            }
     </script>
     @endsection

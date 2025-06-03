@@ -10,7 +10,6 @@
             @foreach($pendaftaran as $item)
                 @php
                     $pelatihan = $item->pelatihan;
-                    $sisaKuota = $pelatihan->kuota - ($pelatihan->pendaftar->count() ?? 0);
                 @endphp
                 <li class="list-group-item d-flex align-items-center justify-content-between" style="min-height: 140px;">
                     <div class="d-flex align-items-center">
@@ -21,7 +20,7 @@
                             <p class="mb-1 text-secondary">
                                 <i class="bi bi-calendar3 me-1"></i> {{ $pelatihan->tanggal ?? '-' }}<br>
                                 <i class="bi bi-tags me-1"></i> {{ $pelatihan->tag ?? '-' }}<br>
-                                <small class="text-muted"><i class="bi bi-people me-1"></i>Sisa Kuota: {{ max($sisaKuota, 0) }}</small>
+                                <small class="text-muted"><i class="bi bi-people me-1"></i>Lokasi: {{ $pelatihan->lokasi ?? '-' }}</small>
                             </p>
                         </div>
                     </div>

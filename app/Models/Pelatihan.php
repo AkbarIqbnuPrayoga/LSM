@@ -8,7 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Pelatihan extends Model
 {
     protected $table = 'pelatihan';
-    protected $fillable = ['nama', 'gambar', 'tag', 'tanggal', 'kuota', 'konten' ];
+    protected $fillable = [
+    'nama',
+    'gambar',
+    'tag',
+    'tanggal',
+    'konten',
+    'kuota',
+    'rekening',
+    'atas_nama',
+    'bank',
+    'lokasi',
+    'zoom_link',
+    'status',
+];
     public function pendaftar()
     {
         return $this->hasMany(Pendaftaran::class, 'pelatihan_id');

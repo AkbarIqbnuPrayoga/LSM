@@ -19,18 +19,21 @@ use Illuminate\Support\Str;
 
 class PelatihanController extends Controller
 {
-
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'nama' => 'required|string',
-            'tag' => 'required|array',
-            'kuota' => 'required|integer',
-            'konten' => 'required|string',
-            'tanggal' => 'required|date',
-
-        ]);
+        'nama' => 'required|string',
+        'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        'tag' => 'required|array',
+        'tanggal' => 'nullable|date',
+        'konten' => 'required|string',
+        'kuota' => 'required|integer|min:1',
+        'rekening' => 'required|string',
+        'atas_nama' => 'nullable|string',
+        'bank' => 'nullable|string',
+        'lokasi' => 'nullable|string',
+        'zoom_link' => 'nullable|url',
+    ]);
 
         // Upload gambar
         $gambarPath = $request->file('gambar')->store('pelatihan_gambar', 'public');
@@ -39,10 +42,16 @@ class PelatihanController extends Controller
         Pelatihan::create([
             'nama' => $request->nama,
             'gambar' => $gambarPath,
-            'tag' => implode(',', $request->tag),
+            'tag' => implode(',', $request->tag), // tetap pakai implode untuk amankan array
             'tanggal' => $request->tanggal,
             'konten' => $validated['konten'],
             'kuota' => $request->kuota,
+            'rekening' => $request->rekening,
+            'atas_nama' => $request->atas_nama,
+            'bank' => $request->bank,
+            'lokasi' => $request->lokasi,
+            'zoom_link' => $request->zoom_link,
+            'status' => 'public',
         ]);
 
         return redirect()->back()->with('success', 'Pelatihan berhasil disimpan!');
@@ -89,15 +98,24 @@ class PelatihanController extends Controller
     public function update(Request $request, $id)
     {
         $pelatihan = Pelatihan::findOrFail($id);
+
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'tag' => 'required|string',
+            'tag' => 'required|array',
+            'tag.*' => 'required|string|in:online,offline,hybrid',
             'kuota' => 'required|integer|min:1',
             'tanggal' => 'required|date',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'konten' => 'required|string'
+            'konten' => 'required|string',
+            'status' => 'required|in:public,private',
+            'zoom_link' => 'nullable|url',
+            'lokasi' => 'nullable|string|max:255',
+            'rekening' => 'nullable|string|max:255',
+            'atas_nama' => 'nullable|string|max:255',
+            'bank' => 'nullable|string|max:255',
         ]);
 
+        // Simpan gambar baru jika diunggah
         if ($request->hasFile('gambar')) {
             if ($pelatihan->gambar && \Storage::exists('public/' . $pelatihan->gambar)) {
                 \Storage::delete('public/' . $pelatihan->gambar);
@@ -106,16 +124,28 @@ class PelatihanController extends Controller
             $pelatihan->gambar = $path;
         }
 
+        // Simpan tag sebagai string (misal: "online,offline")
+        $pelatihan->tag = implode(',', $request->tag);
+
         $pelatihan->nama = $request->nama;
-        $pelatihan->tag = $request->tag;
         $pelatihan->kuota = $request->kuota;
-        $pelatihan->tanggal = $request->input('tanggal');
-        $pelatihan->konten = $validated['konten'];
+        $pelatihan->tanggal = $request->tanggal;
+        $pelatihan->konten = $request->konten;
         $pelatihan->status = $request->status;
+
+        $pelatihan->zoom_link = (in_array('online', $request->tag) || in_array('hybrid', $request->tag)) ? $request->zoom_link : null;
+        $pelatihan->lokasi = (in_array('offline', $request->tag) || in_array('hybrid', $request->tag)) ? $request->lokasi : null;
+
+        $pelatihan->rekening = $request->rekening;
+        $pelatihan->atas_nama = $request->rekening ? $request->atas_nama : null;
+        $pelatihan->bank = ($request->rekening && $request->atas_nama) ? $request->bank : null;
+
         $pelatihan->save();
 
         return redirect()->route('admin')->with('success', 'Pelatihan berhasil diupdate.');
     }
+
+
 
    public function show($id)
 {
@@ -200,12 +230,19 @@ class PelatihanController extends Controller
             'no_telp' => $request->no_telp,
             'instansi' => $request->instansi,
             'pelatihan' => $pelatihan->nama,
+            'rekening' => $pelatihan->rekening ?? '-',
+            'atas_nama' => $pelatihan->atas_nama ?? '-',
+            'bank' => $pelatihan->bank ?? '-',
+            'lokasi' => $pelatihan->lokasi ?? '-',
+            'zoom_link' => $pelatihan->zoom_link ?? null,
+            'tag' => $pelatihan->tag ?? null, // untuk info mode (online/offline/hybrid)
         ];
 
         Mail::to($request->email)->send(new PendaftaranPelatihanMail($emailData));
 
         return redirect()->back()->with('success', 'Pendaftaran berhasil! Silakan cek email Anda.');
     }
+
     public function index()
     {
         $pelatihans = Pelatihan::withCount('pendaftar')->get();
@@ -309,10 +346,9 @@ class PelatihanController extends Controller
         foreach ($pelatihans as $item) {
             RiwayatPelatihan::create([
                 'nama' => $item->nama,
-                'gambar' => $item->gambar ?? 'default.jpg', // jaga-jaga
-                'kuota' => $item->kuota,
                 'tanggal' => $item->tanggal,
                 'tag' => $item->tag,
+                'lokasi' => $item->lokasi,
             ]);
         }
 
@@ -330,27 +366,27 @@ class PelatihanController extends Controller
     }
 
 
-public function riwayatPelatihan(Request $request)
-{
-    $tahun = $request->tahun;
-    $tag = $request->tag;
+    public function riwayatPelatihan(Request $request)
+    {
+        $tahun = $request->tahun;
+        $tag = $request->tag;
 
-    $riwayatPelatihan = RiwayatPelatihan::query();
+        $riwayatPelatihan = RiwayatPelatihan::query();
 
-    if ($tahun) {
-        $riwayatPelatihan->whereYear('tanggal', $tahun);
+        if ($tahun) {
+            $riwayatPelatihan->whereYear('tanggal', $tahun);
+        }
+
+        if ($tag) {
+            $riwayatPelatihan->where('tag', $tag);
+        }
+
+        $data = $riwayatPelatihan->orderBy('tanggal', 'desc')->get();
+
+        // Dapatkan daftar tahun unik untuk dropdown
+        $listTahun = RiwayatPelatihan::selectRaw('YEAR(tanggal) as tahun')->distinct()->pluck('tahun');
+
+        return view('riwayat.index', compact('data', 'listTahun', 'tahun', 'tag'));
     }
-
-    if ($tag) {
-        $riwayatPelatihan->where('tag', $tag);
-    }
-
-    $data = $riwayatPelatihan->orderBy('tanggal', 'desc')->get();
-
-    // Dapatkan daftar tahun unik untuk dropdown
-    $listTahun = RiwayatPelatihan::selectRaw('YEAR(tanggal) as tahun')->distinct()->pluck('tahun');
-
-    return view('riwayat.index', compact('data', 'listTahun', 'tahun', 'tag'));
-}
 
 }

@@ -35,7 +35,7 @@
 
         <p>Semoga pelatihan ini bermanfaat dan menambah wawasan Anda.</p>
 
-        <p style="margin-top: 30px;">Salam hangat,<br><strong>Panitia Pelatihan</strong></p>
+        <p style="margin-top: 30px;">Salam hangat,<br><strong>Panitia PUSDIKLAT</strong></p>
     </div>
 </body>
 </html>

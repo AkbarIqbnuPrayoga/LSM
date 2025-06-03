@@ -31,7 +31,7 @@
         <p>Jika Anda memiliki pertanyaan lebih lanjut, jangan ragu untuk menghubungi kami melalui email ini atau melalui kontak resmi LSM.</p>
 
         <p style="margin-top: 30px;">Salam hangat,<br>
-        <strong>Panitia Pelatihan LSM</strong></p>
+        <strong>Panitia Pelatihan PUSDIKLAT</strong></p>
     </div>
 </body>
 </html>

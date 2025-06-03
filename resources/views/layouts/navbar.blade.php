@@ -64,7 +64,7 @@
           </li>
           <li><a class="nav-link scrollto {{ $activeriwayat ?? '' }}" href="{{ route('riwayat.index') }}">Riwayat Pelatihan</a></li>
 
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="{{ route('contact') }}">Contact</a></li>
           @guest
           <li>
             <a class="nav-link {{$activelogin}}" href="{{ route('login') }}">{{ __('Login') }}</a>

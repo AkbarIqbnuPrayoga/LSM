@@ -6,25 +6,26 @@ use Illuminate\Support\Facades\Schema;
 
 class CreatePelatihanTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('pelatihan', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
             $table->string('gambar');
-            $table->string('tag'); // simpan tag sebagai string (misal: 'offline,online')
-            $table->date('tanggal');
+            $table->string('tag'); // Simpan sebagai 'offline', 'online', atau 'hybrid'
+            $table->date('tanggal')->nullable();
             $table->longText('konten');
             $table->integer('kuota')->default(0);
+            $table->string('rekening');
+            $table->string('atas_nama')->nullable();
+            $table->string('bank')->nullable();
+            $table->string('lokasi')->nullable(); // untuk tag offline/hybrid
+            $table->string('zoom_link')->nullable(); // untuk tag online/hybrid
             $table->string('status')->default('public');
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
