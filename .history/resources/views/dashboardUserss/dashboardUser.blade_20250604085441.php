@@ -32,6 +32,8 @@
       flex-wrap: wrap;
     }
 
+
+
     .main-content {
       flex: 1;
       display: flex;
@@ -217,6 +219,56 @@
 
 </html>
 <body>
+<header id="header">
+  <div class="container">
+    <h1 class="logo"><a href="index.html">PUSDIKLAT</a></h1>
+
+    @php
+      $nameroute = Route::currentRouteName();
+      $activeprofile = '';
+      $activesertifikasi = '';
+      $activecontact = '';
+      $activelogin = '';
+      $activehome = '';
+      if($nameroute == 'visimisi' || $nameroute == 'tujuan' || $nameroute == 'strukturorganisasi'){
+        $activeprofile = 'active';
+      } else if($nameroute == 'skemasertifikasi' || $nameroute == 'ujikompetensi' || $nameroute == 'sertifikat'){
+        $activesertifikasi = 'active';
+      } else if($nameroute == 'contact'){
+        $activecontact = 'active';
+      } else if($nameroute == 'login'){
+        $activelogin = 'active';
+      } else {
+        $activehome = 'active';
+      }
+    @endphp
+
+
+    <li style="margin-left: auto;">
+      @guest
+        <a class="{{ $activelogin }}" href="{{ route('login') }}">Login</a>
+      @else
+        <div class="dropdown">
+          <a href="#" class="dropdown-toggle">{{ Auth::user()->name }}</a>
+          <ul>
+            <li><a href="{{ route('dashboardUser') }}">Profile</a></li>
+            <li>
+              <a href="{{ route('logout') }}"
+                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                Logout
+              </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+              </form>
+            </li>
+          </ul>
+        </div>
+      @endguest
+    </li>
+  </ul>
+</nav>
+  </div>
+</header>
 
 <div class="main-content">
   <div class="dashboard-box">

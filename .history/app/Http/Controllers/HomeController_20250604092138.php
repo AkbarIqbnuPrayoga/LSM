@@ -26,9 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $pelatihan = Pelatihan::where('status', 'public')
-                ->orderBy('tanggal', 'asc') // atau 'desc' jika ingin yang terbaru dulu
-                ->get();
+        $pelatihan = Pelatihan::where('status', 'public')->get();
 
         // Kelompokkan berdasarkan bulan dari created_at
         $groupedByMonthYear = $pelatihan->groupBy(function ($item) {

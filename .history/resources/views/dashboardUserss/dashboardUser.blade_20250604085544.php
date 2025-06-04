@@ -217,6 +217,34 @@
 
 </html>
 <body>
+<header id="header">
+
+
+    <li style="margin-left: auto;">
+      @guest
+        <a class="{{ $activelogin }}" href="{{ route('login') }}">Login</a>
+      @else
+        <div class="dropdown">
+          <a href="#" class="dropdown-toggle">{{ Auth::user()->name }}</a>
+          <ul>
+            <li><a href="{{ route('dashboardUser') }}">Profile</a></li>
+            <li>
+              <a href="{{ route('logout') }}"
+                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                Logout
+              </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+              </form>
+            </li>
+          </ul>
+        </div>
+      @endguest
+    </li>
+  </ul>
+</nav>
+  </div>
+</header>
 
 <div class="main-content">
   <div class="dashboard-box">

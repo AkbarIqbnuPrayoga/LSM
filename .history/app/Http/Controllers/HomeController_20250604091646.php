@@ -27,14 +27,17 @@ class HomeController extends Controller
     public function index()
     {
         $pelatihan = Pelatihan::where('status', 'public')
-                ->orderBy('tanggal', 'asc') // atau 'desc' jika ingin yang terbaru dulu
+                ->orderBy('tanggal') // atau 'desc' jika ingin yang terbaru dulu
                 ->get();
 
         // Kelompokkan berdasarkan bulan dari created_at
-        $groupedByMonthYear = $pelatihan->groupBy(function ($item) {
-        return Carbon::parse($item->tanggal)->format('F Y');
+       $groupedByMonthYear = $pelatihan
+        ->sortBy('tanggal') // pastikan urut dulu
+        ->groupBy(function ($item) {
+            return Carbon::parse($item->tanggal)->format('F Y');
+        });
         // Contoh output: "January 2025"
-    });
+    
 
     return view('home', compact('pelatihan', 'groupedByMonthYear'));  
 

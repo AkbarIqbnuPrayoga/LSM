@@ -46,9 +46,9 @@
 
       <nav id="navbar" class="navbar d-flex align-items-center">
         <!-- Form pencarian di sebelah kiri menu -->
-        <!-- <form method="GET" action="{{ route('pelatihan.cari') }}" class="d-flex me-3">
+        <form method="GET" action="{{ route('pelatihan.cari') }}" class="d-flex me-3">
             <input type="text" name="search" class="form-control rounded-pill me-2" placeholder="Cari pelatihan...">
-            <button type="submit" class="btn btn-primary rounded-pill">Cari</button> -->
+            <button type="submit" class="btn btn-primary rounded-pill">Cari</button>
         </form>
         <ul>
           <!-- <li><a class="nav-link scrollto {{$activehome}}" href="{{route('admin')}}">Dashboard Admin</a></li> -->
@@ -70,36 +70,35 @@
             <a class="nav-link {{$activelogin}}" href="{{ route('login') }}">{{ __('Login') }}</a>
           </li>
           @else
-          <li class="nav-item dropdown">
-              <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                  {{ Auth::user()->name }}
-              </a>
+<li class="nav-item dropdown">
+    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+        {{ Auth::user()->name }}
+    </a>
 
-              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="{{ route('dashboardUser') }}">
-                      {{ __('Profile') }}
-                  </a>
+    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="{{ route('dashboardUser') }}">
+            {{ __('Profile') }}
+        </a>
 
-                @if(Auth::user()->hasRole('Admin'))
+        @if(Auth::user()->role === 'admin')
+        <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+            {{ __('Dashboard Admin') }}
+        </a>
+        @endif
 
-                  <a class="dropdown-item" href="{{ route('admin') }}">
-                      {{ __('Dashboard Admin') }}
-                  </a>
-                  @endif
+        <a class="dropdown-item" href="{{ route('logout') }}"
+           onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();">
+            {{ __('Logout') }}
+        </a>
 
-                  <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                              document.getElementById('logout-form').submit();">
-                      {{ __('Logout') }}
-                  </a>
-
-                  <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                      @csrf
-                  </form>
-              </div>
-          </li>
-          @endguest
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
+    </div>
+</li>
+@endguest
 
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>

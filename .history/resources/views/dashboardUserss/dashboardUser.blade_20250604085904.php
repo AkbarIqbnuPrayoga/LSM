@@ -16,21 +16,6 @@
       background: #f7f9fc;
     }
 
-    header {
-      background-color: white;
-      padding: 15px 30px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    header .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
 
     .main-content {
       flex: 1;

@@ -31,8 +31,11 @@ class HomeController extends Controller
                 ->get();
 
         // Kelompokkan berdasarkan bulan dari created_at
-        $groupedByMonthYear = $pelatihan->groupBy(function ($item) {
-        return Carbon::parse($item->tanggal)->format('F Y');
+       $groupedByMonthYear = $pelatihan
+        ->sortBy('tanggal') // pastikan urut dulu
+        ->groupBy(function ($item) {
+            return Carbon::parse($item->tanggal)->format('F Y');
+        });
         // Contoh output: "January 2025"
     });
 

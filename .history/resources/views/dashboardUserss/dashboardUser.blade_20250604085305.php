@@ -32,6 +32,102 @@
       flex-wrap: wrap;
     }
 
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 0;
+      color: black;
+    }
+
+    .logo a {
+      text-decoration: none;
+      color:rgb(0, 0, 0);
+      font-weight: bold;
+    }
+
+    .navbar {
+      flex-grow: 1;
+      display: flex;
+      justify-content: flex-start; 
+      margin-left: 900px; 
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar ul li {
+      position: relative;
+    }
+
+    .navbar ul li a {
+      text-decoration: none;
+      color: black;
+      font-weight: 500;
+      position: relative;
+      padding-bottom: 5px;
+      transition: color 0.3s;
+    }
+
+    .navbar ul li a.active,
+    .navbar ul li a:hover {
+      color: #007bff;
+    }
+
+    .navbar ul li a.active::after,
+    .navbar ul li a:hover::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: #007bff;
+    }
+
+    .navbar .dropdown ul {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      padding: 10px 0;
+      border: 1px solid #eee;
+      border-radius: 5px;
+      min-width: 180px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      z-index: 1001;
+    }
+
+    .navbar .dropdown:hover ul {
+      display: block;
+    }
+
+    .navbar .dropdown ul li {
+      margin: 0;
+    }
+
+    .navbar .dropdown ul li a {
+      display: block;
+      padding: 8px 20px;
+      color: black;
+    }
+
+    .navbar .dropdown ul li a:hover {
+      background-color: #f7f7f7;
+    }
+
+    .dropdown > a::after {
+      content: " \25BC";
+      font-size: 12px;
+      margin-left: 5px;
+    }
+
     .main-content {
       flex: 1;
       display: flex;
@@ -217,6 +313,68 @@
 
 </html>
 <body>
+<header id="header">
+  <div class="container">
+    <h1 class="logo"><a href="index.html">PUSDIKLAT</a></h1>
+
+    @php
+      $nameroute = Route::currentRouteName();
+      $activeprofile = '';
+      $activesertifikasi = '';
+      $activecontact = '';
+      $activelogin = '';
+      $activehome = '';
+      if($nameroute == 'visimisi' || $nameroute == 'tujuan' || $nameroute == 'strukturorganisasi'){
+        $activeprofile = 'active';
+      } else if($nameroute == 'skemasertifikasi' || $nameroute == 'ujikompetensi' || $nameroute == 'sertifikat'){
+        $activesertifikasi = 'active';
+      } else if($nameroute == 'contact'){
+        $activecontact = 'active';
+      } else if($nameroute == 'login'){
+        $activelogin = 'active';
+      } else {
+        $activehome = 'active';
+      }
+    @endphp
+
+  <nav class="navbar">
+  <ul>
+    <li><a class="{{ $activehome }}" href="{{ route('home') }}">Home</a></li>
+    <li class="dropdown"><a href="#" class="{{$activeprofile}}"><span>About Us</span> <i class="bi bi-chevron-down"></i></a>
+      <ul>
+        <li><a href="{{ route('visimisi') }}">Visi Misi</a></li>
+        <li><a href="{{ route('tujuan') }}">Tujuan</a></li>
+        <li><a href="{{ route('strukturorganisasi') }}">Struktur Organisasi</a></li>
+      </ul>
+    </li>
+    <li><a href="#portfolio">Pelatihan</a></li>
+    <li><a href="#contact" class="{{ $activecontact }}">Contact</a></li>
+
+    <li style="margin-left: auto;">
+      @guest
+        <a class="{{ $activelogin }}" href="{{ route('login') }}">Login</a>
+      @else
+        <div class="dropdown">
+          <a href="#" class="dropdown-toggle">{{ Auth::user()->name }}</a>
+          <ul>
+            <li><a href="{{ route('dashboardUser') }}">Profile</a></li>
+            <li>
+              <a href="{{ route('logout') }}"
+                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                Logout
+              </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+              </form>
+            </li>
+          </ul>
+        </div>
+      @endguest
+    </li>
+  </ul>
+</nav>
+  </div>
+</header>
 
 <div class="main-content">
   <div class="dashboard-box">
