@@ -27,6 +27,13 @@
                     <label for="nama" class="form-label fw-semibold"><i class='bx bx-book-content me-1'></i>Nama Pelatihan</label>
                     <input type="text" class="form-control" id="nama" name="nama" value="{{ $pelatihan->nama }}" required>
                 </div>
+                {{-- Harga --}}
+                <div class="mb-3">
+                    <label for="harga" class="form-label fw-semibold"><i class='bx bx-money me-1'></i>Harga Pelatihan (Rp)</label>
+                    <input type="number" class="form-control form-control sm w-auto" id="harga" name="harga" min="0" 
+                        value="{{ old('harga', $pelatihan->harga) }}" required>
+                </div>
+
                 {{-- Rekening --}}
                 <div id="rekening_group">
                     <label for="rekening">Nomor Rekening</label>
@@ -105,6 +112,32 @@
                         <option value="private" {{ $pelatihan->status == 'private' ? 'selected' : '' }}>Private</option>
                     </select>
                 </div>
+                {{-- Waktu Mulai --}}
+                <div class="mb-3">
+                    <label for="waktu_mulai" class="form-label fw-semibold">
+                        <i class='bx bx-time me-1'></i>Waktu Mulai
+                    </label>
+                    <input type="time"
+                        class="form-control form-control sm w-auto"
+                        id="waktu_mulai"
+                        name="waktu_mulai"
+                        value="{{ old('waktu_mulai', \Carbon\Carbon::parse($pelatihan->waktu_mulai)->format('H:i')) }}"
+                        required>
+                </div>
+
+                {{-- Waktu Selesai --}}
+                <div class="mb-3">
+                    <label for="waktu_selesai" class="form-label fw-semibold">
+                        <i class='bx bx-time-five me-1'></i>Waktu Selesai
+                    </label>
+                    <input type="time"
+                        class="form-control form-control sm w-auto"
+                        id="waktu_selesai"
+                        name="waktu_selesai"
+                        value="{{ old('waktu_selesai', \Carbon\Carbon::parse($pelatihan->waktu_selesai)->format('H:i')) }}"
+                        required>
+                </div>
+
 
                 {{-- Konten --}}
                 <div class="mb-4">

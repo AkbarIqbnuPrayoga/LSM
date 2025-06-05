@@ -149,12 +149,10 @@
 
                 <div class="row" data-aos="fade-up" data-aos-delay="200">
                   @foreach($items as $item)
-                    @php
-                      $waktuSelesai = \Carbon\Carbon::parse($item->tanggal . ' ' . $item->waktu_selesai)->format('Y-m-d\TH:i');
-                    @endphp
                     <div 
-                      class="col-lg-4 col-md-6 mb-4 portfolio-item filter-{{ strtolower($item->tag) }}" 
-                      data-waktu-selesai="{{ $waktuSelesai }}">
+                        class="col-lg-4 col-md-6 mb-4 portfolio-item filter-{{ strtolower($item->tag) }}"
+                        data-waktu-selesai="{{ \Carbon\Carbon::parse($item->tanggal . ' ' . $item->waktu_selesai)->toIso8601String() }}">
+
                       
                       <div 
                         class="card border-0 shadow-sm position-relative overflow-hidden" 
@@ -166,7 +164,7 @@
                           <img src="{{ asset('storage/' . $item->gambar) }}" class="card-img-top" alt="Gambar Pelatihan">
                         </a>
 
-                        {{-- Overlay info --}}
+                        {{-- Overlay --}}
                         <div class="overlay-info position-absolute bottom-0 w-100 bg-dark bg-opacity-75 text-white text-center py-3 px-2"
                             style="transform: translateY(100%); transition: transform 0.3s;">
                           <h5 class="mb-1">{{ $item->nama }}</h5>
@@ -373,17 +371,41 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 document.addEventListener("DOMContentLoaded", function () {
-  const pelatihanCards = document.querySelectorAll('.portfolio-item');
-
-  pelatihanCards.forEach(card => {
-    const waktuSelesaiStr = card.getAttribute('data-waktu-selesai');
-    const waktuSelesai = new Date(waktuSelesaiStr);
     const sekarang = new Date();
 
-    if (sekarang >= waktuSelesai) {
-      card.style.display = "none";
-    }
-  });
+    // 1. Hapus item pelatihan yang sudah selesai
+    document.querySelectorAll('.portfolio-item').forEach(card => {
+        const waktuSelesaiStr = card.getAttribute('data-waktu-selesai');
+        const waktuSelesai = new Date(waktuSelesaiStr);
+
+        if (sekarang >= waktuSelesai) {
+            card.remove(); // <-- hapus dari DOM
+        }
+    });
+
+    // 2. Sembunyikan grup bulan jika semua pelatihannya hilang
+    document.querySelectorAll('.mb-5').forEach(group => {
+        const visibleItems = group.querySelectorAll('.portfolio-item');
+        if (visibleItems.length === 0) {
+            group.remove(); // <-- hapus dari DOM juga
+        }
+    });
+
+    // 3. Jalankan isotope setelah item dihapus
+    var portfolioIsotope = new Isotope('.portfolio-container', {
+        itemSelector: '.portfolio-item',
+        layoutMode: 'fitRows'
+    });
+
+    let filters = document.querySelectorAll('#portfolio-flters li');
+    filters.forEach(filter => {
+        filter.addEventListener('click', function () {
+            filters.forEach(el => el.classList.remove('filter-active'));
+            this.classList.add('filter-active');
+            let filterValue = this.getAttribute('data-filter');
+            portfolioIsotope.arrange({ filter: filterValue });
+        });
+    });
 });
 </script>
 

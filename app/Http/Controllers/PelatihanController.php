@@ -119,6 +119,9 @@ class PelatihanController extends Controller
             'rekening' => 'nullable|string|max:255',
             'atas_nama' => 'nullable|string|max:255',
             'bank' => 'nullable|string|max:255',
+            'harga' => 'required|integer|min:0',
+            'waktu_mulai' => 'required|date_format:H:i',
+            'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
         ]);
 
         // Simpan gambar baru jika diunggah
@@ -133,14 +136,20 @@ class PelatihanController extends Controller
         // Simpan tag sebagai string (misal: "online,offline")
         $pelatihan->tag = implode(',', $request->tag);
 
+        // Simpan semua data ke model
         $pelatihan->nama = $request->nama;
         $pelatihan->kuota = $request->kuota;
         $pelatihan->tanggal = $request->tanggal;
         $pelatihan->konten = $request->konten;
         $pelatihan->status = $request->status;
+        $pelatihan->harga = $request->harga;
+        $pelatihan->waktu_mulai = $request->waktu_mulai;
+        $pelatihan->waktu_selesai = $request->waktu_selesai;
 
-        $pelatihan->zoom_link = (in_array('online', $request->tag) || in_array('hybrid', $request->tag)) ? $request->zoom_link : null;
-        $pelatihan->lokasi = (in_array('offline', $request->tag) || in_array('hybrid', $request->tag)) ? $request->lokasi : null;
+        // Tanpa menggunakan in_array, kita pakai string contains
+        $tags = implode(',', $request->tag);
+        $pelatihan->zoom_link = (str_contains($tags, 'online') || str_contains($tags, 'hybrid')) ? $request->zoom_link : null;
+        $pelatihan->lokasi = (str_contains($tags, 'offline') || str_contains($tags, 'hybrid')) ? $request->lokasi : null;
 
         $pelatihan->rekening = $request->rekening;
         $pelatihan->atas_nama = $request->rekening ? $request->atas_nama : null;
@@ -152,41 +161,39 @@ class PelatihanController extends Controller
     }
 
 
-
-
    public function show($id)
-{
-    $pelatihan = Pelatihan::findOrFail($id);
-    $now = Carbon::now();
+    {
+        $pelatihan = Pelatihan::findOrFail($id);
+        $now = Carbon::now();
 
-    if (Auth::check()) {
-        $userId = Auth::id();
+        if (Auth::check()) {
+            $userId = Auth::id();
 
-        // Cek apakah user sudah tercatat hari ini
-        $recentVisit = Visitor::where('user_id', $userId)
-            ->where('pelatihan_id', $id)
-            ->whereDate('visited_at', $now->toDateString())
-            ->first();
+            // Cek apakah user sudah tercatat hari ini
+            $recentVisit = Visitor::where('user_id', $userId)
+                ->where('pelatihan_id', $id)
+                ->whereDate('visited_at', $now->toDateString())
+                ->first();
 
-        if (!$recentVisit) {
-            Visitor::create([
-                'user_id' => $userId,
-                'pelatihan_id' => $id,
-                'visited_at' => $now,
-            ]);
+            if (!$recentVisit) {
+                Visitor::create([
+                    'user_id' => $userId,
+                    'pelatihan_id' => $id,
+                    'visited_at' => $now,
+                ]);
+            }
+
+            // Statistik berdasarkan user
+            $online = Visitor::where('visited_at', '>=', $now->copy()->subMinutes(5))->distinct('user_id')->count('user_id');
+            $today = Visitor::whereDate('visited_at', $now->toDateString())->distinct('user_id')->count('user_id');
+            $total = Visitor::distinct('user_id')->count('user_id');
+
+        } else {
+            $online = $today = $total = 0;
         }
 
-        // Statistik berdasarkan user
-        $online = Visitor::where('visited_at', '>=', $now->copy()->subMinutes(5))->distinct('user_id')->count('user_id');
-        $today = Visitor::whereDate('visited_at', $now->toDateString())->distinct('user_id')->count('user_id');
-        $total = Visitor::distinct('user_id')->count('user_id');
-
-    } else {
-        $online = $today = $total = 0;
+        return view('pelatihan.show', compact('pelatihan', 'online', 'today', 'total'));
     }
-
-    return view('pelatihan.show', compact('pelatihan', 'online', 'today', 'total'));
-}
     public function updateStatus(Request $request, $id)
     {
         $pelatihan = Pelatihan::findOrFail($id);

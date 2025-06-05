@@ -155,13 +155,12 @@
                         @php
                             $now = \Carbon\Carbon::now();
                             $waktuMulai = \Carbon\Carbon::parse($pelatihan->tanggal . ' ' . $pelatihan->waktu_mulai);
-                            $waktuSelesai = \Carbon\Carbon::parse($pelatihan->tanggal . ' ' . $pelatihan->waktu_selesai);
                         @endphp
-
+                        
                         @if ($now->greaterThanOrEqualTo($waktuMulai))
                             <div class="text-center">
                                 <div class="alert alert-danger">
-                                    Pelatihan ini sudah selesai. Pendaftaran sudah ditutup.
+                                    Pelatihan ini sudah <strong>dimulai</strong>. Pendaftaran sudah ditutup.
                                 </div>
                             </div>
                         @else

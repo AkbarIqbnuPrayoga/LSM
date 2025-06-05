@@ -12,7 +12,7 @@ class CreatePelatihanTable extends Migration
             $table->id();
             $table->string('nama');
             $table->string('gambar');
-            $table->integer('harga');
+            $table->integer('harga')->default(0);
             $table->string('tag'); // Simpan sebagai 'offline', 'online', atau 'hybrid'
             $table->date('tanggal')->nullable();
             $table->longText('konten');
