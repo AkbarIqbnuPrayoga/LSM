@@ -149,7 +149,13 @@
 
                 <div class="row" data-aos="fade-up" data-aos-delay="200">
                   @foreach($items as $item)
-                    <div class="col-lg-4 col-md-6 mb-4 portfolio-item filter-{{ strtolower($item->tag) }}">
+                    @php
+                      $waktuSelesai = \Carbon\Carbon::parse($item->tanggal . ' ' . $item->waktu_selesai)->format('Y-m-d\TH:i');
+                    @endphp
+                    <div 
+                      class="col-lg-4 col-md-6 mb-4 portfolio-item filter-{{ strtolower($item->tag) }}" 
+                      data-waktu-selesai="{{ $waktuSelesai }}">
+                      
                       <div 
                         class="card border-0 shadow-sm position-relative overflow-hidden" 
                         onmouseover="this.querySelector('.overlay-info').style.transform='translateY(0)'" 
@@ -160,7 +166,7 @@
                           <img src="{{ asset('storage/' . $item->gambar) }}" class="card-img-top" alt="Gambar Pelatihan">
                         </a>
 
-                        {{-- Overlay hitam bawah saat hover --}}
+                        {{-- Overlay info --}}
                         <div class="overlay-info position-absolute bottom-0 w-100 bg-dark bg-opacity-75 text-white text-center py-3 px-2"
                             style="transform: translateY(100%); transition: transform 0.3s;">
                           <h5 class="mb-1">{{ $item->nama }}</h5>
@@ -364,6 +370,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
     });
+  });
+});
+document.addEventListener("DOMContentLoaded", function () {
+  const pelatihanCards = document.querySelectorAll('.portfolio-item');
+
+  pelatihanCards.forEach(card => {
+    const waktuSelesaiStr = card.getAttribute('data-waktu-selesai');
+    const waktuSelesai = new Date(waktuSelesaiStr);
+    const sekarang = new Date();
+
+    if (sekarang >= waktuSelesai) {
+      card.style.display = "none";
+    }
   });
 });
 </script>

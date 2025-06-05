@@ -51,21 +51,24 @@
                 {{-- Tag --}}
                 <div class="mb-3">
                     <label class="form-label"><i class="bi bi-tags me-1"></i>Tag:</label><br>
-                    @php $tags = explode(',', old('tag', $pelatihan->tag)) @endphp
+                    @php
+                        $tagData = old('tag') ?? (is_string($pelatihan->tag) ? explode(',', $pelatihan->tag) : []);
+                        $tags = is_array($tagData) ? $tagData : explode(',', strval($tagData));
+                    @endphp
 
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" name="tag[]" value="offline" id="tagOffline"
-                            onchange="selectOnlyThis(this)" {{ in_array('offline', $tags) ? 'checked' : '' }}>
+                            {{ in_array('offline', $tags) ? 'checked' : '' }}>
                         <label class="form-check-label" for="tagOffline">Offline</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" name="tag[]" value="online" id="tagOnline"
-                            onchange="selectOnlyThis(this)" {{ in_array('online', $tags) ? 'checked' : '' }}>
+                            {{ in_array('online', $tags) ? 'checked' : '' }}>
                         <label class="form-check-label" for="tagOnline">Online</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" name="tag[]" value="hybrid" id="tagHybrid"
-                            onchange="selectOnlyThis(this)" {{ in_array('hybrid', $tags) ? 'checked' : '' }}>
+                            {{ in_array('hybrid', $tags) ? 'checked' : '' }}>
                         <label class="form-check-label" for="tagHybrid">Hybrid</label>
                     </div>
                 </div>

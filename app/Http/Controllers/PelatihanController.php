@@ -33,6 +33,9 @@ class PelatihanController extends Controller
         'bank' => 'nullable|string',
         'lokasi' => 'nullable|string',
         'zoom_link' => 'nullable|url',
+        'harga' => 'required|integer|min:0',
+        'waktu_mulai' => 'required|date_format:H:i',
+        'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
     ]);
 
         // Upload gambar
@@ -52,6 +55,9 @@ class PelatihanController extends Controller
             'lokasi' => $request->lokasi,
             'zoom_link' => $request->zoom_link,
             'status' => 'public',
+            'harga' => $request->harga,
+            'waktu_mulai' => $request->waktu_mulai,
+            'waktu_selesai' => $request->waktu_selesai,
         ]);
 
         return redirect()->back()->with('success', 'Pelatihan berhasil disimpan!');
@@ -76,18 +82,18 @@ class PelatihanController extends Controller
     }
 
     public function bulkDelete(Request $request)
-{
-    $ids = $request->ids;
+    {
+        $ids = $request->ids;
 
-    if ($ids) {
-        // Langsung hapus dari tabel pelatihan tanpa masuk riwayat
-        Pelatihan::whereIn('id', $ids)->delete();
+        if ($ids) {
+            // Langsung hapus dari tabel pelatihan tanpa masuk riwayat
+            Pelatihan::whereIn('id', $ids)->delete();
 
-        return redirect()->back()->with('success', 'Pelatihan berhasil dihapus.');
+            return redirect()->back()->with('success', 'Pelatihan berhasil dihapus.');
+        }
+
+        return redirect()->back()->with('error', 'Tidak ada pelatihan yang dipilih.');
     }
-
-    return redirect()->back()->with('error', 'Tidak ada pelatihan yang dipilih.');
-}
 
     public function edit($id)
     {
@@ -144,6 +150,7 @@ class PelatihanController extends Controller
 
         return redirect()->route('admin')->with('success', 'Pelatihan berhasil diupdate.');
     }
+
 
 
 
@@ -234,6 +241,7 @@ class PelatihanController extends Controller
             'atas_nama' => $pelatihan->atas_nama ?? '-',
             'bank' => $pelatihan->bank ?? '-',
             'lokasi' => $pelatihan->lokasi ?? '-',
+            'harga' => $pelatihan->harga ?? '-',
             'zoom_link' => $pelatihan->zoom_link ?? null,
             'tag' => $pelatihan->tag ?? null, // untuk info mode (online/offline/hybrid)
         ];

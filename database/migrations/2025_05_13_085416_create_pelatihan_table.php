@@ -12,6 +12,7 @@ class CreatePelatihanTable extends Migration
             $table->id();
             $table->string('nama');
             $table->string('gambar');
+            $table->integer('harga');
             $table->string('tag'); // Simpan sebagai 'offline', 'online', atau 'hybrid'
             $table->date('tanggal')->nullable();
             $table->longText('konten');
@@ -22,6 +23,8 @@ class CreatePelatihanTable extends Migration
             $table->string('lokasi')->nullable(); // untuk tag offline/hybrid
             $table->string('zoom_link')->nullable(); // untuk tag online/hybrid
             $table->string('status')->default('public');
+            $table->time('waktu_mulai')->nullable();
+            $table->time('waktu_selesai')->nullable();
             $table->timestamps();
         });
     }

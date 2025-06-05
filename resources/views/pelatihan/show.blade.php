@@ -20,20 +20,30 @@
 
             {{-- Info Umum --}}
             <div class="row justify-content-center text-center mb-4">
-                <div class="col-md-3">
-                    <div class="border rounded p-3 bg-light">
+                {{-- Tag --}}
+                <div class="col-md-3 mb-3">
+                    <div class="border rounded p-3 bg-light h-100">
                         <strong>Tag:</strong><br>
                         <span class="text-capitalize">{{ $pelatihan->tag }}</span>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="border rounded p-3 bg-light">
+
+                {{-- Tanggal & Waktu --}}
+                <div class="col-md-5 mb-3">
+                    <div class="border rounded p-3 bg-light h-100">
                         <strong>Tanggal:</strong><br>
                         {{ \Carbon\Carbon::parse($pelatihan->tanggal)->format('d M Y') }}
+                        <hr class="my-2">
+                        <strong>Waktu:</strong><br>
+                        <i class="bi bi-clock me-1"></i>
+                        {{ \Carbon\Carbon::parse($pelatihan->waktu_mulai)->format('H:i') }} - 
+                        {{ \Carbon\Carbon::parse($pelatihan->waktu_selesai)->format('H:i') }} WIB
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="border rounded p-3 bg-light">
+
+                {{-- Lokasi --}}
+                <div class="col-md-3 mb-3">
+                    <div class="border rounded p-3 bg-light h-100">
                         <strong>Lokasi:</strong><br>
                         {{ $pelatihan->lokasi ?? '-' }}
                     </div>
@@ -51,6 +61,19 @@
             {{-- Deskripsi --}}
             <div class="mb-5" style="text-align: justify;">
                 {!! $pelatihan->konten !!}
+            </div>
+
+            {{-- Harga --}}
+            <div class="row justify-content-center mb-4 text-center">
+                <div class="col-md-11">
+                    <div class="bg-light p-3 rounded shadow-sm">
+                        <strong>Harga:</strong><br>
+                        <h4 class="mb-0 text-success fw-bold">
+                            <i class="bi bi-cash-stack me-1"></i> 
+                            Rp {{ number_format($pelatihan->harga, 0, ',', '.') }}
+                        </h4>
+                    </div>
+                </div>
             </div>
 
             {{-- Info Kuota --}}
@@ -128,39 +151,54 @@
                             <button class="btn btn-danger btn-lg" disabled>Kuota Penuh</button>
                         </div>
                     @else
-                        {{-- Form Pendaftaran --}}
-                        <form action="{{ route('pelatihan.daftar', $pelatihan->id) }}" method="POST">
-                            @csrf
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">Nama Lengkap</label>
-                                    <input type="text" name="nama_lengkap" class="form-control" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" name="email" value="{{ auth()->user()->email }}" class="form-control" required>
-                                </div>
-                                <div class="col-md-6 mt-3">
-                                    <label class="form-label">No. Telepon</label>
-                                    <input type="text" name="no_telp" class="form-control" required>
-                                </div>
-                                <div class="col-md-6 mt-3">
-                                    <label class="form-label">Instansi</label>
-                                    <input type="text" name="instansi" class="form-control" required>
+                        {{-- Cek apakah waktu pelatihan sudah dimulai atau selesai --}}
+                        @php
+                            $now = \Carbon\Carbon::now();
+                            $waktuMulai = \Carbon\Carbon::parse($pelatihan->tanggal . ' ' . $pelatihan->waktu_mulai);
+                            $waktuSelesai = \Carbon\Carbon::parse($pelatihan->tanggal . ' ' . $pelatihan->waktu_selesai);
+                        @endphp
+
+                        @if ($now->greaterThanOrEqualTo($waktuMulai))
+                            <div class="text-center">
+                                <div class="alert alert-danger">
+                                    Pelatihan ini sudah selesai. Pendaftaran sudah ditutup.
                                 </div>
                             </div>
+                        @else
+                            {{-- Form Pendaftaran --}}
+                            <form action="{{ route('pelatihan.daftar', $pelatihan->id) }}" method="POST">
+                                @csrf
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Nama Lengkap</label>
+                                        <input type="text" name="nama_lengkap" value="{{ auth()->user()->name }}" class="form-control" readonly>
+                                    </div>
+                                    <div class="col-md-6">  
+                                        <label class="form-label">Email</label>
+                                        <input type="email" name="email" value="{{ auth()->user()->email }}" class="form-control" readonly>
+                                    </div>
+                                    <div class="col-md-6 mt-3">
+                                        <label class="form-label">No. Telepon</label>
+                                        <input type="text" name="no_telp" class="form-control" required>
+                                    </div>
+                                    <div class="col-md-6 mt-3">
+                                        <label class="form-label">Instansi</label>
+                                        <input type="text" name="instansi" class="form-control" required>
+                                    </div>
+                                </div>
 
-                            <div class="text-center mt-4">
-                                <button type="submit" class="btn btn-primary btn-lg">
-                                    <i class="bi bi-check-circle"></i> Daftar Sekarang
-                                </button>
-                            </div>
+                                <div class="text-center mt-4">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="bi bi-check-circle"></i> Daftar Sekarang
+                                    </button>
+                                </div>
 
-                        <div class="text-center mt-4" style="background-color: blue; color: white; border: 5px dashed white; border-radius: 12px; padding: 20px;">
-                            <p>Pengunjung Hari ini : {{ $today }}</p>
-                            <p>Total Pengunjung : {{ number_format($total) }}</p>
-                        </div>
-                        </form>
+                                <div class="text-center mt-4" style="background-color: blue; color: white; border: 5px dashed white; border-radius: 12px; padding: 20px;">
+                                    <p>Pengunjung Hari ini : {{ $today }}</p>
+                                    <p>Total Pengunjung : {{ number_format($total) }}</p>
+                                </div>
+                            </form>
+                        @endif
                     @endif
                 @else
                     <div class="text-center">

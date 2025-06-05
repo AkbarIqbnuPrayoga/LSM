@@ -67,6 +67,8 @@ class PendaftaranController extends Controller
         'email' => $pendaftaran->user->email,
         'pelatihan' => $pelatihan->nama,
         'tanggal_pelatihan' => Carbon::parse($pelatihan->tanggal)->translatedFormat('d F Y'),
+        'waktu_mulai'       => Carbon::parse($pelatihan->waktu_mulai)->format('H:i'),
+        'waktu_selesai'     => Carbon::parse($pelatihan->waktu_selesai)->format('H:i'),
         'tag' => $pelatihan->tag,
         'lokasi' => $pelatihan->lokasi,
         ];

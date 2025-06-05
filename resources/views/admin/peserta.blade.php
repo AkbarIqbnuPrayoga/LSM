@@ -24,6 +24,7 @@
                     <th>Nama</th>
                     <th>Email</th>
                     <th><i class="bi bi-calendar"></i> Daftar</th>
+                    <th><i class="bi bi-cash-coin"></i> Harga</th>
                     <th><i class="bi bi-image"></i> Bukti</th>
                     <th><i class="bi bi-check2-circle"></i> Validasi</th>
                     <th>Status</th>
@@ -39,6 +40,7 @@
                     <td>{{ $pendaftaran->user->name ?? 'Guest' }}</td>
                     <td>{{ $pendaftaran->user->email ?? '-' }}</td>
                     <td>{{ $pendaftaran->created_at->format('d-m-Y H:i') }}</td>
+                    <td>Rp {{ number_format($pelatihan->harga, 0, ',', '.') }}</td>
 
                     <td class="text-center">
                         @if($pendaftaran->bukti_pembayaran)

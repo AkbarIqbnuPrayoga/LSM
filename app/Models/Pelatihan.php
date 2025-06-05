@@ -21,6 +21,9 @@ class Pelatihan extends Model
     'lokasi',
     'zoom_link',
     'status',
+    'harga',
+    'waktu_mulai',
+    'waktu_selesai',
 ];
     public function pendaftar()
     {

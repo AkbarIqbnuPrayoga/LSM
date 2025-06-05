@@ -9,35 +9,19 @@ use Carbon\Carbon;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
+        // Ganti 'asc' menjadi 'desc' jika ingin urutan terbaru dulu
         $pelatihan = Pelatihan::where('status', 'public')
-                ->orderBy('tanggal', 'asc') // atau 'desc' jika ingin yang terbaru dulu
-                ->get();
+            ->orderBy('tanggal', 'asc') // atau 'desc'
+            ->get();
 
-        // Kelompokkan berdasarkan bulan dari created_at
+        // Kelompokkan berdasarkan bulan dan tahun dari tanggal
         $groupedByMonthYear = $pelatihan->groupBy(function ($item) {
-        return Carbon::parse($item->tanggal)->format('F Y');
-        // Contoh output: "January 2025"
-    });
+            return Carbon::parse($item->tanggal)->format('F Y');
+        });
 
-    return view('home', compact('pelatihan', 'groupedByMonthYear'));  
-
+        return view('home', compact('pelatihan', 'groupedByMonthYear'));
     }
 
 }
