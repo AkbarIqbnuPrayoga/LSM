@@ -20,7 +20,7 @@ class PengingatPelatihanMail extends Mailable
         $this->pelatihan = $pelatihan;
         $this->pendaftaran = $pendaftaran;
 
-        $this->selisihHari = \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($pelatihan->tanggal), false);
+        $this->selisihHari = \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($pelatihan->tanggal_mulai), false);
     }
 
     public function build()

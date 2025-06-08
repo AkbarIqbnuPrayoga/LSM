@@ -27,9 +27,9 @@
                     <label for="nama" class="form-label fw-semibold"><i class='bx bx-book-content me-1'></i>Nama Pelatihan</label>
                     <input type="text" class="form-control" id="nama" name="nama" value="{{ $pelatihan->nama }}" required>
                 </div>
-                {{-- Harga --}}
+                {{-- Biaya --}}
                 <div class="mb-3">
-                    <label for="harga" class="form-label fw-semibold"><i class='bx bx-money me-1'></i>Harga Pelatihan (Rp)</label>
+                    <label for="harga" class="form-label fw-semibold"><i class='bx bx-money me-1'></i>Biaya Pelatihan (Rp)</label>
                     <input type="number" class="form-control form-control sm w-auto" id="harga" name="harga" min="0" 
                         value="{{ old('harga', $pelatihan->harga) }}" required>
                 </div>
@@ -95,6 +95,12 @@
                 <div class="mb-3">
                     <label for="kuota" class="form-label fw-semibold"><i class='bx bx-group me-1'></i>Kuota Pelatihan</label>
                     <input type="number" class="form-control form-control sm w-auto" id="kuota" name="kuota" min="1" value="{{ old('kuota', $pelatihan->kuota) }}" required>
+                </div>
+                {{-- Tanggal --}}
+                <div class="mb-3">
+                    <label for="tanggal" class="form-label fw-semibold"><i class='bx bx-calendar me-1'></i>Batas Pendaftaran</label>
+                    <input type="date" class="form-control form-control-sm w-auto" id="tanggal" name="tanggal" 
+                        value="{{ old('tanggal', \Carbon\Carbon::parse($pelatihan->tanggal)->format('Y-m-d')) }}" required>
                 </div>
 
                 {{-- Tanggal Mulai --}}

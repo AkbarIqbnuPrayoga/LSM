@@ -55,7 +55,7 @@
                         @forelse($data as $item)
                             <tr>
                                 <td>{{ $item->nama }}</td>
-                                <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->translatedFormat('d F Y') }}</td>
                                 <td>
                                     <span class="badge bg-secondary text-capitalize">
                                         <i class="bi bi-tag me-1"></i>{{ $item->tag }}

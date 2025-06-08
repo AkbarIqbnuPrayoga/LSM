@@ -15,7 +15,7 @@
 
         <ul style="list-style: none; padding: 0;">
             <li><strong>Nama Pelatihan:</strong> {{ $pelatihan->nama }}</li>
-            <li><strong>Tanggal Pelatihan:</strong> {{ \Carbon\Carbon::parse($pelatihan->tanggal)->format('d-m-Y') }}</li>
+            <li><strong>Tanggal Pelatihan:</strong> {{ \Carbon\Carbon::parse($pelatihan->tanggal)->locale('id')->translatedFormat('d F Y') }}</li>
             <li><strong>Waktu Pelatihan:</strong> {{ \Carbon\Carbon::parse($pelatihan->waktu_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($pelatihan->waktu_selesai)->format('H:i') }} WIB</li>
             <li><strong>Mode:</strong> {{ ucfirst($pelatihan->tag) }}</li>
 

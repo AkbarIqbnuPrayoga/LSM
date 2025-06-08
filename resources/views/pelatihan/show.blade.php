@@ -24,16 +24,20 @@
                 <div class="col-md-3 mb-3">
                     <div class="border rounded p-3 bg-light h-100">
                         <strong>Tag:</strong><br>
-                        <span class="text-capitalize">{{ $pelatihan->tag }}</span>
+                        <span class="text-capitalize">{{ $pelatihan->tag }}</span><br><br>
+
+                        {{-- Batas Pendaftaran --}}
+                        <strong>Batas Pendaftaran:</strong><br>
+                        <span class="text-capitalize">{{ \Carbon\Carbon::parse($pelatihan->tanggal)->locale('id')->translatedFormat('d F Y') }}</span>
                     </div>
                 </div>
 
                 {{-- Tanggal & Waktu --}}
                 <div class="col-md-5 mb-3">
                     <div class="border rounded p-3 bg-light h-100">
-                        <strong>Tanggal:</strong><br>
-                        {{ \Carbon\Carbon::parse($pelatihan->tanggal_mulai)->format('d M Y') }} - 
-                        {{ \Carbon\Carbon::parse($pelatihan->tanggal_selesai)->format('d M Y') }}
+                        <strong>Tanggal Pelatihan:</strong><br>
+                        {{ \Carbon\Carbon::parse($pelatihan->tanggal_mulai)->locale('id')->translatedFormat('d F Y') }} - 
+                        {{ \Carbon\Carbon::parse($pelatihan->tanggal_selesai)->locale('id')->translatedFormat('d F Y') }}
 
                         <hr class="my-2">
 
@@ -109,12 +113,13 @@
             <div class="border-top pt-4">
                 <br>
 
-
                 @auth
                     @php
                         $jumlahPeserta = $pelatihan->pendaftar()->where('status_validasi', 'valid')->count();
                         $sisaKuota = $pelatihan->kuota - $jumlahPeserta;
                         $pendaftaranSaya = $pelatihan->pendaftar()->where('user_id', auth()->id())->first();
+                        $batasPendaftaran = \Carbon\Carbon::parse($pelatihan->tanggal);
+                        $now = \Carbon\Carbon::now();
                     @endphp
 
                     @if ($pendaftaranSaya)
@@ -149,43 +154,37 @@
                                 Pendaftaran Anda <strong>Tidak Valid</strong>. Silakan upload ulang bukti pembayaran.
                             </div>
                         @endif
+
                     @elseif ($sisaKuota <= 0)
                         <div class="text-center">
                             <button class="btn btn-danger btn-lg" disabled>Kuota Penuh</button>
                         </div>
+
+                    @elseif ($now->greaterThan($batasPendaftaran))
+                        <div class="alert alert-warning text-center">
+                            <strong>Pendaftaran telah ditutup</strong><br>
+                            Batas pendaftaran: {{ $batasPendaftaran->locale('id')->translatedFormat('d F Y') }}
+                        </div>
+
                     @else
-                        {{-- Cek apakah waktu pelatihan sudah dimulai atau selesai --}}
-                        @php
-                            $now = \Carbon\Carbon::now();
-                            $waktuMulai = \Carbon\Carbon::parse($pelatihan->tanggal . ' ' . $pelatihan->waktu_mulai);
-                            $waktuSelesai = \Carbon\Carbon::parse($pelatihan->tanggal . ' ' . $pelatihan->waktu_selesai);
-                        @endphp
-
-                        @if ($now->greaterThanOrEqualTo($waktuMulai))
-                            <div class="text-center">
-                                <div class="alert alert-danger">
-                                    Pelatihan ini sudah selesai. Pendaftaran sudah ditutup.
+                        {{-- Form Pendaftaran --}}
+                        <form action="{{ route('pelatihan.daftar', $pelatihan->id) }}" method="POST">
+                            @csrf
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Nama Lengkap</label>
+                                    <input type="text" name="nama_lengkap" value="{{ auth()->user()->name }}" class="form-control" readonly>
                                 </div>
-                            </div>
-                        @else
-                            {{-- Form Pendaftaran --}}
-                            <form action="{{ route('pelatihan.daftar', $pelatihan->id) }}" method="POST">
-                                @csrf
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Nama Lengkap</label>
-                                        <input type="text" name="nama_lengkap" value="{{ auth()->user()->name }}" class="form-control" readonly>
-                                    </div>
-                                    <div class="col-md-6">  
-                                        <label class="form-label">Email</label>
-                                        <input type="email" name="email" value="{{ auth()->user()->email }}" class="form-control" readonly>
-                                    </div>
-                                    <div class="col-md-6 mt-3">
-                                        <label class="form-label">No. Telepon</label>
-                                        <input type="text" name="no_telp" class="form-control" required>
-                                    </div>
+                                <div class="col-md-6">  
+                                    <label class="form-label">Email</label>
+                                    <input type="email" name="email" value="{{ auth()->user()->email }}" class="form-control" readonly>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <label class="form-label">No. Telepon</label>
+                                    <input type="text" name="no_telp" class="form-control" required>
+                                </div>
 
-                                    <div class="col-md-6 mt-3">
+                                <div class="col-md-6 mt-3">
                                     <label class="form-label">Instansi</label>
                                     <select name="instansi" id="instansi-select" class="form-select" required>
                                         <option value="">-- Pilih Instansi --</option>
@@ -208,7 +207,6 @@
                                     </select>
                                 </div>
 
-                                <!-- Jika memilih 'lainnya', muncul input tambahan -->
                                 <div class="col-md-6 mt-3" id="tipe-peserta-lain-div" style="display: none;">
                                     <label class="form-label">Status / Pekerjaan Lainnya</label>
                                     <input type="text" name="tipe_peserta_lain" class="form-control">
@@ -224,9 +222,10 @@
                                     <p>Pengunjung Hari ini : {{ $today }}</p>
                                     <p>Total Pengunjung : {{ number_format($total) }}</p>
                                 </div>
-                            </form>
-                        @endif
+                            </div>
+                        </form>
                     @endif
+
                 @else
                     <div class="text-center">
                         <a href="{{ route('login') }}" class="btn btn-primary btn-lg">

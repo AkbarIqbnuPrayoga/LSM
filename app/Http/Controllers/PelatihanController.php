@@ -25,6 +25,7 @@ class PelatihanController extends Controller
         'nama' => 'required|string',
         'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         'tag' => 'required|array',
+        'tanggal' => 'nullable|date',
         'tanggal_mulai' => 'required|date',
         'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
         'konten' => 'required|string',
@@ -47,6 +48,7 @@ class PelatihanController extends Controller
             'nama' => $request->nama,
             'gambar' => $gambarPath,
             'tag' => implode(',', $request->tag), // tetap pakai implode untuk amankan array
+            'tanggal' => $request->tanggal,
             'tanggal_mulai' => $request->tanggal_mulai,
             'tanggal_selesai' => $request->tanggal_selesai,
             'konten' => $validated['konten'],
@@ -112,6 +114,7 @@ class PelatihanController extends Controller
             'tag' => 'required|array',
             'tag.*' => 'required|string|in:online,offline,hybrid',
             'kuota' => 'required|integer|min:1',
+            'tanggal' => 'nullable|date',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -142,6 +145,7 @@ class PelatihanController extends Controller
         // Simpan semua data ke model
         $pelatihan->nama = $request->nama;
         $pelatihan->kuota = $request->kuota;
+        $pelatihan->tanggal = $request->tanggal;
         $pelatihan->tanggal_mulai = $request->tanggal_mulai;
         $pelatihan->tanggal_selesai = $request->tanggal_selesai;
         $pelatihan->konten = $request->konten;

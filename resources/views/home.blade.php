@@ -151,7 +151,7 @@
                   @foreach($items as $item)
                     <div 
                         class="col-lg-4 col-md-6 mb-4 portfolio-item filter-{{ strtolower($item->tag) }}"
-                        data-waktu-selesai="{{ \Carbon\Carbon::parse($item->tanggal . ' ' . $item->waktu_selesai)->toIso8601String() }}">
+                        data-waktu-selesai="{{ \Carbon\Carbon::parse($item->tanggal_selesai. ' ' . $item->waktu_mulai)->toIso8601String() }}">
 
                       
                       <div 

@@ -18,8 +18,8 @@
                         <div>
                             <h5 class="mb-1">{{ $pelatihan->nama }}</h5>
                             <p class="mb-1 text-secondary">
-                                <i class="bi bi-calendar3 me-1"></i> {{ $pelatihan->tanggal ?? '-' }}<br>
-                                <i class="bi bi-tags me-1"></i> {{ $pelatihan->tag ?? '-' }}<br>
+                                <i class="bi bi-calendar3 me-1"></i>{{ \Carbon\Carbon::parse($pelatihan->tanggal)->locale('id')->translatedFormat('d F Y') }}<br>
+                                <i class="bi bi-tags me-1"></i>{{ $pelatihan->tag ?? '-' }}<br>
                                 <small class="text-muted"><i class="bi bi-people me-1"></i>Lokasi: {{ $pelatihan->lokasi ?? '-' }}</small>
                             </p>
                         </div>

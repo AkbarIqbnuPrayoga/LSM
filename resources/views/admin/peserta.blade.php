@@ -3,7 +3,8 @@
 @section('content')
 <div class="container mt-4 p-4 bg-white shadow rounded">
     <h4 class="mb-3">
-        <i class="bi bi-people-fill me-2"></i>Peserta Pelatihan: {{ $pelatihan->nama }}
+        <i class="bi bi-people-fill me-2"></i>Peserta Pelatihan: {{ $pelatihan->nama }} <br>
+        <i class="bi bi-cash-coin"></i> Biaya : Rp.{{ number_format($pelatihan->harga, 0, ',', '.') }}
     </h4>
 
     <div class="d-flex mb-3 gap-2">
@@ -26,7 +27,6 @@
                     <th>Instansi</th>
                     <th>Status / Pekerjaan</th>
                     <th><i class="bi bi-calendar"></i> Daftar</th>
-                    <th><i class="bi bi-cash-coin"></i> Harga</th>
                     <th><i class="bi bi-image"></i> Bukti</th>
                     <th><i class="bi bi-check2-circle"></i> Validasi</th>
                     <th>Status</th>
@@ -44,7 +44,6 @@
                     <td>{{ $pendaftaran->instansi ?? '-' }}</td>
                     <td>{{ $pendaftaran->tipe_peserta ?? '-' }}</td>
                     <td>{{ $pendaftaran->created_at->format('d-m-Y H:i') }}</td>
-                    <td>Rp {{ number_format($pelatihan->harga, 0, ',', '.') }}</td>
 
                     <td class="text-center">
                         @if($pendaftaran->bukti_pembayaran)

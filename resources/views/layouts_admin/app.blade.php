@@ -54,10 +54,10 @@
                             <label for="nama" class="form-label"><i class="bi bi-card-heading me-1"></i>Nama Pelatihan</label>
                             <input type="text" class="form-control rounded" id="nama" name="nama" required>
                         </div>
-                        {{-- Input Harga Pelatihan (muncul setelah isi nama pelatihan) --}}
+                        {{-- Input Biaya Pelatihan (muncul setelah isi nama pelatihan) --}}
                         <div class="mb-3" id="hargaContainer" style="display: none;">
                             <label for="harga" class="form-label">
-                                <i class="bi bi-cash-coin me-1"></i>Harga Pelatihan (Rp.)
+                                <i class="bi bi-cash-coin me-1"></i>Biaya Pelatihan (Rp.)
                             </label>
                             <input type="number" class="form-control rounded form-control-sm w-auto" id="harga" name="harga" min="0" step="1000" required>
                         </div>
@@ -89,18 +89,24 @@
                             <input type="number" class="form-control rounded form-control-sm w-auto" id="kuota" name="kuota" min="1" required>
                         </div>
                         <div class="mb-3 col-md-4">
-                        <label for="tanggal_mulai" class="form-label">
-                            <i class="bi bi-calendar-event me-1"></i>Tanggal Mulai
-                        </label>
-                        <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control form-control-sm w-auto">
-                    </div>
+                            <label for="tanggal" class="form-label">
+                                <i class="bi bi-calendar-event me-1"></i>Batas Pendaftaran
+                            </label>
+                            <input type="date" name="tanggal" id="tanggal" class="form-control form-control-sm w-auto">
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <label for="tanggal_mulai" class="form-label">
+                                <i class="bi bi-calendar-event me-1"></i>Tanggal Mulai
+                            </label>
+                            <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control form-control-sm w-auto">
+                        </div>
 
-                    <div class="mb-3 col-md-4">
-                        <label for="tanggal_selesai" class="form-label">
-                            <i class="bi bi-calendar-event me-1"></i>Tanggal Selesai
-                        </label>
-                        <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control form-control-sm w-auto">
-                    </div>
+                        <div class="mb-3 col-md-4">
+                            <label for="tanggal_selesai" class="form-label">
+                                <i class="bi bi-calendar-event me-1"></i>Tanggal Selesai
+                            </label>
+                            <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control form-control-sm w-auto">
+                        </div>
                         <div class="mb-3">
                             <label for="konten" class="form-label"><i class="bi bi-text-left me-1"></i>Isi Berita / Konten</label>
                             <textarea class="form-control rounded" id="konten" name="konten" rows="5" required></textarea>
