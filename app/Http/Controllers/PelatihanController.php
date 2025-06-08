@@ -310,23 +310,24 @@ class PelatihanController extends Controller
             'template_file' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
-        // Ambil data pelatihan
+        // Ambil data pelatihan beserta relasi pendaftar dan user-nya
         $pelatihan = Pelatihan::with('pendaftar.user')->findOrFail($id);
 
-        // Upload dan simpan file template sertifikat
+        // Upload dan simpan file template sertifikat ke storage/public/template_sertifikat
         $path = $request->file('template_file')->storeAs(
             'template_sertifikat',
             'template_pelatihan_' . $pelatihan->id . '.' . $request->file('template_file')->getClientOriginalExtension(),
             'public'
         );
 
+        // Simpan path template ke field pelatihan
         $pelatihan->template_sertifikat = $path;
         $pelatihan->save();
 
-        // Ambil pendaftar yang status valid
+        // Ambil semua pendaftar yang sudah tervalidasi
         $pendaftarans = $pelatihan->pendaftar()->where('status_validasi', 'valid')->get();
 
-        // Cek keberadaan template setelah upload
+        // Cek apakah file template benar-benar ada di storage
         if (!Storage::disk('public')->exists($pelatihan->template_sertifikat)) {
             return back()->with('error', 'Template sertifikat tidak ditemukan setelah upload.');
         }
@@ -335,7 +336,7 @@ class PelatihanController extends Controller
             $user = $pendaftaran->user;
             if (!$user || !$user->email) continue;
 
-            // Path file template sertifikat fisik
+            // Path fisik template sertifikat
             $templatePath = storage_path('app/public/' . $pelatihan->template_sertifikat);
 
             // Load image template dan tulis nama peserta
@@ -343,31 +344,35 @@ class PelatihanController extends Controller
             $width = $img->width();
             $height = $img->height();
 
-            // Koordinat tengah
+            // Koordinat tengah (atur sesuai kebutuhan)
             $x = $width / 2;
             $y = $height / 2;
 
             $img->text($user->name, $x, $y, function ($font) {
-                $font->file(public_path('fonts/OpenSans-SemiBold.ttf'));
+                $font->file(public_path('fonts/OpenSans-SemiBold.ttf')); // Pastikan font ini ada
                 $font->size(36);
-                $font->color('#11111');
-                $font->align('center');   // horizontal center
-                $font->valign('middle');  // vertical center
+                $font->color('#111111');
+                $font->align('center');
+                $font->valign('middle');
             });
 
-            // Pastikan folder sertifikat ada
+            // Pastikan folder 'sertifikat' ada di storage/public
             if (!Storage::disk('public')->exists('sertifikat')) {
                 Storage::disk('public')->makeDirectory('sertifikat');
             }
 
-            // Bersihkan nama peserta agar aman untuk filename
+            // Bersihkan nama user untuk filename yang aman
             $namaBersih = preg_replace('/[^A-Za-z0-9\-]/', '_', strtolower($user->name));
             $filename = 'sertifikat_' . $pelatihan->id . '_' . $namaBersih . '.jpg';
             $relativePath = 'sertifikat/' . $filename;
             $fullPath = storage_path('app/public/' . $relativePath);
 
-            // Simpan sertifikat yang sudah diberi nama
+            // Simpan file sertifikat
             $img->save($fullPath);
+
+            // **SIMPAN PATH SERTIFIKAT KE DATABASE**
+            $pendaftaran->sertifikat = $relativePath;
+            $pendaftaran->save();
 
             // Data untuk email
             $nama = $user->name ?? 'Guest';
@@ -375,7 +380,7 @@ class PelatihanController extends Controller
             $instansi = $pendaftaran->instansi ?? '-';
             $no_telp = $pendaftaran->no_telp ?? '-';
 
-            // CID unik untuk embed image inline
+            // CID unik untuk embed image inline (jika diperlukan)
             $sertifikatCid = md5($filename);
 
             // Kirim email sertifikat
@@ -391,6 +396,7 @@ class PelatihanController extends Controller
 
         return back()->with('success', 'Template berhasil diupload dan sertifikat telah dikirim ke semua peserta valid.');
     }
+
 
     public function kirimSertifikat(Request $request)
     {

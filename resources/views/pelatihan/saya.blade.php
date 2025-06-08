@@ -33,12 +33,12 @@
                                 </span>
                                 <br>
                                 <button type="button" class="btn btn-info btn-sm" 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#sertifikatModal" 
-                                        data-nama="{{ $pelatihan->nama }}" 
-                                        data-sertifikat="{{ $item->sertifikat }}">
-                                    <i class="bi bi-file-earmark-medical me-1"></i> Lihat Sertifikat
-                                </button>
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#sertifikatModal" 
+                                    data-nama="{{ $pelatihan->nama }}" 
+                                    data-sertifikat="{{ $item->sertifikat }}">
+                                <i class="bi bi-file-earmark-medical me-1"></i> Lihat Sertifikat
+                            </button>
                             @else
                                 <span class="badge bg-success fs-6">
                                     <i class="bi bi-check-circle-fill me-1"></i>Tervalidasi
