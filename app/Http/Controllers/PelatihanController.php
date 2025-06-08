@@ -16,6 +16,8 @@ use App\Models\Visitor;
 use Carbon\Carbon;
 use ZipArchive;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
+use App\Mail\SertifikatMail;
 
 class PelatihanController extends Controller
 {
@@ -301,6 +303,95 @@ class PelatihanController extends Controller
 
         return view('home', compact('pelatihan')); // ganti 'home' jika bukan nama view-nya
     }
+    public function uploadAndKirimSertifikat(Request $request, $id)
+    {
+        // Validasi file template sertifikat
+        $request->validate([
+            'template_file' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+        ]);
+
+        // Ambil data pelatihan
+        $pelatihan = Pelatihan::with('pendaftar.user')->findOrFail($id);
+
+        // Upload dan simpan file template sertifikat
+        $path = $request->file('template_file')->storeAs(
+            'template_sertifikat',
+            'template_pelatihan_' . $pelatihan->id . '.' . $request->file('template_file')->getClientOriginalExtension(),
+            'public'
+        );
+
+        $pelatihan->template_sertifikat = $path;
+        $pelatihan->save();
+
+        // Ambil pendaftar yang status valid
+        $pendaftarans = $pelatihan->pendaftar()->where('status_validasi', 'valid')->get();
+
+        // Cek keberadaan template setelah upload
+        if (!Storage::disk('public')->exists($pelatihan->template_sertifikat)) {
+            return back()->with('error', 'Template sertifikat tidak ditemukan setelah upload.');
+        }
+
+        foreach ($pendaftarans as $pendaftaran) {
+            $user = $pendaftaran->user;
+            if (!$user || !$user->email) continue;
+
+            // Path file template sertifikat fisik
+            $templatePath = storage_path('app/public/' . $pelatihan->template_sertifikat);
+
+            // Load image template dan tulis nama peserta
+            $img = Image::make($templatePath);
+            $width = $img->width();
+            $height = $img->height();
+
+            // Koordinat tengah
+            $x = $width / 2;
+            $y = $height / 2;
+
+            $img->text($user->name, $x, $y, function ($font) {
+                $font->file(public_path('fonts/OpenSans-SemiBold.ttf'));
+                $font->size(36);
+                $font->color('#11111');
+                $font->align('center');   // horizontal center
+                $font->valign('middle');  // vertical center
+            });
+
+            // Pastikan folder sertifikat ada
+            if (!Storage::disk('public')->exists('sertifikat')) {
+                Storage::disk('public')->makeDirectory('sertifikat');
+            }
+
+            // Bersihkan nama peserta agar aman untuk filename
+            $namaBersih = preg_replace('/[^A-Za-z0-9\-]/', '_', strtolower($user->name));
+            $filename = 'sertifikat_' . $pelatihan->id . '_' . $namaBersih . '.jpg';
+            $relativePath = 'sertifikat/' . $filename;
+            $fullPath = storage_path('app/public/' . $relativePath);
+
+            // Simpan sertifikat yang sudah diberi nama
+            $img->save($fullPath);
+
+            // Data untuk email
+            $nama = $user->name ?? 'Guest';
+            $pelatihanNama = $pelatihan->nama ?? '-';
+            $instansi = $pendaftaran->instansi ?? '-';
+            $no_telp = $pendaftaran->no_telp ?? '-';
+
+            // CID unik untuk embed image inline
+            $sertifikatCid = md5($filename);
+
+            // Kirim email sertifikat
+            Mail::to($user->email)->send(new SertifikatMail(
+                $nama,
+                $pelatihanNama,
+                $instansi,
+                $no_telp,
+                $fullPath,
+                $sertifikatCid
+            ));
+        }
+
+        return back()->with('success', 'Template berhasil diupload dan sertifikat telah dikirim ke semua peserta valid.');
+    }
+
     public function kirimSertifikat(Request $request)
     {
         // Validasi input

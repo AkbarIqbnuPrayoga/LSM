@@ -217,6 +217,7 @@
                                         <i class="bi bi-check-circle"></i> Daftar Sekarang
                                     </button>
                                 </div>
+                        @endif
 
                                 <div class="text-center mt-4" style="background-color: blue; color: white; border: 5px dashed white; border-radius: 12px; padding: 20px;">
                                     <p>Pengunjung Hari ini : {{ $today }}</p>
@@ -224,7 +225,7 @@
                                 </div>
                             </div>
                         </form>
-                    @endif
+                    
 
                 @else
                     <div class="text-center">

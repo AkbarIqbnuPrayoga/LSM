@@ -31,7 +31,7 @@ Route::post('/pendaftaran/validasi/{id}', [PendaftaranController::class, 'valida
 Route::post('/sertifikat/kirim', [PelatihanController::class, 'kirimSertifikat'])->name('sertifikat.kirim');
 Route::post('/admin/kirim-sertifikat', [PelatihanController::class, 'kirimSertifikat'])->name('sertifikat.kirim');
 Route::get('/admin/bukti/download/{pelatihanId}', [PelatihanController::class, 'downloadSemuaBukti'])->name('admin.download.bukti');
-
+Route::post('/admin/pelatihan/{id}/upload-kirim-sertifikat', [PelatihanController::class, 'uploadAndKirimSertifikat'])->name('admin.upload_kirim_sertifikat');
 
 
 

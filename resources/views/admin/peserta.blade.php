@@ -14,6 +14,38 @@
         <a href="{{ route('admin.download.bukti', $pelatihan->id) }}" class="btn btn-success">
             <i class="bi bi-download me-1"></i> Download Semua Bukti
         </a>
+        <!-- Tombol Upload Template Sertifikat -->
+        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#uploadTemplateModal">
+            <i class="bi bi-upload me-1"></i> Upload & Kirim Sertifikat
+        </button>
+    </div>
+    <!-- Modal Upload Template Sertifikat -->
+    <div class="modal fade" id="uploadTemplateModal" tabindex="-1" aria-labelledby="uploadTemplateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="POST" action="{{ route('admin.upload_kirim_sertifikat', $pelatihan->id) }}" enctype="multipart/form-data" class="modal-content">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadTemplateModalLabel">
+                        <i class="bi bi-file-earmark-arrow-up me-1"></i> Upload Template & Kirim Sertifikat
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="template_file" class="form-label">File Template (PDF/Gambar)</label>
+                        <input type="file" name="template_file" class="form-control" accept=".pdf,.jpg,.jpeg,.png" required>
+                    </div>
+                    <div class="alert alert-info">
+                        Pastikan template memiliki ruang kosong untuk nama peserta. Template akan digunakan untuk semua sertifikat.<br>
+                        Setelah upload berhasil, sertifikat akan langsung dikirim ke semua peserta valid.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Upload & Kirim</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     @if($pelatihan->pendaftar->count() > 0)
@@ -96,20 +128,20 @@
                             </button>
                         </form>
                     </td>
-
                     <td class="text-center">
-                        @if ($pendaftaran->sertifikat)
-                        <span class="badge bg-success"><i class="bi bi-check-circle-fill"></i></span>
-                        <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary ms-1"
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalLihatSertifikat"
-                        data-fileurl="{{ asset('storage/' . $pendaftaran->sertifikat) }}">
-                        <i class="bi bi-eye"></i> Lihat
-                        </a>
-                        @else
-                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#sertifikatModal" data-pendaftaranid="{{ $pendaftaran->id }}">
-                            <i class="bi bi-upload"></i> Kirim
+                        @php
+                            // Nama file sertifikat sesuai format yang kamu buat di controller
+                            $namaBersih = preg_replace('/[^A-Za-z0-9\-]/', '_', strtolower($pendaftaran->user->name ?? 'guest'));
+                            $filename = 'sertifikat_' . $pelatihan->id . '_' . $namaBersih . '.jpg';
+                            $filePath = 'storage/sertifikat/' . $filename;
+                        @endphp
+
+                        @if(Storage::disk('public')->exists('sertifikat/' . $filename))
+                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#lihatSertifikatModal{{ $pendaftaran->id }}">
+                            <i class="bi bi-eye"></i> Lihat
                         </button>
+                        @else
+                        <span class="text-muted">Belum ada</span>
                         @endif
                     </td>
                 </tr>
@@ -161,6 +193,34 @@
                         </div>
                     </div>
                 </div>
+                <!-- Modal Lihat Sertifikat -->
+                <div class="modal fade" id="lihatSertifikatModal{{ $pendaftaran->id }}" tabindex="-1" aria-labelledby="lihatSertifikatModalLabel{{ $pendaftaran->id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="lihatSertifikatModalLabel{{ $pendaftaran->id }}">
+                                    Sertifikat: {{ $pendaftaran->user->name ?? 'Guest' }}
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                @php
+                                    $fileUrl = asset($filePath);
+                                    $extension = pathinfo($fileUrl, PATHINFO_EXTENSION);
+                                @endphp
+
+                                @if(in_array(strtolower($extension), ['jpg', 'jpeg', 'png']))
+                                <img src="{{ $fileUrl }}" class="img-fluid rounded shadow-sm" alt="Sertifikat">
+                                @elseif(strtolower($extension) === 'pdf')
+                                <iframe src="{{ $fileUrl }}" width="100%" height="600px" frameborder="0"></iframe>
+                                @else
+                                <p class="text-danger">File sertifikat tidak dapat ditampilkan.</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
                 @endforeach
             </tbody>
@@ -171,47 +231,6 @@
     @endif
 </div>
 
-<!-- Modal Lihat Sertifikat -->
-<div class="modal fade" id="modalLihatSertifikat" tabindex="-1" aria-labelledby="modalLihatSertifikatLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">  <!-- modal-lg supaya lebih lebar -->
-        <div class="modal-content bg-white shadow-sm border-0">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalLihatSertifikatLabel">
-                    <i class="bi bi-file-earmark-text me-2"></i>Lihat Sertifikat
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-            </div>
-            <div class="modal-body text-center">
-                <div id="sertifikatContainer">
-                    <!-- Konten sertifikat akan dimasukkan via JS -->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Sertifikat -->
-<div class="modal fade" id="sertifikatModal" tabindex="-1">
-    <div class="modal-dialog">
-        <form action="{{ route('sertifikat.kirim') }}" method="POST" enctype="multipart/form-data" class="modal-content">
-            @csrf
-            <input type="hidden" name="pendaftaran_id" id="modalPendaftaranId">
-            <div class="modal-header">
-                <h5 class="modal-title">Upload Sertifikat</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label class="form-label">File Sertifikat</label>
-                    <input type="file" class="form-control" name="sertifikat" required>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary"><i class="bi bi-send-fill me-1"></i>Kirim</button>
-            </div>
-        </form>
-    </div>
-</div>
 
 <!-- Script isi ID otomatis -->
 <script>

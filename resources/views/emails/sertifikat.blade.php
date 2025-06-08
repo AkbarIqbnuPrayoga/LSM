@@ -9,16 +9,16 @@
         
         <h2 style="color: #2c3e50;">Selamat, <span style="color: #27ae60;">Anda Telah Menyelesaikan Pelatihan!</span></h2>
 
-        <p>Halo <strong>{{ $nama }}</strong>,</p>
+        <p>Halo <strong>{{ $nama ?? 'Peserta' }}</strong>,</p>
 
-        <p>Terima kasih telah mengikuti pelatihan <strong>{{ $pelatihan }}</strong>. Kami sangat mengapresiasi partisipasi Anda.</p>
+        <p>Terima kasih telah mengikuti pelatihan <strong>{{ $pelatihan ?? '-' }}</strong>. Kami sangat mengapresiasi partisipasi Anda.</p>
 
         <p><strong>Data Peserta:</strong></p>
         <ul style="list-style: none; padding-left: 0;">
-            <li><strong>Nama:</strong> {{ $nama }}</li>
-            <li><strong>Instansi:</strong> {{ $instansi }}</li>
-            <li><strong>No. Telepon:</strong> {{ $telp }}</li>
-            <li><strong>Pelatihan:</strong> {{ $pelatihan }}</li>
+            <li><strong>Nama:</strong> {{ $nama ?? '-' }}</li>
+            <li><strong>Instansi:</strong> {{ $instansi ?? '-' }}</li>
+            <li><strong>No.Telepon:</strong> {{ $no_telp ?? '-' }}</li>
+            <li><strong>Pelatihan:</strong> {{ $pelatihan ?? '-' }}</li>
         </ul>
 
         <p><strong>Sertifikat Anda:</strong></p>
