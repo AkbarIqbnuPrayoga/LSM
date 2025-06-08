@@ -16,7 +16,6 @@
             <li><strong>Email:</strong> {{ $data['email'] }}</li>
             <li><strong>No. Telepon:</strong> {{ $data['no_telp'] }}</li>
             <li><strong>Instansi:</strong> {{ $data['instansi'] }}</li>
-            <li><strong>Pekerjaan:</strong> {{ $data['tipe_peserta'] }}</li>
             <li><strong>Pelatihan:</strong> {{ $data['pelatihan'] }}</li>
             <li><strong>Harga Pelatihan:</strong> Rp.{{ $data['harga'] }}</li>
             <li><strong>Lokasi Pelatihan:</strong> {{ $data['lokasi'] ?? '-' }}</li>

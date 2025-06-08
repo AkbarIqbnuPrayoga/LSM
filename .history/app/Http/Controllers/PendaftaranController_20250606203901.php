@@ -34,15 +34,12 @@ class PendaftaranController extends Controller
         'instansi_lain' => 'nullable|string|max:255',
         'tipe_peserta' => 'nullable|string',
         'tipe_peserta_lain' => 'nullable|string|max:255',
-    ]);
+]);
 
-    // Menentukan final value
-    $instansiFinal = $validated['instansi'] === 'lainnya' ? $validated['instansi_lain'] : $validated['instansi'];
+$instansiFinal = $validated['instansi'] === 'lainnya' ? $validated['instansi_lain'] : $validated['instansi'];
+$tipePesertaFinal = $request->tipe_peserta === 'lainnya' ? $request->tipe_peserta_lain : $request->tipe_peserta;
 
-    $tipePesertaFinal = $validated['tipe_peserta'] === 'lainnya' ? $validated['tipe_peserta_lain'] : $validated['tipe_peserta'];
-
-    // Simpan ke DB
-    Pendaftaran::create([
+Pendaftaran::create([
     'pelatihan_id' => $pelatihan_id,
     'user_id' => auth()->id(),
     'nama_lengkap' => $validated['nama_lengkap'],

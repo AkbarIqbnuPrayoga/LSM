@@ -204,7 +204,7 @@ class PelatihanController extends Controller
     }
 
     public function daftar(Request $request, $id)
-    {
+{
     $user = Auth::user();
 
     // Validasi semua input termasuk "lainnya"
@@ -252,8 +252,7 @@ class PelatihanController extends Controller
             'nama_lengkap' => $request->nama_lengkap,
             'email' => $request->email,
             'no_telp' => $request->no_telp,
-            'instansi' => $instansiFinal,
-            'tipe_peserta' => $tipePesertaFinal,
+            'instansi' => $request->instansi,
             'pelatihan' => $pelatihan->nama,
             'rekening' => $pelatihan->rekening ?? '-',
             'atas_nama' => $pelatihan->atas_nama ?? '-',

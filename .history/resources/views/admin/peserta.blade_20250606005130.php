@@ -24,7 +24,7 @@
                     <th>Nama</th>
                     <th>Email</th>
                     <th>Instansi</th>
-                    <th>Status / Pekerjaan</th>
+                    <th>Status</th>
                     <th><i class="bi bi-calendar"></i> Daftar</th>
                     <th><i class="bi bi-cash-coin"></i> Harga</th>
                     <th><i class="bi bi-image"></i> Bukti</th>
@@ -42,7 +42,7 @@
                     <td>{{ $pendaftaran->user->name ?? 'Guest' }}</td>
                     <td>{{ $pendaftaran->user->email ?? '-' }}</td>
                     <td>{{ $pendaftaran->instansi ?? '-' }}</td>
-                    <td>{{ $pendaftaran->tipe_peserta ?? '-' }}</td>
+                    <td>{{ $pendaftaran->instansi ?? '-' }}</td>
                     <td>{{ $pendaftaran->created_at->format('d-m-Y H:i') }}</td>
                     <td>Rp {{ number_format($pelatihan->harga, 0, ',', '.') }}</td>
 

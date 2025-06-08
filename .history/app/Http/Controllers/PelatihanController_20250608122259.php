@@ -252,7 +252,7 @@ class PelatihanController extends Controller
             'nama_lengkap' => $request->nama_lengkap,
             'email' => $request->email,
             'no_telp' => $request->no_telp,
-            'instansi' => $instansiFinal,
+            'instansi' => $instansiFinal, // ini hasil final yang sudah dicek "lainnya"
             'tipe_peserta' => $tipePesertaFinal,
             'pelatihan' => $pelatihan->nama,
             'rekening' => $pelatihan->rekening ?? '-',

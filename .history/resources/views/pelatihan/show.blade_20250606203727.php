@@ -198,18 +198,16 @@
     <label class="form-label">Status / Pekerjaan</label>
     <select name="tipe_peserta" id="tipe-peserta-select" class="form-select" required>
         <option value="">-- Pilih Status --</option>
-        <option value="dosen">Dosen</option>
-        <option value="mahasiswa">Mahasiswa</option>
+        <option value="Dosen">Dosen</option>
+        <option value="Mahasiswa">Mahasiswa</option>
         <option value="lainnya">Lainnya</option>
     </select>
 </div>
 
-<!-- Jika memilih 'lainnya', muncul input tambahan -->
 <div class="col-md-6 mt-3" id="tipe-peserta-lain-div" style="display: none;">
     <label class="form-label">Status / Pekerjaan Lainnya</label>
     <input type="text" name="tipe_peserta_lain" class="form-control">
 </div>
-
                                 <div class="text-center mt-4">
                                     <button type="submit" class="btn btn-primary btn-lg">
                                         <i class="bi bi-check-circle"></i> Daftar Sekarang
@@ -236,7 +234,7 @@
 </div>
 
 <script>
-   
+   >
 document.addEventListener("DOMContentLoaded", function () {
     // === Untuk Instansi ===
     const instansiSelect = document.getElementById("instansi-select");
@@ -254,7 +252,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // === Untuk Tipe Peserta ===
-    const tipePesertaSelect = document.getElementById("tipe-peserta-select");
+        const tipePesertaSelect = document.getElementById("tipe-peserta-select");
     const tipePesertaLainDiv = document.getElementById("tipe-peserta-lain-div");
 
     tipePesertaSelect.addEventListener("change", function () {

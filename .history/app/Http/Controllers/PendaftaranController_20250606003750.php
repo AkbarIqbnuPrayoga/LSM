@@ -24,33 +24,14 @@ class PendaftaranController extends Controller
         }
 
         // lanjut proses simpan pendaftaran jika kuota masih ada
-       $validated = $request->validate([
-        'nama_lengkap' => 'required|string|max:255',
-        'email' => 'required|email',
-        'no_telp' => 'required|string|max:20',
-        'kategori_instansi' => 'required|string',
-        'universitas_eksternal' => 'nullable|string|max:255',
-        'instansi' => 'required|string',
-        'instansi_lain' => 'nullable|string|max:255',
-        'tipe_peserta' => 'nullable|string',
-        'tipe_peserta_lain' => 'nullable|string|max:255',
-    ]);
-
-    // Menentukan final value
-    $instansiFinal = $validated['instansi'] === 'lainnya' ? $validated['instansi_lain'] : $validated['instansi'];
-
-    $tipePesertaFinal = $validated['tipe_peserta'] === 'lainnya' ? $validated['tipe_peserta_lain'] : $validated['tipe_peserta'];
-
-    // Simpan ke DB
-    Pendaftaran::create([
-    'pelatihan_id' => $pelatihan_id,
-    'user_id' => auth()->id(),
-    'nama_lengkap' => $validated['nama_lengkap'],
-    'email' => $validated['email'],
-    'no_telp' => $validated['no_telp'],
-    'instansi' => $instansiFinal,
-    'tipe_peserta' => $tipePesertaFinal,
-]);
+        Pendaftaran::create([
+            'pelatihan_id' => $pelatihan_id,
+            'user_id' => auth()->id(),
+            'nama_lengkap' => $validated['nama_lengkap'],
+            'email' => $validated['email'],
+            'no_telp' => $validated['no_telp'],
+            'instansi' => $validated['instansi'],   
+        ]);
 
         return redirect()->back()->with('success', 'Pendaftaran berhasil.');
     }

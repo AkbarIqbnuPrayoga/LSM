@@ -42,7 +42,7 @@
                     <td>{{ $pendaftaran->user->name ?? 'Guest' }}</td>
                     <td>{{ $pendaftaran->user->email ?? '-' }}</td>
                     <td>{{ $pendaftaran->instansi ?? '-' }}</td>
-                    <td>{{ $pendaftaran->tipe_peserta ?? '-' }}</td>
+                    <td>{{ $pendaftaran->tipe_peserta ?? '-' }}
                     <td>{{ $pendaftaran->created_at->format('d-m-Y H:i') }}</td>
                     <td>Rp {{ number_format($pelatihan->harga, 0, ',', '.') }}</td>
 

@@ -155,13 +155,12 @@
                         @php
                             $now = \Carbon\Carbon::now();
                             $waktuMulai = \Carbon\Carbon::parse($pelatihan->tanggal . ' ' . $pelatihan->waktu_mulai);
-                            $waktuSelesai = \Carbon\Carbon::parse($pelatihan->tanggal . ' ' . $pelatihan->waktu_selesai);
                         @endphp
-
+                        
                         @if ($now->greaterThanOrEqualTo($waktuMulai))
                             <div class="text-center">
                                 <div class="alert alert-danger">
-                                    Pelatihan ini sudah selesai. Pendaftaran sudah ditutup.
+                                    Pelatihan ini sudah <strong>dimulai</strong>. Pendaftaran sudah ditutup.
                                 </div>
                             </div>
                         @else
@@ -181,33 +180,19 @@
                                         <label class="form-label">No. Telepon</label>
                                         <input type="text" name="no_telp" class="form-control" required>
                                     </div>
-
-                                    <div class="col-md-6 mt-3">
-                                    <label class="form-label">Instansi</label>
-                                    <select name="instansi" id="instansi-select" class="form-select" required>
-                                        <option value="">-- Pilih Instansi --</option>
-                                        <option value="Universitas Tarumanagara">Universitas Tarumanagara</option>
-                                        <option value="lainnya">Lainnya</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6 mt-3" id="instansi-lainnya-div" style="display: none;">
-                                    <label class="form-label">Instansi Lainnya</label>
-                                    <input type="text" name="instansi_lain" class="form-control">
-                                </div>
-<div class="col-md-6 mt-3">
-    <label class="form-label">Status / Pekerjaan</label>
-    <select name="tipe_peserta" id="tipe-peserta-select" class="form-select" required>
-        <option value="">-- Pilih Status --</option>
-        <option value="dosen">Dosen</option>
-        <option value="mahasiswa">Mahasiswa</option>
+                                    <div class="col-md-6 mt-3" id="tipe_peserta_div" style="display: none;">
+    <label class="form-label">Tipe Peserta</label>
+    <select name="tipe_peserta" id="tipe_peserta" class="form-select">
+        <option value="">-- Pilih Tipe --</option>
+        <option value="Dosen">Dosen</option>
+        <option value="Mahasiswa">Mahasiswa</option>
         <option value="lainnya">Lainnya</option>
     </select>
 </div>
 
-<!-- Jika memilih 'lainnya', muncul input tambahan -->
-<div class="col-md-6 mt-3" id="tipe-peserta-lain-div" style="display: none;">
-    <label class="form-label">Status / Pekerjaan Lainnya</label>
-    <input type="text" name="tipe_peserta_lain" class="form-control">
+<div class="col-md-6 mt-3" id="tipe_peserta_lain_div" style="display: none;">
+    <label class="form-label">Tipe Peserta Lainnya</label>
+    <input type="text" name="tipe_peserta_lain" id="tipe_peserta_lain" class="form-control">
 </div>
 
                                 <div class="text-center mt-4">
@@ -234,39 +219,4 @@
         </div>
     </div>
 </div>
-
-<script>
-   
-document.addEventListener("DOMContentLoaded", function () {
-    // === Untuk Instansi ===
-    const instansiSelect = document.getElementById("instansi-select");
-    const instansiLainDiv = document.getElementById("instansi-lainnya-div");
-    const instansiLainInput = instansiLainDiv.querySelector("input");
-
-    instansiSelect.addEventListener("change", function () {
-        if (instansiSelect.value === "lainnya") {
-            instansiLainDiv.style.display = "block";
-            instansiLainInput.setAttribute("required", "required");
-        } else {
-            instansiLainDiv.style.display = "none";
-            instansiLainInput.removeAttribute("required");
-        }
-    });
-
-    // === Untuk Tipe Peserta ===
-    const tipePesertaSelect = document.getElementById("tipe-peserta-select");
-    const tipePesertaLainDiv = document.getElementById("tipe-peserta-lain-div");
-
-    tipePesertaSelect.addEventListener("change", function () {
-        if (tipePesertaSelect.value === "lainnya") {
-            tipePesertaLainDiv.style.display = "block";
-            tipePesertaLainDiv.querySelector("input").setAttribute("required", "required");
-        } else {
-            tipePesertaLainDiv.style.display = "none";
-            tipePesertaLainDiv.querySelector("input").removeAttribute("required");
-        }
-    });
-
-});
-</script>
 @endsection

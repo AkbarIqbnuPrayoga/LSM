@@ -24,7 +24,7 @@
                     <th>Nama</th>
                     <th>Email</th>
                     <th>Instansi</th>
-                    <th>Status / Pekerjaan</th>
+                    <th>Status</th>
                     <th><i class="bi bi-calendar"></i> Daftar</th>
                     <th><i class="bi bi-cash-coin"></i> Harga</th>
                     <th><i class="bi bi-image"></i> Bukti</th>

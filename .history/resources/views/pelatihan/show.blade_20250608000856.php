@@ -204,10 +204,10 @@
     </select>
 </div>
 
-<!-- Jika memilih 'lainnya', muncul input tambahan -->
+<!-- Input tambahan jika 'lainnya' dipilih -->
 <div class="col-md-6 mt-3" id="tipe-peserta-lain-div" style="display: none;">
     <label class="form-label">Status / Pekerjaan Lainnya</label>
-    <input type="text" name="tipe_peserta_lain" class="form-control">
+    <input type="text" name="tipe_peserta_lain" id="tipe-peserta-lain-input" class="form-control">
 </div>
 
                                 <div class="text-center mt-4">
@@ -253,17 +253,18 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // === Untuk Tipe Peserta ===
     const tipePesertaSelect = document.getElementById("tipe-peserta-select");
     const tipePesertaLainDiv = document.getElementById("tipe-peserta-lain-div");
+    const tipePesertaLainInput = document.getElementById("tipe-peserta-lain-input");
 
     tipePesertaSelect.addEventListener("change", function () {
         if (tipePesertaSelect.value === "lainnya") {
             tipePesertaLainDiv.style.display = "block";
-            tipePesertaLainDiv.querySelector("input").setAttribute("required", "required");
+            tipePesertaLainInput.setAttribute("required", "required");
         } else {
             tipePesertaLainDiv.style.display = "none";
-            tipePesertaLainDiv.querySelector("input").removeAttribute("required");
+            tipePesertaLainInput.removeAttribute("required");
+            tipePesertaLainInput.value = ""; // kosongkan input
         }
     });
 

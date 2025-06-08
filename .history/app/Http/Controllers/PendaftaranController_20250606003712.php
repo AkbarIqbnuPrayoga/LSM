@@ -24,25 +24,32 @@ class PendaftaranController extends Controller
         }
 
         // lanjut proses simpan pendaftaran jika kuota masih ada
-       $validated = $request->validate([
-        'nama_lengkap' => 'required|string|max:255',
-        'email' => 'required|email',
-        'no_telp' => 'required|string|max:20',
-        'kategori_instansi' => 'required|string',
-        'universitas_eksternal' => 'nullable|string|max:255',
-        'instansi' => 'required|string',
-        'instansi_lain' => 'nullable|string|max:255',
-        'tipe_peserta' => 'nullable|string',
-        'tipe_peserta_lain' => 'nullable|string|max:255',
-    ]);
+        $validated = $request->validate([
+    'nama_lengkap' => 'required|string|max:255',
+    'email' => 'required|email',
+    'no_telp' => 'required|string|max:20',
+    'kategori_instansi' => 'required|string',
+    'tipe_peserta' => 'nullable|string',
+    'tipe_peserta_lain' => 'nullable|string|max:255',
+    'universitas_eksternal' => 'nullable|string|max:255',
+]);
 
-    // Menentukan final value
-    $instansiFinal = $validated['instansi'] === 'lainnya' ? $validated['instansi_lain'] : $validated['instansi'];
+// Ambil tipe peserta final
+$tipePesertaFinal = $validated['tipe_peserta'] === 'lainnya'
+    ? $validated['tipe_peserta_lain']
+    : $validated['tipe_peserta'];
 
-    $tipePesertaFinal = $validated['tipe_peserta'] === 'lainnya' ? $validated['tipe_peserta_lain'] : $validated['tipe_peserta'];
+// Ambil instansi final
+if ($validated['kategori_instansi'] === 'Internal Untar') {
+    $instansiFinal = 'Internal Untar';
+} elseif ($validated['kategori_instansi'] === 'Eksternal Luar Untar') {
+    $instansiFinal = 'Eksternal dari ' . $validated['universitas_eksternal'];
+} else {
+    $instansiFinal = 'Umum';
+}
 
-    // Simpan ke DB
-    Pendaftaran::create([
+// Simpan ke database
+Pendaftaran::create([
     'pelatihan_id' => $pelatihan_id,
     'user_id' => auth()->id(),
     'nama_lengkap' => $validated['nama_lengkap'],
@@ -86,6 +93,8 @@ class PendaftaranController extends Controller
         'email' => $pendaftaran->user->email,
         'pelatihan' => $pelatihan->nama,
         'tanggal_pelatihan' => Carbon::parse($pelatihan->tanggal)->translatedFormat('d F Y'),
+        'waktu_mulai'       => Carbon::parse($pelatihan->waktu_mulai)->format('H:i'),
+        'waktu_selesai'     => Carbon::parse($pelatihan->waktu_selesai)->format('H:i'),
         'tag' => $pelatihan->tag,
         'lokasi' => $pelatihan->lokasi,
         ];

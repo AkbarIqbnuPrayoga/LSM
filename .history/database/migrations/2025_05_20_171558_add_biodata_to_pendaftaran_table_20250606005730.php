@@ -18,7 +18,7 @@ class AddBiodataToPendaftaranTable extends Migration
         $table->string('email')->nullable();
         $table->string('no_telp')->nullable();
         $table->string('instansi')->nullable();
-        $table->string('tipe_peserta')->nullable();
+        $table->string('tipe_peserta')->nullable()->after('instansi');
     });
 }
 

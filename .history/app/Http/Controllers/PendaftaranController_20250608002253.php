@@ -38,7 +38,6 @@ class PendaftaranController extends Controller
 
     // Menentukan final value
     $instansiFinal = $validated['instansi'] === 'lainnya' ? $validated['instansi_lain'] : $validated['instansi'];
-
     $tipePesertaFinal = $validated['tipe_peserta'] === 'lainnya' ? $validated['tipe_peserta_lain'] : $validated['tipe_peserta'];
 
     // Simpan ke DB

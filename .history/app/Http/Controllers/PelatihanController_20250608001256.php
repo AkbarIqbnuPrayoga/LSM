@@ -205,55 +205,46 @@ class PelatihanController extends Controller
 
     public function daftar(Request $request, $id)
     {
-    $user = Auth::user();
+        $user = Auth::user();
 
-    // Validasi semua input termasuk "lainnya"
-    $validated = $request->validate([
-        'nama_lengkap' => 'required|string',
-        'email' => 'required|email',
-        'no_telp' => 'required|string',
-        'instansi' => 'required|string',
-        'instansi_lain' => 'nullable|string|max:255',
-        'tipe_peserta' => 'required|string',
-        'tipe_peserta_lain' => 'nullable|string|max:255',
-    ]);
+        $request->validate([
+            'nama_lengkap' => 'required|string',
+            'email' => 'required|email',
+            'no_telp' => 'required|string',
+            'instansi' => 'required|string',
+            'tipe_peserta' => 'required|string',
+        ]);
 
-    // Cek jika sudah mendaftar
-    $sudahDaftar = DB::table('pendaftaran')
-        ->where('user_id', $user->id)
-        ->where('pelatihan_id', $id)
-        ->exists();
+        $sudahDaftar = DB::table('pendaftaran')
+            ->where('user_id', $user->id)
+            ->where('pelatihan_id', $id)
+            ->exists();
 
-    if ($sudahDaftar) {
-        return redirect()->back()->with('warning', 'Anda sudah mendaftar pelatihan ini.');
-    }
+        if ($sudahDaftar) {
+            return redirect()->back()->with('warning', 'Anda sudah mendaftar pelatihan ini.');
+        }
 
-    $pelatihan = Pelatihan::findOrFail($id);
+        $pelatihan = Pelatihan::findOrFail($id);
 
-    // Tentukan nilai akhir instansi & tipe peserta
-    $instansiFinal = $validated['instansi'] === 'lainnya' ? $validated['instansi_lain'] : $validated['instansi'];
-    $tipePesertaFinal = $validated['tipe_peserta'] === 'lainnya' ? $validated['tipe_peserta_lain'] : $validated['tipe_peserta'];
-
-    // Simpan ke database
-    DB::table('pendaftaran')->insert([
-        'user_id' => $user->id,
-        'pelatihan_id' => $id,
-        'nama_lengkap' => $validated['nama_lengkap'],
-        'email' => $validated['email'],
-        'no_telp' => $validated['no_telp'],
-        'instansi' => $instansiFinal,
-        'tipe_peserta' => $tipePesertaFinal,
-        'created_at' => now(),
-        'updated_at' => now(),
-    ]);
+        // Simpan ke database
+        DB::table('pendaftaran')->insert([
+            'user_id' => $user->id,
+            'pelatihan_id' => $id,
+            'nama_lengkap' => $request->nama_lengkap,
+            'email' => $request->email,
+            'no_telp' => $request->no_telp,
+            'instansi' => $request->instansi,
+            'instansi' => $request->instansi,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
         // Kirim email
         $emailData = [
             'nama_lengkap' => $request->nama_lengkap,
             'email' => $request->email,
             'no_telp' => $request->no_telp,
-            'instansi' => $instansiFinal,
-            'tipe_peserta' => $tipePesertaFinal,
+            'instansi' => $request->instansi,
             'pelatihan' => $pelatihan->nama,
             'rekening' => $pelatihan->rekening ?? '-',
             'atas_nama' => $pelatihan->atas_nama ?? '-',
@@ -315,7 +306,6 @@ class PelatihanController extends Controller
                 'pendaftaran.email',
                 'pendaftaran.no_telp',
                 'pendaftaran.instansi',
-                'pendaftaran.tipe_peserta',
                 'pelatihan.nama as nama_pelatihan'
             )
             ->first();
@@ -334,7 +324,6 @@ class PelatihanController extends Controller
             $pendaftaran->nama_lengkap,
             $pendaftaran->nama_pelatihan,
             $pendaftaran->instansi,
-            $pendaftaran->tipe_peserta,
             $pendaftaran->no_telp,
             storage_path('app/public/' . $filename)
         ));

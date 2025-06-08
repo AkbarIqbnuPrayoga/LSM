@@ -260,10 +260,10 @@ document.addEventListener("DOMContentLoaded", function () {
     tipePesertaSelect.addEventListener("change", function () {
         if (tipePesertaSelect.value === "lainnya") {
             tipePesertaLainDiv.style.display = "block";
-            tipePesertaLainDiv.querySelector("input").setAttribute("required", "required");
+            tipePesertaLainDiv.setAttribute("required", "required");
         } else {
             tipePesertaLainDiv.style.display = "none";
-            tipePesertaLainDiv.querySelector("input").removeAttribute("required");
+            tipePesertaLainDiv.removeAttribute("required");
         }
     });
 
