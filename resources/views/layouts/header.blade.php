@@ -6,6 +6,8 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>@yield('title')</title>
+  @stack('styles')
+
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -38,7 +40,8 @@
     <!-- Add the slick-theme.css if you want default styling -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" />
-
+    
+    
 
 </head>
 

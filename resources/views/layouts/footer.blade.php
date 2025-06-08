@@ -5,15 +5,19 @@
         <div class="row">
 
           <div class="col-lg-3 col-md-6 footer-contact">
-            <h3>PUSDIKLAT<span>.</span></h3>
-            <p>
-              Jalan Letjen S. Parman No. 1 <br>
-              Tomang, Grogol petamburan, Jakarta 11440<br>
-              Indonesia <br><br>
-              <strong>Phone:</strong> +62 888 8118 8118<br>
-              <strong>Email:</strong> PUSDIKLAT@admin.com<br>
-            </p>
-          </div>
+          <h3>
+            <img src="/images/logountar.png" alt="Logo" style="height: 1.5em; margin-right: 0.3em; margin-bottom: 0.3em;">
+            PUSDIKLAT<span></span>
+          </h3>
+          <p>
+            Jalan Letjen S. Parman No. 1 <br>
+            Tomang, Grogol petamburan, Jakarta 11440<br>
+            Indonesia <br><br>
+            <strong>Phone:</strong> +62 888 8118 8118<br>
+            <strong>Email:</strong> PUSDIKLAT@admin.com<br>
+          </p>
+        </div>
+
 
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Useful Links</h4>

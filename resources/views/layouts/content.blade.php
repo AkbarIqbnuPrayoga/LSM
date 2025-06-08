@@ -1,1 +1,1 @@
-@yield('contnet')
+@yield('content')
