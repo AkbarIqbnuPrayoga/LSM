@@ -89,18 +89,18 @@
                             <input type="number" class="form-control rounded form-control-sm w-auto" id="kuota" name="kuota" min="1" required>
                         </div>
                         <div class="mb-3 col-md-4">
-                        <label for="tanggal_mulai" class="form-label">
-                            <i class="bi bi-calendar-event me-1"></i>Tanggal Mulai
-                        </label>
-                        <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control form-control-sm w-auto">
-                    </div>
+    <label for="tanggal_mulai" class="form-label">
+        <i class="bi bi-calendar-event me-1"></i>Tanggal Mulai
+    </label>
+    <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control form-control-sm w-auto">
+</div>
 
-                    <div class="mb-3 col-md-4">
-                        <label for="tanggal_selesai" class="form-label">
-                            <i class="bi bi-calendar-event me-1"></i>Tanggal Selesai
-                        </label>
-                        <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control form-control-sm w-auto">
-                    </div>
+<div class="mb-3 col-md-4">
+    <label for="tanggal_selesai" class="form-label">
+        <i class="bi bi-calendar-event me-1"></i>Tanggal Selesai
+    </label>
+    <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control form-control-sm w-auto">
+</div>
                         <div class="mb-3">
                             <label for="konten" class="form-label"><i class="bi bi-text-left me-1"></i>Isi Berita / Konten</label>
                             <textarea class="form-control rounded" id="konten" name="konten" rows="5" required></textarea>
@@ -186,10 +186,7 @@
                                     </td>
                                     <td>{{ $item->kuota }}</td>
                                     <td>{{ ucfirst($item->tag) }}</td>
-                                    <td>
-                                        {{ \Carbon\Carbon::parse($item->tanggal_mulai)->format('d-m-Y') }} s/d 
-                                        {{ \Carbon\Carbon::parse($item->tanggal_selesai)->format('d-m-Y') }}
-                                    </td>
+                                    <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}</td>
                                     <td><a href="{{ route('pelatihan.edit', $item->id) }}" class="btn btn-sm btn-primary rounded">Edit</a></td>
                                 </tr>
                             @endforeach

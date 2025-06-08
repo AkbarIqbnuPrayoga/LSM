@@ -32,11 +32,8 @@
                 <div class="col-md-5 mb-3">
                     <div class="border rounded p-3 bg-light h-100">
                         <strong>Tanggal:</strong><br>
-                        {{ \Carbon\Carbon::parse($pelatihan->tanggal_mulai)->format('d M Y') }} - 
-                        {{ \Carbon\Carbon::parse($pelatihan->tanggal_selesai)->format('d M Y') }}
-
+                        {{ \Carbon\Carbon::parse($pelatihan->tanggal)->format('d M Y') }}
                         <hr class="my-2">
-
                         <strong>Waktu:</strong><br>
                         <i class="bi bi-clock me-1"></i>
                         {{ \Carbon\Carbon::parse($pelatihan->waktu_mulai)->format('H:i') }} - 
@@ -197,7 +194,6 @@
                                     <label class="form-label">Instansi Lainnya</label>
                                     <input type="text" name="instansi_lain" class="form-control">
                                 </div>
-
                                 <div class="col-md-6 mt-3">
                                     <label class="form-label">Status / Pekerjaan</label>
                                     <select name="tipe_peserta" id="tipe-peserta-select" class="form-select" required>

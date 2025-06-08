@@ -13,12 +13,12 @@ class HomeController extends Controller
     {
         // Ganti 'asc' menjadi 'desc' jika ingin urutan terbaru dulu
         $pelatihan = Pelatihan::where('status', 'public')
-            ->orderBy('tanggal_mulai', 'asc') // atau 'desc'
+            ->orderBy('->orderBy('tanggal_mulai')', 'asc') // atau 'desc'
             ->get();
 
         // Kelompokkan berdasarkan bulan dan tahun dari tanggal
         $groupedByMonthYear = $pelatihan->groupBy(function ($item) {
-            return Carbon::parse($item->tanggal_mulai)->format('F Y');
+            return Carbon::parse($item->tanggal)->format('F Y');
         });
 
         return view('home', compact('pelatihan', 'groupedByMonthYear'));

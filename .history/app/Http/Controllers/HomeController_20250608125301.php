@@ -18,7 +18,7 @@ class HomeController extends Controller
 
         // Kelompokkan berdasarkan bulan dan tahun dari tanggal
         $groupedByMonthYear = $pelatihan->groupBy(function ($item) {
-            return Carbon::parse($item->tanggal_mulai)->format('F Y');
+            return Carbon::parse($item->tanggal)->format('F Y');
         });
 
         return view('home', compact('pelatihan', 'groupedByMonthYear'));

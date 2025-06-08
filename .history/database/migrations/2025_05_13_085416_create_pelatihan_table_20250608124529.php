@@ -15,7 +15,7 @@ class CreatePelatihanTable extends Migration
             $table->integer('harga')->default(0);
             $table->string('tag'); // Simpan sebagai 'offline', 'online', atau 'hybrid'
             $table->date('tanggal_mulai')->nullable();
-            $table->date('tanggal_selesai')->nullable();
+        $table->date('tanggal_selesai')->nullable();
             $table->longText('konten');
             $table->integer('kuota')->default(0);
             $table->string('rekening');

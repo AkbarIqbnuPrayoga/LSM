@@ -13,7 +13,6 @@ class Pelatihan extends Model
     'gambar',
     'tag',
     'tanggal_mulai',
-    'tanggal_selesai',
     'konten',
     'kuota',
     'rekening',

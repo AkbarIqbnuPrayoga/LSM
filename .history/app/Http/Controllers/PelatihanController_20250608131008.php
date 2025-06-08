@@ -143,7 +143,7 @@ class PelatihanController extends Controller
         $pelatihan->nama = $request->nama;
         $pelatihan->kuota = $request->kuota;
         $pelatihan->tanggal_mulai = $request->tanggal_mulai;
-        $pelatihan->tanggal_selesai = $request->tanggal_selesai;
+        $pelatihan->tanggal = $request->tanggal_selesai;
         $pelatihan->konten = $request->konten;
         $pelatihan->status = $request->status;
         $pelatihan->harga = $request->harga;

@@ -186,10 +186,7 @@
                                     </td>
                                     <td>{{ $item->kuota }}</td>
                                     <td>{{ ucfirst($item->tag) }}</td>
-                                    <td>
-                                        {{ \Carbon\Carbon::parse($item->tanggal_mulai)->format('d-m-Y') }} s/d 
-                                        {{ \Carbon\Carbon::parse($item->tanggal_selesai)->format('d-m-Y') }}
-                                    </td>
+                                    <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}</td>
                                     <td><a href="{{ route('pelatihan.edit', $item->id) }}" class="btn btn-sm btn-primary rounded">Edit</a></td>
                                 </tr>
                             @endforeach

@@ -97,23 +97,23 @@
                     <input type="number" class="form-control form-control sm w-auto" id="kuota" name="kuota" min="1" value="{{ old('kuota', $pelatihan->kuota) }}" required>
                 </div>
 
-                {{-- Tanggal Mulai --}}
-                <div class="mb-3">
-                    <label for="tanggal_mulai" class="form-label fw-semibold">
-                        <i class='bx bx-calendar me-1'></i>Tanggal Mulai
-                    </label>
-                    <input type="date" class="form-control form-control-sm w-auto" id="tanggal_mulai" name="tanggal_mulai" 
-                        value="{{ old('tanggal_mulai', \Carbon\Carbon::parse($pelatihan->tanggal_mulai)->format('Y-m-d')) }}" required>
-                </div>
+         {{-- Tanggal Mulai --}}
+<div class="mb-3">
+    <label for="tanggal_mulai" class="form-label fw-semibold">
+        <i class='bx bx-calendar me-1'></i>Tanggal Mulai
+    </label>
+    <input type="date" class="form-control form-control-sm w-auto" id="tanggal_mulai" name="tanggal_mulai" 
+        value="{{ old('tanggal_mulai', \Carbon\Carbon::parse($pelatihan->tanggal_mulai)->format('Y-m-d')) }}" required>
+</div>
 
-                {{-- Tanggal Selesai --}}
-                <div class="mb-3">
-                    <label for="tanggal_selesai" class="form-label fw-semibold">
-                        <i class='bx bx-calendar me-1'></i>Tanggal Selesai
-                    </label>
-                    <input type="date" class="form-control form-control-sm w-auto" id="tanggal_selesai" name="tanggal_selesai" 
-                        value="{{ old('tanggal_selesai', \Carbon\Carbon::parse($pelatihan->tanggal_selesai)->format('Y-m-d')) }}" required>
-                </div>
+{{-- Tanggal Selesai --}}
+<div class="mb-3">
+    <label for="tanggal_selesai" class="form-label fw-semibold">
+        <i class='bx bx-calendar me-1'></i>Tanggal Selesai
+    </label>
+    <input type="date" class="form-control form-control-sm w-auto" id="tanggal_selesai" name="tanggal_selesai" 
+        value="{{ old('tanggal_selesai', \Carbon\Carbon::parse($pelatihan->tanggal_selesai)->format('Y-m-d')) }}" required>
+</div>
 
 
                 {{-- Status --}}

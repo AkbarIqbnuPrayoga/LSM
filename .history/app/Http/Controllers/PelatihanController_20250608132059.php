@@ -114,6 +114,7 @@ class PelatihanController extends Controller
             'kuota' => 'required|integer|min:1',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'konten' => 'required|string',
             'status' => 'required|in:public,private',

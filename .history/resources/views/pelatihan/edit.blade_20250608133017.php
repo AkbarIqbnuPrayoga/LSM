@@ -97,7 +97,7 @@
                     <input type="number" class="form-control form-control sm w-auto" id="kuota" name="kuota" min="1" value="{{ old('kuota', $pelatihan->kuota) }}" required>
                 </div>
 
-                {{-- Tanggal Mulai --}}
+                    {{-- Tanggal Mulai --}}
                 <div class="mb-3">
                     <label for="tanggal_mulai" class="form-label fw-semibold">
                         <i class='bx bx-calendar me-1'></i>Tanggal Mulai

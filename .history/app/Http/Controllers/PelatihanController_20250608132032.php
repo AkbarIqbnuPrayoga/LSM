@@ -26,7 +26,8 @@ class PelatihanController extends Controller
         'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         'tag' => 'required|array',
         'tanggal_mulai' => 'required|date',
-        'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+
         'konten' => 'required|string',
         'kuota' => 'required|integer|min:1',
         'rekening' => 'required|string',

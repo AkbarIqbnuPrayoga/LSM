@@ -29,20 +29,20 @@
                 </div>
 
                 {{-- Tanggal & Waktu --}}
-                <div class="col-md-5 mb-3">
-                    <div class="border rounded p-3 bg-light h-100">
-                        <strong>Tanggal:</strong><br>
-                        {{ \Carbon\Carbon::parse($pelatihan->tanggal_mulai)->format('d M Y') }} - 
-                        {{ \Carbon\Carbon::parse($pelatihan->tanggal_selesai)->format('d M Y') }}
+<div class="col-md-5 mb-3">
+    <div class="border rounded p-3 bg-light h-100">
+        <strong>Tanggal:</strong><br>
+        {{ \Carbon\Carbon::parse($pelatihan->tanggal_mulai)->format('d M Y') }} - 
+        {{ \Carbon\Carbon::parse($pelatihan->tanggal_selesai)->format('d M Y') }}
 
-                        <hr class="my-2">
+        <hr class="my-2">
 
-                        <strong>Waktu:</strong><br>
-                        <i class="bi bi-clock me-1"></i>
-                        {{ \Carbon\Carbon::parse($pelatihan->waktu_mulai)->format('H:i') }} - 
-                        {{ \Carbon\Carbon::parse($pelatihan->waktu_selesai)->format('H:i') }} WIB
-                    </div>
-                </div>
+        <strong>Waktu:</strong><br>
+        <i class="bi bi-clock me-1"></i>
+        {{ \Carbon\Carbon::parse($pelatihan->waktu_mulai)->format('H:i') }} - 
+        {{ \Carbon\Carbon::parse($pelatihan->waktu_selesai)->format('H:i') }} WIB
+    </div>
+</div>
 
                 {{-- Lokasi --}}
                 <div class="col-md-3 mb-3">

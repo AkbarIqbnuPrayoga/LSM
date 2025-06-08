@@ -47,8 +47,7 @@ class PelatihanController extends Controller
             'nama' => $request->nama,
             'gambar' => $gambarPath,
             'tag' => implode(',', $request->tag), // tetap pakai implode untuk amankan array
-            'tanggal_mulai' => $request->tanggal_mulai,
-            'tanggal_selesai' => $request->tanggal_selesai,
+            'tanggal' => $request->tanggal,
             'konten' => $validated['konten'],
             'kuota' => $request->kuota,
             'rekening' => $request->rekening,
@@ -112,8 +111,7 @@ class PelatihanController extends Controller
             'tag' => 'required|array',
             'tag.*' => 'required|string|in:online,offline,hybrid',
             'kuota' => 'required|integer|min:1',
-            'tanggal_mulai' => 'required|date',
-            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+            'tanggal' => 'required|date',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'konten' => 'required|string',
             'status' => 'required|in:public,private',
@@ -142,8 +140,7 @@ class PelatihanController extends Controller
         // Simpan semua data ke model
         $pelatihan->nama = $request->nama;
         $pelatihan->kuota = $request->kuota;
-        $pelatihan->tanggal_mulai = $request->tanggal_mulai;
-        $pelatihan->tanggal_selesai = $request->tanggal_selesai;
+        $pelatihan->tanggal = $request->tanggal;
         $pelatihan->konten = $request->konten;
         $pelatihan->status = $request->status;
         $pelatihan->harga = $request->harga;
