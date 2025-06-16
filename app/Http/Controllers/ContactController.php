@@ -15,7 +15,7 @@ class ContactController extends Controller
         $request->validate([
             'name'    => 'required|string|max:255',
             'email'   => 'required|email|max:255',
-            'subject' => 'required|string|max:255',
+            'subjek' => 'required|string|max:255',
             'message' => 'required|string',
         ]);
 
@@ -24,7 +24,7 @@ class ContactController extends Controller
             Mail::to('akbariqbnup@gmail.com')->send(new ContactMail(
                 $request->name,
                 $request->email,
-                $request->subject,
+                $request->subjek,
                 $request->message
             ));
 

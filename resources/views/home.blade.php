@@ -453,29 +453,33 @@
                         @endif
 
                         {{-- 🔽 Form dimulai di bawah ini --}}
-                        <form action="{{ route('contact.send') }}" method="POST" class="contact-form">
+                        <form action="{{ route('contact.send') }}" method="POST" class="contact-form" id="contactForm">
                             @csrf
                             <div class="form-row">
                                 <div class="form-group">
-                                    <input type="text" name="name" placeholder="Your Name" required>
+                                    <input type="text" name="name" placeholder="Your Name" 
+                                        value="{{ auth()->check() ? auth()->user()->name : old('name') }}" 
+                                        {{ auth()->check() ? 'readonly' : '' }} required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" name="email" placeholder="Your Email" required>
+                                    <input type="email" name="email" placeholder="Your Email" 
+                                        value="{{ auth()->check() ? auth()->user()->email : old('email') }}" 
+                                        {{ auth()->check() ? 'readonly' : '' }} required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="subject" placeholder="Subject" required>
+                                <input type="text" name="subjek" placeholder="Subjek" required>
                             </div>
                             <div class="form-group">
                                 <textarea name="message" rows="5" placeholder="Message" required></textarea>
                             </div>
                             <div class="form-submit">
-                                <button type="submit">Send Message</button>
+                                @if(auth()->check())
+                                    <button type="submit">Send Message</button>
+                                @else
+                                    <a href="{{ route('login') }}" class="btn btn-primary">Login to Send Message</a>
+                                @endif
                             </div>
-
-                            <div class="loading">Sending...</div>
-                            <div class="error-message"></div>
-                            <div class="sent-message">Your message has been sent. Thank you!</div>
                         </form>
 
                     </div>

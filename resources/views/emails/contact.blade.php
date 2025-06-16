@@ -69,7 +69,7 @@
         <div class="info-block">
             <p><strong>Nama:</strong> {{ $name }}</p>
             <p><strong>Email:</strong> {{ $email }}</p>
-            <p><strong>Subjek:</strong> {{ $subject }}</p>
+            <p><strong>Subjek:</strong> {{ $subjek }}</p>
         </div>
 
         <div>

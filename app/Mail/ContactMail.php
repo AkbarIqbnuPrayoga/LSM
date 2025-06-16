@@ -13,14 +13,14 @@ class ContactMail extends Mailable
 
     public $name;
     public $email;
-    public $subject;
+    public $subjek;
     public $messageContent;
 
-    public function __construct($name, $email, $subject, $messageContent)
+    public function __construct($name, $email, $subjek, $messageContent)
     {
         $this->name = $name;
         $this->email = $email;
-        $this->subject = $subject;
+        $this->subjek = $subjek;
         $this->messageContent = $messageContent;
     }
 
