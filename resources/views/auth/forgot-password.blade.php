@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Verify Email</title>
+    <title>Forgot Password</title>
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('template_admin/assets/images/favicon.png') }}">
     <link href="{{ asset('template_admin/css/style.css') }}" rel="stylesheet">
     <style>
@@ -55,34 +55,39 @@
     <div class="login-form-bg h-100">
         <div class="container h-100">
             <div class="row justify-content-center align-items-center h-100">
+                <!-- Form Forgot Password -->
                 <div class="col-lg-4 col-md-8">
-                    <div class="login-card text-center">
-                        <h3 class="login-title mb-4">Verify Your Email Address</h3>
+                    <div class="login-card">
+                        <h3 class="text-center login-title mb-4">Forgot Password</h3>
 
-                        @if (session('resent'))
+                        @if (session('status'))
                             <div class="alert alert-success" role="alert">
-                                A fresh verification link has been sent to your email address.
+                                {{ session('status') }}
                             </div>
                         @endif
 
-                        <p class="mb-3 text-muted">
-                            Before proceeding, please check your email for a verification link.<br>
-                            If you did not receive the email:
-                        </p>
-
-                        <form method="POST" action="{{ route('verification.resend') }}">
+                        <form method="POST" action="{{ route('password.email') }}">
                             @csrf
+
+                            <div class="form-group position-relative mb-3">
+                                <input type="email" name="email" class="form-control" placeholder="Enter your email" value="{{ old('email') }}" required autofocus>
+                                <span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
+                                @error('email')
+                                    <span class="text-danger small">{{ $message }}</span>
+                                @enderror
+                            </div>
+
                             <button type="submit" class="btn login-form__btn w-100 mb-3">
-                                Click here to request another
+                                Send Password Reset Link
                             </button>
-                        </form>
 
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="btn btn-link text-danger small">Logout</button>
+                            <div class="text-center">
+                                <a href="{{ route('login') }}" class="text-primary">Back to Login</a>
+                            </div>
+
                         </form>
                     </div>
-                </div>
+                </div> <!-- End Forgot Password Form -->
             </div>
         </div>
     </div>
