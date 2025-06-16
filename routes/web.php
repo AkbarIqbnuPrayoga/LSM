@@ -10,6 +10,8 @@ use App\Http\Controllers\Buku1Controller;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\DashboardUserController;
+use App\Http\Controllers\ContactController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -107,6 +109,9 @@ Route::get('/sertifikat', [App\Http\Controllers\SertifikasiController::class, 's
 Route::get('/procurement/{name}', [App\Http\Controllers\SertifikasiController::class, 'procurement'])->name('procurement');
 
 Route::get('/buku/{slug}', [Buku1Controller::class, 'show'])->name('buku.show');
+
+Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboardUser', [DashboardUserController::class, 'index'])->name('dashboardUser');
