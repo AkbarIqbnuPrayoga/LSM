@@ -10,6 +10,8 @@ use App\Http\Controllers\Buku1Controller;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\DashboardUserController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +38,10 @@ Route::post('/admin/kirim-sertifikat', [PelatihanController::class, 'kirimSertif
 Route::get('/admin/bukti/download/{pelatihanId}', [PelatihanController::class, 'downloadSemuaBukti'])->name('admin.download.bukti');
 Route::post('/admin/pelatihan/{id}/upload-kirim-sertifikat', [PelatihanController::class, 'uploadAndKirimSertifikat'])->name('admin.upload_kirim_sertifikat');
 
-
+Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 // Route edit
 Route::get('/pelatihan/{id}/edit', [PelatihanController::class, 'edit'])->name('pelatihan.edit');

@@ -101,7 +101,6 @@
         </li>
 
         @guest
-        @guest
           <li>
             <a class="nav-link gap-1 {{ $activelogin }}" href="{{ route('login') }}">
               <i class="bi bi-box-arrow-in-right"></i> Login
