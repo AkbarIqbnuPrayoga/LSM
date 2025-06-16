@@ -12,6 +12,7 @@ use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\DashboardUserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\ContactController;
 
 /*
 |--------------------------------------------------------------------------
