@@ -74,35 +74,25 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
-   public function register(Request $request)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users',
-        'password' => 'required|string|min:8|confirmed',
-    ]);
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
 
-    DB::beginTransaction();
-
-    try {
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
+        event(new Registered($user)); // Kirim email verifikasi
 
         Auth::login($user);
 
-        DB::commit();
-
-        return redirect('/email/verify')
-            ->with('status', 'Akun berhasil dibuat! Silakan cek email untuk verifikasi.');
-    } catch (\Exception $e) {
-        DB::rollBack();
-        return redirect()->back()->withErrors(['error' => 'Registrasi gagal. Silakan coba lagi.']);
+        return redirect('/email/verify')->with('status', 'Akun berhasil dibuat! Silakan cek email untuk verifikasi.'); // arahkan ke halaman verifikasi
     }
-}
 
 }
