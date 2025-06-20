@@ -349,9 +349,9 @@ class PelatihanController extends Controller
             $y = $height / 2;
 
             $img->text($user->name, $x, $y, function ($font) {
-                $font->file(public_path('fonts/OpenSans-SemiBold.ttf')); // Pastikan font ini ada
+                $font->file(public_path('fonts\Silentha.ttf')); // Pastikan font ini ada
                 $font->size(36);
-                $font->color('#111111');
+                $font->color('#232322');
                 $font->align('center');
                 $font->valign('middle');
             });

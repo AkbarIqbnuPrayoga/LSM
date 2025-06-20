@@ -31,4 +31,16 @@ class DashboardUserController extends Controller
 
         return redirect()->route('dashboardUser')->with('success', 'Password changed successfully');
     }
+    public function updateName(Request $request)
+    {
+        $request->validate([
+            'new_name' => 'required|string|max:255'
+        ]);
+
+        $user = auth()->user();
+        $user->name = $request->new_name;
+        $user->save();
+
+        return back()->with('success', 'Nama berhasil diperbarui.');
+    }
 }

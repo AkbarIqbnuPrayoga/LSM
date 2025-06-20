@@ -111,11 +111,11 @@
             <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown">
               <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
             </a>
-            <ul class="dropdown-menu dropdown-menu-end" style="max-width: 200px;">
+            <ul class="dropdown-menu">
               @if(Auth::user()->hasRole('Admin'))
                 <li>
                   <a class="dropdown-item d-flex align-items-center gap-1" href="{{ route('admin') }}">
-                    <i class="bi bi-speedometer2"></i> Dashboard Admin
+                    <i class="bi bi-speedometer2"></i> Admin
                   </a>
                 </li>
               @endif

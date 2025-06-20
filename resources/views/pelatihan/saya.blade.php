@@ -1,61 +1,52 @@
 @extends('index')
+
 @section('content')
-<div class="container mt-5">
-    <h2 class="mb-4"><i class="bi bi-journal-check me-2"></i>Pelatihan yang Anda Daftarkan</h2>
+<div class="container mt-4">
+    <h2 class="mb-4 text-center text-md-start">
+        <i class="bi bi-journal-check me-2"></i>Pelatihan yang Anda Daftarkan
+    </h2>
 
     @if($pendaftaran->isEmpty())
         <p class="text-muted fst-italic">Anda belum mendaftar pelatihan apa pun.</p>
     @else
-        <ul class="list-group">
+        <div class="list-group">
             @foreach($pendaftaran as $item)
-                @php
-                    $pelatihan = $item->pelatihan;
-                @endphp
-                <li class="list-group-item d-flex align-items-center justify-content-between" style="min-height: 140px;">
-                    <div class="d-flex align-items-center">
-                        <img src="{{ asset('storage/' . $pelatihan->gambar) }}" alt="{{ $pelatihan->nama }}" 
-                             class="rounded me-3" style="width: 100px; height: 100px; object-fit: cover;">
-                        <div>
-                            <h5 class="mb-1">{{ $pelatihan->nama }}</h5>
-                            <p class="mb-1 text-secondary">
+                @php $pelatihan = $item->pelatihan; @endphp
+                <div class="list-group-item py-3 px-3 px-md-4 mb-3 rounded shadow-sm">
+                    <div class="d-flex flex-column flex-md-row align-items-center gap-3">
+                        <img src="{{ asset('storage/' . $pelatihan->gambar) }}" alt="{{ $pelatihan->nama }}" class="rounded" style="width: 100px; height: 100px; object-fit: cover;">
+                        <div class="flex-grow-1 w-100">
+                            <h5 class="mb-1 text-center text-md-start">{{ $pelatihan->nama }}</h5>
+                            <p class="mb-1 text-secondary small text-center text-md-start">
                                 <i class="bi bi-calendar3 me-1"></i>{{ \Carbon\Carbon::parse($pelatihan->tanggal)->locale('id')->translatedFormat('d F Y') }}<br>
                                 <i class="bi bi-tags me-1"></i>{{ $pelatihan->tag ?? '-' }}<br>
-                                <small class="text-muted"><i class="bi bi-people me-1"></i>Lokasi: {{ $pelatihan->lokasi ?? '-' }}</small>
+                                <i class="bi bi-people me-1"></i>Lokasi: {{ $pelatihan->lokasi ?? '-' }}
                             </p>
                         </div>
-                    </div>
-
-                    <div class="text-center">
-                        @if($item->status_validasi === 'valid')
-                            @if($item->sertifikat)
-                                <span class="badge bg-primary fs-6 mb-2">
-                                    <i class="bi bi-award-fill me-1"></i>Pelatihan Telah Selesai
-                                </span>
-                                <br>
-                                <button type="button" class="btn btn-info btn-sm" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#sertifikatModal" 
-                                    data-nama="{{ $pelatihan->nama }}" 
-                                    data-sertifikat="{{ $item->sertifikat }}">
-                                <i class="bi bi-file-earmark-medical me-1"></i> Lihat Sertifikat
-                            </button>
+                        <div class="text-center">
+                            @if($item->status_validasi === 'valid')
+                                @if($item->sertifikat)
+                                    <span class="badge bg-primary mb-2 d-block">
+                                        <i class="bi bi-award-fill me-1"></i> Pelatihan Selesai
+                                    </span>
+                                    <button type="button" class="btn btn-info btn-sm w-100 w-md-auto" data-bs-toggle="modal" data-bs-target="#sertifikatModal" data-nama="{{ $pelatihan->nama }}" data-sertifikat="{{ $item->sertifikat }}">
+                                        <i class="bi bi-file-earmark-medical me-1"></i> Lihat Sertifikat
+                                    </button>
+                                @else
+                                    <span class="badge bg-success d-block">
+                                        <i class="bi bi-check-circle-fill me-1"></i> Tervalidasi
+                                    </span>
+                                @endif
                             @else
-                                <span class="badge bg-success fs-6">
-                                    <i class="bi bi-check-circle-fill me-1"></i>Tervalidasi
-                                </span>
+                                <button type="button" class="btn btn-primary btn-sm w-100 w-md-auto" data-bs-toggle="modal" data-bs-target="#uploadModal" data-id="{{ $item->id }}">
+                                    <i class="bi bi-upload me-1"></i> Upload Bukti Pembayaran
+                                </button>
                             @endif
-                        @else
-                            <button type="button" class="btn btn-primary btn-sm" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#uploadModal" 
-                                    data-id="{{ $item->id }}">
-                                <i class="bi bi-upload me-1"></i> Upload Bukti Pembayaran
-                            </button>
-                        @endif
+                        </div>
                     </div>
-                </li>
+                </div>
             @endforeach
-        </ul>
+        </div>
     @endif
 </div>
 
@@ -93,7 +84,7 @@
 
 <!-- Modal Lihat Sertifikat -->
 <div class="modal fade" id="sertifikatModal" tabindex="-1" aria-labelledby="sertifikatModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl"> <!-- lebih besar tapi tidak centered -->
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="sertifikatModalLabel">
@@ -115,7 +106,6 @@
 
 <!-- Script Modal -->
 <script>
-  // Upload Modal: isi hidden input pendaftaran_id
   var uploadModal = document.getElementById('uploadModal');
   uploadModal.addEventListener('show.bs.modal', function (event) {
     var button = event.relatedTarget;
@@ -123,13 +113,11 @@
     uploadModal.querySelector('#pendaftaran_id').value = pendaftaranId;
   });
 
-  // Sertifikat Modal: isi judul, image, dan link download
   var sertifikatModal = document.getElementById('sertifikatModal');
   sertifikatModal.addEventListener('show.bs.modal', function (event) {
     var button = event.relatedTarget;
     var namaPelatihan = button.getAttribute('data-nama');
     var sertifikat = button.getAttribute('data-sertifikat');
-
     sertifikatModal.querySelector('#judulPelatihan').textContent = namaPelatihan;
     sertifikatModal.querySelector('#sertifikatImage').src = "{{ asset('storage') }}/" + sertifikat;
     sertifikatModal.querySelector('#downloadLink').href = "{{ asset('storage') }}/" + sertifikat;

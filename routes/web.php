@@ -120,6 +120,7 @@ Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.
 Route::middleware('auth')->group(function () {
     Route::get('/dashboardUser', [DashboardUserController::class, 'index'])->name('dashboardUser');
     Route::post('/dashboardUser/update-password', [DashboardUserController::class, 'updatePassword'])->name('dashboardUser.update.password');
+    Route::post('/dashboard/update-name', [DashboardUserController::class, 'updateName'])->name('dashboardUser.update.name');
 });
 
 // Route::get('/logout', [AdminController::class, 'logout'])->name('logout');

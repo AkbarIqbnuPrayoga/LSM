@@ -58,6 +58,23 @@
             color: #444;
             line-height: 1.6;
         }
+        .input-update-name {
+            width: 100%;
+            padding: 14px 16px;
+            margin-top: 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 15px;
+            box-sizing: border-box;
+            background-color: #fefefe;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .input-update-name:focus {
+            border-color: #1a1aff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26, 26, 255, 0.1);
+        }
 
         form {
             margin-top: 20px;
@@ -238,6 +255,14 @@
                         </ul>
                     </div>
                 @endif
+
+                {{-- ✅ Form Ganti Nama --}}
+                <form method="POST" action="{{ route('dashboardUser.update.name') }}">
+                    @csrf
+                    <label for="new_name">Change Name:</label>
+                    <input type="text" name="new_name" id="new_name" class="input-update-name" value="{{ $user->name }}" required>
+                    <button type="submit" class="btn-changePass" style="margin-top: 16px;">Update Name</button>
+                </form>
 
                 <form method="POST" action="{{ route('dashboardUser.update.password') }}">
                     @csrf

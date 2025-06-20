@@ -147,12 +147,14 @@
 
               <div class="row" data-aos="fade-up" data-aos-delay="100">
 
-                  <div class="col-lg-6 ">
-                      <iframe
-                          src="https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d17044.460434637043!2d106.7891!3d-6.169467!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMTAnMTAuMSJTIDEwNsKwNDcnMjAuOCJF!5e1!3m2!1sen!2sus!4v1746584175470!5m2!1sen!2sus"
-                          width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                          referrerpolicy="no-referrer-when-downgrade"></iframe>
-                  </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="ratio ratio-4x3">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d17044.460434637043!2d106.7891!3d-6.169467!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMTAnMTAuMSJTIDEwNsKwNDcnMjAuOCJF!5e1!3m2!1sen!2sus!4v1746584175470!5m2!1sen!2sus"
+                            style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
 
                   <div class="col-lg-6">
                       {{-- ✅ Tambahkan di sini --}}

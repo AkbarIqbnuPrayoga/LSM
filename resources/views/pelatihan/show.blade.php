@@ -60,9 +60,9 @@
             {{-- Gambar Pelatihan --}}
             <div class="text-center mb-4">
                 <img src="{{ asset('storage/' . $pelatihan->gambar) }}" 
-                     class="img-fluid rounded shadow-sm"
-                     style="max-width: 450px; height: auto;" 
-                     alt="{{ $pelatihan->nama }}">
+                    class="img-fluid rounded shadow-sm mx-auto d-block"
+                    style="max-width: 450px; width: 100%; height: auto;" 
+                    alt="{{ $pelatihan->nama }}">
             </div>
 
             {{-- Deskripsi --}}
@@ -74,7 +74,7 @@
             <div class="row justify-content-center mb-4 text-center">
                 <div class="col-md-11">
                     <div class="bg-light p-3 rounded shadow-sm">
-                        <strong>Harga:</strong><br>
+                        <strong>Biaya:</strong><br>
                         <h4 class="mb-0 text-success fw-bold">
                             <i class="bi bi-cash-stack me-1"></i> 
                             Rp {{ number_format($pelatihan->harga, 0, ',', '.') }}
