@@ -18,28 +18,10 @@ use ZipArchive;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use App\Mail\SertifikatMail;
-use App\Mail\PengingatPelatihanMail;
 
 class PelatihanController extends Controller
 {
-    public function kirimNotifSemua($id)
-{
-    $pelatihan = Pelatihan::with('pendaftar.user')->findOrFail($id);
-
-    $now = now();
-    $tanggalPelatihan = \Carbon\Carbon::parse($pelatihan->tanggal);
-    $selisihHari = $now->diffInDays($tanggalPelatihan, false);
-
-    foreach ($pelatihan->pendaftar as $pendaftaran) {
-        if ($pendaftaran->user && $pendaftaran->user->email) {
-            Mail::to($pendaftaran->user->email)->send(
-                new PengingatPelatihanMail($pelatihan, $pendaftaran, $selisihHari)
-            );
-        }
-    }
-
-    return back()->with('success', 'Notifikasi berhasil dikirim ke semua peserta.');
-}
+    
     public function store(Request $request)
     {
         $validated = $request->validate([

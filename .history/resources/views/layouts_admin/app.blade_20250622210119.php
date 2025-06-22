@@ -382,7 +382,7 @@
             <div class="col">
                 <div class="card h-100 shadow-sm">
                     <img src="{{ asset('storage/' . $pelatihan->gambar) }}"
-                         class="card-img-top p-3"
+                         class="card-img-top p-5"
                          alt="Gambar Pelatihan"
                          style="object-fit: contain; height: 250px;">
                     <div class="card-body d-flex flex-column justify-content-between">

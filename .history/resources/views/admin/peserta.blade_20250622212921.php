@@ -70,7 +70,7 @@
                     <th><i class="bi bi-check2-circle"></i> Validasi</th>
                     <th>Status</th>
                     <th><i class="bi bi-trash"></i> Hapus</th>
-                    
+                    <th><i class="bi bi-bell"></i> Notifikasi</th>
                     <th><i class="bi bi-award"></i> Sertifikat</th>
                 </tr>
             </thead>
@@ -127,7 +127,14 @@
                         </button>
                     </td>
 
-               
+                    <td class="text-center">
+                        <form action="{{ route('pendaftaran.kirim_notif', $pendaftaran->id) }}" method="POST">
+                            @csrf
+                            <button class="btn btn-sm btn-info w-100">
+                                <i class="bi bi-send"></i> Kirim
+                            </button>
+                        </form>
+                    </td>
                     <td class="text-center">
                         @php
                             // Nama file sertifikat sesuai format yang kamu buat di controller

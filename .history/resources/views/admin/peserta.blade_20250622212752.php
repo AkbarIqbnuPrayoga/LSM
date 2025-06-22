@@ -18,13 +18,11 @@
         <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#uploadTemplateModal">
             <i class="bi bi-upload me-1"></i> Upload & Kirim Sertifikat
         </button>
-     <form action="{{ route('admin.kirim_notifikasi_semua', $pelatihan->id) }}" method="POST" >
-    @csrf
-    <button type="submit" class="btn btn-info"
-            onclick="return confirm('Kirim notifikasi ke semua peserta pelatihan ini?')">
-        <i class="bi bi-send-check me-1"></i> Kirim Notifikasi ke Semua
-    </button>
-</form>
+        <a href="{{ route('admin.kirim_notifikasi_semua', $pelatihan->id) }}"
+   class="btn btn-info mb-3"
+   onclick="return confirm('Kirim notifikasi ke semua peserta pelatihan ini?')">
+   <i class="bi bi-send-check me-1"></i> Kirim Notifikasi ke Semua
+</a>
     </div>
     <!-- Modal Upload Template Sertifikat -->
     <div class="modal fade" id="uploadTemplateModal" tabindex="-1" aria-labelledby="uploadTemplateModalLabel" aria-hidden="true">
@@ -70,7 +68,7 @@
                     <th><i class="bi bi-check2-circle"></i> Validasi</th>
                     <th>Status</th>
                     <th><i class="bi bi-trash"></i> Hapus</th>
-                    
+                    <th><i class="bi bi-bell"></i> Notifikasi</th>
                     <th><i class="bi bi-award"></i> Sertifikat</th>
                 </tr>
             </thead>
@@ -127,7 +125,14 @@
                         </button>
                     </td>
 
-               
+                    <td class="text-center">
+                        <form action="{{ route('pendaftaran.kirim_notif', $pendaftaran->id) }}" method="POST">
+                            @csrf
+                            <button class="btn btn-sm btn-info w-100">
+                                <i class="bi bi-send"></i> Kirim
+                            </button>
+                        </form>
+                    </td>
                     <td class="text-center">
                         @php
                             // Nama file sertifikat sesuai format yang kamu buat di controller

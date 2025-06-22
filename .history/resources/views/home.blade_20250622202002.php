@@ -123,72 +123,73 @@
     </section><!-- End Hero -->
 
     <main id="main">
-           <!-- ======= Skema Pendaftaran Section ======= -->
-        <section id="skema" class="team section-bg py-5">
-        <div class="container" data-aos="fade-up">
-            <div class="section-title text-center mb-6">
-            <h2>Daftar</h2>
-            <h3>Skema <span>Pendaftaran</span></h3>
-            <p>Pusat Pendidikan Dan Pelatihan Bersetifikat</p>
+        <!-- ======= Featured Services Section ======= -->
+        <section id="team" class="team section-bg py-5">
+                <div class="section-title text-center mb-6">
+                    <h2>Daftar</h2>
+                    <h3>Skema <span>Pendaftaran</span></h3>
+                    <p>Pusat Pendidikan Dan Pelatihan Bersetifikat</p>
+                </div>
+            <div class="container" data-aos="fade-up">
+
+                <div class="d-flex flex-wrap justify-content-center align-items-center">
+                    {{-- Langkah 1 --}}
+                    <div class="text-center me-3">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
+                            style="width: 120px; height: 120px;">
+                            <span>Login</span>
+                        </div>
+                    </div>
+                    <i class="bi bi-arrow-right fs-2 me-3"></i>
+
+                    {{-- Langkah 2 --}}
+                    <div class="text-center me-3">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center text-center"
+                            style="width: 120px; height: 120px;">
+                            <span>Pilih<br>Pelatihan</span>
+                        </div>
+                    </div>
+                    <i class="bi bi-arrow-right fs-2 me-3"></i>
+
+                    {{-- Langkah 3 --}}
+                    <div class="text-center me-3">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center text-center"
+                            style="width: 120px; height: 120px;">
+                            <span>Daftar<br>Pelatihan</span>
+                        </div>
+                    </div>
+                    <i class="bi bi-arrow-right fs-2 me-3"></i>
+
+                    {{-- Langkah 4 --}}
+                    <div class="text-center me-3">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center text-center"
+                            style="width: 120px; height: 120px;">
+                            <span>Pembayaran</span>
+                        </div>
+                    </div>
+                    <i class="bi bi-arrow-right fs-2 me-3"></i>
+
+                    {{-- Langkah 5 --}}
+                    <div class="text-center me-3">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center text-center"
+                            style="width: 120px; height: 120px;">
+                            <span>Mengikuti<br>Pelatihan</span>
+                        </div>
+                    </div>
+                    <i class="bi bi-arrow-right fs-2 me-3"></i>
+
+                    {{-- Langkah 6 --}}
+                    <div class="text-center">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center text-center"
+                            style="width: 120px; height: 120px;">
+                            <span>Sertifikat</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="row justify-content-center">
-            <div class="col-12 col-lg-10">
-                <div class="d-flex flex-column flex-md-row flex-wrap justify-content-center align-items-center gap-3">
-
-                <!-- Langkah 1 -->
-                <div class="d-flex align-items-center">
-                    <div class="d-flex align-items-center bg-primary text-white px-4 py-2 rounded-pill fw-bold">
-                    <span class="me-3">1.</span> Login
-                    </div>
-                    <i class="bi bi-arrow-right mx-2 fs-4 d-none d-md-block"></i>
-                </div>
-
-                <!-- Langkah 2 -->
-                <div class="d-flex align-items-center">
-                    <div class="d-flex align-items-center bg-primary text-white px-4 py-2 rounded-pill fw-bold">
-                    <span class="me-3">2.</span> Pilih Pelatihan
-                    </div>
-                    <i class="bi bi-arrow-right mx-2 fs-4 d-none d-md-block"></i>
-                </div>
-
-                <!-- Langkah 3 -->
-                <div class="d-flex align-items-center">
-                    <div class="d-flex align-items-center bg-primary text-white px-4 py-2 rounded-pill fw-bold">
-                    <span class="me-3">3.</span> Daftar Pelatihan
-                    </div>
-                    <i class="bi bi-arrow-right mx-2 fs-4 d-none d-md-block"></i>
-                </div>
-
-                <!-- Langkah 4 -->
-                <div class="d-flex align-items-center">
-                    <div class="d-flex align-items-center bg-primary text-white px-4 py-2 rounded-pill fw-bold">
-                    <span class="me-3">4.</span> Pembayaran
-                    </div>
-                    <i class="bi bi-arrow-right mx-2 fs-4 d-none d-md-block"></i>
-                </div>
-
-                <!-- Langkah 5 -->
-                <div class="d-flex align-items-center">
-                    <div class="d-flex align-items-center bg-primary text-white px-4 py-2 rounded-pill fw-bold">
-                    <span class="me-3">5.</span> Mengikuti Pelatihan
-                    </div>
-                    <i class="bi bi-arrow-right mx-2 fs-4 d-none d-md-block"></i>
-                </div>
-
-                <!-- Langkah 6 -->
-                <div class="d-flex align-items-center">
-                    <div class="d-flex align-items-center bg-success text-white px-4 py-2 rounded-pill fw-bold">
-                    <span class="me-3">6.</span> Sertifikat
-                    </div>
-                </div>
-
-                </div>
             </div>
-            </div>
-        </div>
         </section>
-        <!-- ======= End Skema Section ======= -->
+        <!-- ======= END Featured Services Section ======= -->
 
 
         <!-- ======= Clients Section ======= -->

@@ -18,8 +18,7 @@ use ZipArchive;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use App\Mail\SertifikatMail;
-use App\Mail\PengingatPelatihanMail;
-
+use App\Mail\PengingatPelatihan;
 class PelatihanController extends Controller
 {
     public function kirimNotifSemua($id)
@@ -33,7 +32,7 @@ class PelatihanController extends Controller
     foreach ($pelatihan->pendaftar as $pendaftaran) {
         if ($pendaftaran->user && $pendaftaran->user->email) {
             Mail::to($pendaftaran->user->email)->send(
-                new PengingatPelatihanMail($pelatihan, $pendaftaran, $selisihHari)
+                new PengingatPelatihan($pelatihan, $pendaftaran, $selisihHari)
             );
         }
     }

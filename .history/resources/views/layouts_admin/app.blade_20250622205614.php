@@ -375,31 +375,28 @@
                 </div>
             </div>
         </div>
+            {{-- Kuota Pelatihan --}}
             <div id="kuotaPelatihan" class="content-section" style="display: none;">
-    <h4><i class='bx bx-bar-chart-alt me-2'></i>Kuota Pelatihan</h4>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        @foreach($pelatihans as $pelatihan)
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <img src="{{ asset('storage/' . $pelatihan->gambar) }}"
-                         class="card-img-top p-3"
-                         alt="Gambar Pelatihan"
-                         style="object-fit: contain; height: 250px;">
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <h5 class="card-title"><i class="bi bi-bookmark-star me-1"></i>{{ $pelatihan->nama }}</h5>
-                        <p class="card-text"><i class="bi bi-people-fill me-1"></i>Kuota: {{ $pelatihan->kuota }}</p>
-                        <p class="card-text">Sudah daftar: {{ $pelatihan->pendaftar_count ?? 0 }}</p>
-                        <p class="card-text">Tanggal Pelatihan: {{ \Carbon\Carbon::parse($pelatihan->tanggal)->format('d-m-Y') }}</p>
-                        <a href="{{ route('admin.peserta', $pelatihan->id) }}" class="btn btn-primary mt-auto">
-                            <i class="bi bi-eye me-1"></i>Lihat
-                        </a>
-                    </div>
+                <h4><i class='bx bx-bar-chart-alt me-2'></i>Kuota Pelatihan</h4>
+                <div class="row">
+                    @foreach($pelatihans as $pelatihan)
+                        <div class="col-md-4 mb-3">
+                            <div class="card mb-4 shadow-sm">
+                                <img src="{{ asset('storage/' . $pelatihan->gambar) }}" class="card-img-top 3" alt="Gambar Pelatihan" width="200" style="object-fit: contain; height: 250px;">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="bi bi-bookmark-star me-1"></i>{{ $pelatihan->nama }}</h5>
+                                    <p class="card-text"><i class="bi bi-people-fill me-1"></i>Kuota: {{ $pelatihan->kuota }}</p>
+                                    <p class="card-text">Sudah daftar: {{ $pelatihan->pendaftar_count ?? 0 }}</p>
+                                    <p class="card-text">Tanggal Pelatihan: {{ \Carbon\Carbon::parse($pelatihan->tanggal)->format('d-m-Y') }}</p>
+                                    <a href="{{ route('admin.peserta', $pelatihan->id) }}" class="btn btn-primary">
+                                        <i class="bi bi-eye me-1"></i>Lihat
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
-            </div>
-        @endforeach
-    </div>
-</div>
-
+            </div>  
             {{-- Riwayat Pelatihan --}}
             <div id="riwayatPelatihan" class="content-section" style="display: none;">
               <h4><i class="bi bi-clock-history me-2"></i>Riwayat Pelatihan</h4>
