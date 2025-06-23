@@ -31,15 +31,20 @@ class PelatihanController extends Controller
     $selisihHari = $now->diffInDays($tanggalPelatihan, false);
 
     foreach ($pelatihan->pendaftar as $pendaftaran) {
-        if ($pendaftaran->user && $pendaftaran->user->email) {
+        if (
+            $pendaftaran->status_validasi === 'valid' &&
+            $pendaftaran->user &&
+            $pendaftaran->user->email
+        ) {
             Mail::to($pendaftaran->user->email)->send(
                 new PengingatPelatihanMail($pelatihan, $pendaftaran, $selisihHari)
             );
         }
     }
 
-    return back()->with('success', 'Notifikasi berhasil dikirim ke semua peserta.');
+    return back()->with('success', 'Notifikasi berhasil dikirim ke peserta yang valid.');
 }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

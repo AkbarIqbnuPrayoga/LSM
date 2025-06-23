@@ -65,9 +65,25 @@
                     alt="{{ $pelatihan->nama }}">
             </div>
 
-            {{-- Deskripsi --}}
+         {{-- Deskripsi --}}
+            @php
+                // Ambil konten mentah
+                $konten = $pelatihan->konten;
+
+                // Deteksi dan ubah daftar numerik menjadi <ol><li>...</li></ol>
+                $konten = preg_replace_callback('/((?:\d+\.\s.*\n?)+)/', function ($matches) {
+                    $listItems = '';
+                    // Ambil setiap baris yang dimulai dengan angka
+                    preg_match_all('/\d+\.\s+(.*)/', $matches[0], $items);
+                    foreach ($items[1] as $item) {
+                        $listItems .= '<li>' . trim($item) . '</li>';
+                    }
+                    return '<ol>' . $listItems . '</ol>';
+                }, $konten);
+            @endphp
+
             <div class="mb-5" style="text-align: justify;">
-                {!! $pelatihan->konten !!}
+                {!! $konten !!}
             </div>
 
             {{-- Harga --}}

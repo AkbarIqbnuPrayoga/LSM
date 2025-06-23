@@ -16,12 +16,12 @@
       <div class="d-flex align-items-center gap-2">
         <i class="bi bi-envelope-fill text-danger fs-5"></i>
         <a href="mailto:PUSDIKLAT@admin.com" class="text-decoration-none fw-semibold text-danger">
-          PUSDIKLAT@admin.com
+          PUSDIKLAT@untar.ac.id
         </a>
       </div>
       <div class="d-flex align-items-center gap-2">
         <i class="bi bi-telephone-fill text-success fs-5"></i>
-        <span class="fw-semibold text-success">+62 888 8118 8118</span>
+        <span class="fw-semibold text-success"> 0815 972 8099 </span>
       </div>
     </div>
 

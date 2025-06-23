@@ -113,7 +113,7 @@
     <section id="hero" class="d-flex align-items-center">
         <div class="container" data-aos="zoom-out" data-aos-delay="100">
             <h1>PUSDIKLAT</h1>
-            <h2>Pusat Pendidikan Dan Pelatihan Bersetifikat</h2>
+            <h2>Pusat Pendidikan Dan Pelatihan Bersertifikat</h2>
             <div class="d-flex">
                 <a href="#portfolio" class="btn-get-started scrollto">Get Started</a>
                 <a href="https://youtu.be/ko4BCK1H9eA" class="glightbox btn-watch-video"><i

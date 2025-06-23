@@ -7,24 +7,31 @@
         <i class="bi bi-cash-coin"></i> Biaya : Rp.{{ number_format($pelatihan->harga, 0, ',', '.') }}
     </h4>
 
-    <div class="d-flex mb-3 gap-2">
-        <a href="{{ route('admin') }}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left-circle me-1"></i> Kembali
-        </a>
-        <a href="{{ route('admin.download.bukti', $pelatihan->id) }}" class="btn btn-success">
-            <i class="bi bi-download me-1"></i> Download Semua Bukti
-        </a>
-        <!-- Tombol Upload Template Sertifikat -->
-        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#uploadTemplateModal">
-            <i class="bi bi-upload me-1"></i> Upload & Kirim Sertifikat
-        </button>
-     <form action="{{ route('admin.kirim_notifikasi_semua', $pelatihan->id) }}" method="POST" >
-    @csrf
-    <button type="submit" class="btn btn-info"
-            onclick="return confirm('Kirim notifikasi ke semua peserta pelatihan ini?')">
-        <i class="bi bi-send-check me-1"></i> Kirim Notifikasi ke Semua
-    </button>
-</form>
+  <div class="row mb-3">
+        <div class="col-md-auto mb-2">
+            <a href="{{ route('admin') }}" class="btn btn-outline-secondary w-100">
+                <i class="bi bi-arrow-left-circle me-1"></i> Kembali
+            </a>
+        </div>
+        <div class="col-md-auto mb-2">
+            <a href="{{ route('admin.download.bukti', $pelatihan->id) }}" class="btn btn-success w-100">
+                <i class="bi bi-download me-1"></i> Download Bukti
+            </a>
+        </div>
+        <div class="col-md-auto mb-2">
+            <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#uploadTemplateModal">
+                <i class="bi bi-upload me-1"></i> Upload & Kirim Sertifikat
+            </button>
+        </div>
+        <div class="col-md-auto mb-2">
+            <form action="{{ route('admin.kirim_notifikasi_semua', $pelatihan->id) }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-info w-100"
+                        onclick="return confirm('Kirim notifikasi ke semua peserta pelatihan ini?')">
+                    <i class="bi bi-send-check me-1"></i> Kirim Notifikasi
+                </button>
+            </form>
+        </div>
     </div>
     <!-- Modal Upload Template Sertifikat -->
     <div class="modal fade" id="uploadTemplateModal" tabindex="-1" aria-labelledby="uploadTemplateModalLabel" aria-hidden="true">
