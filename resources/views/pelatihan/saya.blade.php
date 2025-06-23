@@ -6,46 +6,83 @@
         <i class="bi bi-journal-check me-2"></i>Pelatihan yang Anda Daftarkan
     </h2>
 
+  <div class="mb-4 text-center text-md-start">
+      <label for="filterStatus" class="form-label fw-semibold me-2">
+          <i class="bi bi-funnel-fill me-1"></i>Filter Status:
+      </label>
+      <select id="filterStatus" class="form-select w-auto d-inline-block" onchange="filterPelatihan()">
+          <option value="semua">Semua</option>
+          <option value="belum-bayar">Belum Bayar</option>
+          <option value="menunggu-validasi">Belum Tervalidasi</option>
+          <option value="tervalidasi">Tervalidasi</option>
+          <option value="selesai">Selesai</option>
+      </select>
+  </div>
+
     @if($pendaftaran->isEmpty())
         <p class="text-muted fst-italic">Anda belum mendaftar pelatihan apa pun.</p>
     @else
         <div class="list-group">
             @foreach($pendaftaran as $item)
-                @php $pelatihan = $item->pelatihan; @endphp
-                <div class="list-group-item py-3 px-3 px-md-4 mb-3 rounded shadow-sm">
-                    <div class="d-flex flex-column flex-md-row align-items-center gap-3">
-                        <img src="{{ asset('storage/' . $pelatihan->gambar) }}" alt="{{ $pelatihan->nama }}" class="rounded" style="width: 100px; height: 100px; object-fit: cover;">
-                        <div class="flex-grow-1 w-100">
-                            <h5 class="mb-1 text-center text-md-start">{{ $pelatihan->nama }}</h5>
-                            <p class="mb-1 text-secondary small text-center text-md-start">
-                                <i class="bi bi-calendar3 me-1"></i>{{ \Carbon\Carbon::parse($pelatihan->tanggal)->locale('id')->translatedFormat('d F Y') }}<br>
-                                <i class="bi bi-tags me-1"></i>{{ $pelatihan->tag ?? '-' }}<br>
-                                <i class="bi bi-people me-1"></i>Lokasi: {{ $pelatihan->lokasi ?? '-' }}
-                            </p>
-                        </div>
-                        <div class="text-center">
-                            @if($item->status_validasi === 'valid')
-                                @if($item->sertifikat)
-                                    <span class="badge bg-primary mb-2 d-block">
-                                        <i class="bi bi-award-fill me-1"></i> Pelatihan Selesai
-                                    </span>
-                                    <button type="button" class="btn btn-info btn-sm w-100 w-md-auto" data-bs-toggle="modal" data-bs-target="#sertifikatModal" data-nama="{{ $pelatihan->nama }}" data-sertifikat="{{ $item->sertifikat }}">
-                                        <i class="bi bi-file-earmark-medical me-1"></i> Lihat Sertifikat
-                                    </button>
-                                @else
-                                    <span class="badge bg-success d-block">
-                                        <i class="bi bi-check-circle-fill me-1"></i> Tervalidasi
-                                    </span>
-                                @endif
-                            @else
-                                <button type="button" class="btn btn-primary btn-sm w-100 w-md-auto" data-bs-toggle="modal" data-bs-target="#uploadModal" data-id="{{ $item->id }}">
-                                    <i class="bi bi-upload me-1"></i> Upload Bukti Pembayaran
-                                </button>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            @endforeach
+                @php $pelatihan = $item->pelatihan;
+                  
+                  $statusClass = '';
+
+                  if ($item->status_validasi === 'valid' && $item->sertifikat) {
+                      $statusClass = 'selesai';
+                  } elseif ($item->status_validasi === 'valid') {
+                      $statusClass = 'tervalidasi';
+                  } elseif (!$item->bukti_pembayaran) {
+                      $statusClass = 'belum-bayar';
+                  } else {
+                      $statusClass = 'menunggu-validasi'; // jika sudah upload tapi belum divalidasi
+                  }
+              @endphp
+
+                  <div class="list-group-item py-3 px-3 px-md-4 mb-3 rounded shadow-sm pelatihan-item {{ $statusClass }}">
+        <div class="d-flex flex-column flex-md-row align-items-center gap-3">
+            <img src="{{ asset('storage/' . $pelatihan->gambar) }}" alt="{{ $pelatihan->nama }}" class="rounded" style="width: 100px; height: 100px; object-fit: cover;">
+            <div class="flex-grow-1 w-100">
+                <h5 class="mb-1 text-center text-md-start">{{ $pelatihan->nama }}</h5>
+                <p class="mb-1 text-secondary small text-center text-md-start">
+                    <i class="bi bi-calendar3 me-1"></i>{{ \Carbon\Carbon::parse($pelatihan->tanggal)->locale('id')->translatedFormat('d F Y') }}<br>
+                    <i class="bi bi-tags me-1"></i>{{ $pelatihan->tag ?? '-' }}<br>
+                    <i class="bi bi-people me-1"></i>Lokasi: {{ $pelatihan->lokasi ?? '-' }}
+                </p>
+            </div>
+
+            <div class="text-center">
+                @if($item->status_validasi === 'valid')
+                    @if($item->sertifikat)
+                        <span class="badge bg-primary mb-2 d-block">
+                            <i class="bi bi-award-fill me-1"></i> Pelatihan Selesai
+                        </span>
+                        <button type="button" class="btn btn-info btn-sm w-100 w-md-auto" data-bs-toggle="modal" data-bs-target="#sertifikatModal" data-nama="{{ $pelatihan->nama }}" data-sertifikat="{{ $item->sertifikat }}">
+                            <i class="bi bi-file-earmark-medical me-1"></i> Lihat Sertifikat
+                        </button>
+                    @else
+                        <span class="badge bg-success d-block">
+                            <i class="bi bi-check-circle-fill me-1"></i> Tervalidasi
+                        </span>
+                    @endif
+                @else
+                    @if($item->bukti_pembayaran)
+                        <span class="badge bg-warning text-dark mb-2 d-block">
+                            <i class="bi bi-clock-history me-1"></i> Bukti sudah dikirim
+                        </span>
+                        <button type="button" class="btn btn-secondary btn-sm w-100 w-md-auto" data-bs-toggle="modal" data-bs-target="#uploadModal" data-id="{{ $item->id }}">
+                            <i class="bi bi-upload me-1"></i> Upload Ulang Bukti
+                        </button>
+                    @else
+                        <button type="button" class="btn btn-primary btn-sm w-100 w-md-auto" data-bs-toggle="modal" data-bs-target="#uploadModal" data-id="{{ $item->id }}">
+                            <i class="bi bi-upload me-1"></i> Upload Bukti Pembayaran
+                        </button>
+                    @endif
+                @endif
+            </div>
+        </div>
+    </div>
+@endforeach
         </div>
     @endif
 </div>
@@ -122,5 +159,21 @@
     sertifikatModal.querySelector('#sertifikatImage').src = "{{ asset('storage') }}/" + sertifikat;
     sertifikatModal.querySelector('#downloadLink').href = "{{ asset('storage') }}/" + sertifikat;
   });
+  function filterPelatihan() {
+    var selected = document.getElementById('filterStatus').value;
+    var items = document.querySelectorAll('.pelatihan-item');
+
+    items.forEach(function(item) {
+        if (selected === 'semua') {
+            item.style.display = '';
+        } else {
+            if (item.classList.contains(selected)) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        }
+    });
+}
 </script>
 @endsection

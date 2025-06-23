@@ -83,14 +83,8 @@
         </li>
 
         <li>
-          <a class="nav-link gap-1" href="{{ route('pelatihan.saya') }}">
-            <i class="bi bi-journal-code"></i> Pelatihan
-          </a>
-        </li>
-
-        <li>
           <a class="nav-link gap-1" href="{{ route('riwayat.index') }}">
-            <i class="bi bi-clock-history"></i> Riwayat Pelatihan
+            <i class="bi bi-clock-history"></i> List Pelatihan
           </a>
         </li>
 
@@ -122,6 +116,11 @@
               <li>
                 <a class="dropdown-item d-flex align-items-center gap-1" href="{{ route('dashboardUser') }}">
                   <i class="bi bi-person-fill"></i> Profile
+                </a>
+              </li>
+              <li>
+                <a class="nav-link gap-1" href="{{ route('pelatihan.saya') }}">
+                  <i class="bi bi-journal-code"></i> Pelatihan Saya
                 </a>
               </li>
               <li>

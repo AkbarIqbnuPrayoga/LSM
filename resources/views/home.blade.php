@@ -408,7 +408,7 @@
                         <div class="info-box  mb-4">
                             <i class="bx bx-envelope"></i>
                             <h3>Email Us</h3>
-                            <p>pusdiklat@tarumanagara.ac.id</p>
+                            <p>PUSDIKLAT@untar.ac.id</p>
                         </div>
                     </div>
 
@@ -416,7 +416,7 @@
                         <div class="info-box  mb-4">
                             <i class="bx bx-phone-call"></i>
                             <h3>Call Us</h3>
-                            <p>+62 888 8118 8118</p>
+                            <p>0815 972 8099</p>
                         </div>
                     </div>
 

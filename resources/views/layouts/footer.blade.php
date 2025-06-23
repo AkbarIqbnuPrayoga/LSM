@@ -13,8 +13,8 @@
             Jalan Letjen S. Parman No. 1 <br>
             Tomang, Grogol petamburan, Jakarta 11440<br>
             Indonesia <br><br>
-            <strong>Phone:</strong> +62 888 8118 8118<br>
-            <strong>Email:</strong> PUSDIKLAT@admin.com<br>
+            <strong>Phone:</strong> 0815 972 8099<br>
+            <strong>Email:</strong> PUSDIKLAT@untar.ac.id<br>
           </p>
         </div>
 
@@ -62,7 +62,7 @@
         &copy; Copyright <strong><span>PUSDIKLAT</span></strong>. All Rights Reserved
       </div>
       <div class="credits">
-        Designed by <a>Julius</a>
+        Designed by <a>Akbar Iqbnu Prayoga</a>
       </div>
     </div>
   </footer><!-- End Footer -->
