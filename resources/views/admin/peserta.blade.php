@@ -49,14 +49,34 @@
                         <label for="template_file" class="form-label">File Template (PDF/Gambar)</label>
                         <input type="file" name="template_file" class="form-control" accept=".pdf,.jpg,.jpeg,.png" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="pos_x" class="form-label">Posisi X (dalam px)</label>
+                        <input type="number" class="form-control" name="pos_x" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pos_y" class="form-label">Posisi Y (dalam px)</label>
+                        <input type="number" class="form-control" name="pos_y" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="font_size" class="form-label">Ukuran Font</label>
+                        <input type="number" class="form-control" name="font_size" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="font_color" class="form-label">Warna Font</label>
+                        <input type="color" class="form-control form-control-color" name="font_color" value="#000000" title="Pilih warna font">
+                    </div>
                     <div class="alert alert-info">
                         Pastikan template memiliki ruang kosong untuk nama peserta. Template akan digunakan untuk semua sertifikat.<br>
                         Setelah upload berhasil, sertifikat akan langsung dikirim ke semua peserta valid.
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Upload & Kirim</button>
+                    <button type="submit" name="action" value="generate" class="btn btn-warning">
+                        <i class="bi bi-eye"></i> Generate & Preview
+                    </button>
+                    <button type="submit" name="action" value="kirim" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin ingin mengirim sertifikat ke semua peserta valid?')">
+                        <i class="bi bi-send"></i> Kirim Sertifikat
+                    </button>
                 </div>
             </form>
         </div>
@@ -241,6 +261,35 @@
 
 <!-- Script isi ID otomatis -->
 <script>
+    document.querySelector('input[name="template_file"]').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+        if (!allowedTypes.includes(file.type)) {
+            alert("Hanya gambar (.jpg/.jpeg/.png) yang bisa direkomendasikan posisi otomatis.");
+            return;
+        }
+
+        const img = new Image();
+        img.onload = function () {
+            const width = img.width;
+            const height = img.height;
+
+            // Isi otomatis posisi X dan Y
+            document.querySelector('input[name="pos_x"]').value = Math.floor(width / 2);
+            document.querySelector('input[name="pos_y"]').value = Math.floor(height / 2) + 100;
+
+            // Optional: Tampilkan rekomendasi ke user
+            alert(`Ukuran gambar: ${width}x${height}px\nDisarankan:\nPos X = ${Math.floor(width / 2)}\nPos Y = ${Math.floor(height / 2) + 100}`);
+        };
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
     const sertifikatModal = document.getElementById('sertifikatModal');
     sertifikatModal.addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget;
