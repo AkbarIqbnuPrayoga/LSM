@@ -493,7 +493,6 @@ class PelatihanController extends Controller
                 'pendaftaran.email',
                 'pendaftaran.no_telp',
                 'pendaftaran.instansi',
-                'pendaftaran.tipe_peserta',
                 'pelatihan.nama as nama_pelatihan'
             )
             ->first();
@@ -512,7 +511,6 @@ class PelatihanController extends Controller
             $pendaftaran->nama_lengkap,
             $pendaftaran->nama_pelatihan,
             $pendaftaran->instansi,
-            $pendaftaran->tipe_peserta,
             $pendaftaran->no_telp,
             storage_path('app/public/' . $filename)
         ));

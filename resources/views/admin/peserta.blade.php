@@ -98,7 +98,8 @@
                     <th>Status</th>
                     <th><i class="bi bi-trash"></i> Hapus</th>
                     
-                    <th><i class="bi bi-award"></i> Sertifikat</th>
+                    <th><i class="bi bi-award"></i> Sertifikat Generate</th>
+                    <th><i class="bi bi-upload"></i> Sertifikat Manual</th>
                 </tr>
             </thead>
             <tbody>
@@ -169,6 +170,47 @@
                         </button>
                         @else
                         <span class="text-muted">Belum ada</span>
+                        @endif
+                    </td>
+                    <td class="text-center">
+                        @if($pendaftaran->sertifikat)
+                            @php
+                                $sertifikatPath = asset('storage/' . $pendaftaran->sertifikat);
+                                $ext = pathinfo($sertifikatPath, PATHINFO_EXTENSION);
+                            @endphp
+                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#lihatSertifikatManualModal{{ $pendaftaran->id }}">
+                                <i class="bi bi-eye"></i> Lihat Sertifikat
+                            </button>
+
+                            <!-- Modal Lihat Sertifikat Manual -->
+                            <div class="modal fade" id="lihatSertifikatManualModal{{ $pendaftaran->id }}" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Sertifikat Manual: {{ $pendaftaran->nama_lengkap ?? 'Guest' }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            @if(in_array(strtolower($ext), ['jpg', 'jpeg', 'png']))
+                                                <img src="{{ $sertifikatPath }}" class="img-fluid rounded shadow-sm" alt="Sertifikat">
+                                            @elseif(strtolower($ext) === 'pdf')
+                                                <iframe src="{{ $sertifikatPath }}" width="100%" height="600px" frameborder="0"></iframe>
+                                            @else
+                                                <p class="text-danger">Format sertifikat tidak dikenali.</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @elseif($pendaftaran->status_validasi === 'valid')
+                            <button class="btn btn-sm btn-success mt-1"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#sertifikatModal"
+                                    data-pendaftaranid="{{ $pendaftaran->id }}">
+                                <i class="bi bi-upload"></i> Kirim
+                            </button>
+                        @else
+                            <span class="text-muted">Belum valid</span>
                         @endif
                     </td>
                 </tr>
@@ -247,8 +289,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 @endforeach
             </tbody>
         </table>
@@ -256,6 +296,33 @@
     @else
     <div class="alert alert-info"><i class="bi bi-info-circle me-1"></i> Belum ada peserta yang mendaftar.</div>
     @endif
+    <!-- Modal Upload Sertifikat Manual -->
+    <div class="modal fade" id="sertifikatModal" tabindex="-1">
+        <div class="modal-dialog">
+            <form action="{{ route('sertifikat.kirim') }}" method="POST" enctype="multipart/form-data" class="modal-content">
+                @csrf
+                <input type="hidden" name="pendaftaran_id" id="modalPendaftaranId">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-upload"></i> Upload Sertifikat Manual</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="sertifikat" class="form-label">File Sertifikat (PDF/Gambar)</label>
+                        <input type="file" name="sertifikat" class="form-control" accept=".pdf,.jpg,.jpeg,.png" required>
+                    </div>
+                    <div class="alert alert-info">
+                        Sertifikat ini hanya akan dikirim ke peserta yang dipilih. Pastikan file sudah benar.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-send"></i> Kirim Sertifikat
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 
