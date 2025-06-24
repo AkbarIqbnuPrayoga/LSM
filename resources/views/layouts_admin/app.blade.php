@@ -1,5 +1,19 @@
 @extends('index')
 @section('content')
+@push('style')
+<style>
+  .toolbar button {
+    margin-right: 4px;
+    padding: 4px 8px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    cursor: pointer;
+  }
+  .toolbar button:hover {
+    background: #eee;
+  }
+</style>
+@endpush
 <div class="container-fluid">
   <div class="row">
     <!-- Toggle Button for Sidebar on Mobile -->
@@ -51,7 +65,7 @@
         {{-- Tambah Pelatihan --}}
         <div id="tambahPelatihan" class="content-section" style="display: none;">
             <h4><i class="bi bi-plus-circle me-2"></i>Tambah Pelatihan</h4>
-            <form action="{{ route('pelatihan.store') }}" method="POST" enctype="multipart/form-data" class="border p-3 rounded shadow-sm bg-light">
+            <form id="formTambahPelatihan" action="{{ route('pelatihan.store') }}" method="POST" enctype="multipart/form-data" class="border p-3 rounded shadow-sm bg-light">
                 @csrf
                 <div class="mb-3">
                     <label for="gambar" class="form-label"><i class="bi bi-image me-1"></i>Gambar</label>
@@ -114,9 +128,45 @@
                     </label>
                     <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control form-control-sm w-auto">
                 </div>
-                <div class="mb-3">
-                    <label for="konten" class="form-label"><i class="bi bi-text-left me-1"></i>Isi Berita / Konten</label>
-                    <textarea class="form-control rounded" id="konten" name="konten" rows="5" required></textarea>
+               <div class="mb-3">
+                <label class="form-label"><i class="bi bi-text-left me-1"></i>Isi Berita / Konten</label>
+
+                <!-- Toolbar -->
+                <div class="toolbar mb-2">
+
+                    <select onchange="execCmdWithArg('fontSize', this.value)">
+                        <option value="">Ukuran</option>
+                        <option value="1">Kecil</option>
+                        <option value="3">Normal</option>
+                        <option value="5">Besar</option>
+                    </select>
+                    <!-- Font family -->
+                    <select onchange="execCmdWithArg('fontName', this.value)">
+                        <option value="">Font</option>
+                        <option value="Arial">Arial</option>
+                        <option value="Courier New">Courier</option>
+                        <option value="Times New Roman">Times</option>
+                    </select>
+
+                    <button type="button" onclick="execCmd('bold')"><b>B</b></button>
+                    <button type="button" onclick="execCmd('italic')"><i>I</i></button>
+                    <button type="button" onclick="execCmd('underline')"><u>U</u></button>
+                    <button type="button" onclick="execCmd('insertUnorderedList')">• Bullet</button>
+                    <button type="button" onclick="execCmd('insertOrderedList')">1. Numbering</button>
+                    <button type="button" onclick="execCmd('justifyLeft')">⯇</button>
+                    <button type="button" onclick="execCmd('justifyCenter')">⯀</button>
+                    <button type="button" onclick="execCmd('justifyRight')">⯈</button>
+                    <button type="button" onclick="execCmd('justifyFull')">☰</button>
+                    <button type="button" onclick="createLink()">🔗 Link</button>
+                    <button type="button" onclick="execCmd('removeFormat')">🧹 Bersihkan</button>
+                    <button type="button" onclick="insertImage()">🖼 Gambar</button>
+                </div>
+
+                <!-- Editable Area -->
+                <div id="editor" contenteditable="true" style="border:1px solid #ccc; padding:10px; min-height:200px; background:white;"></div>
+
+                <!-- Hidden textarea for form submit -->
+                <textarea name="konten" id="konten" style="display:none;"></textarea>
                 </div>
                 {{-- Waktu Mulai --}}
                 <div class="mb-3 col-md-4">
@@ -646,6 +696,44 @@
             } else {
                 hargaContainer.style.display = 'none';
             }
+        });
+
+        function execCmd(command) {
+            document.execCommand(command, false, null);
+        }
+
+        function execCmdWithArg(command, arg) {
+            document.execCommand(command, false, arg);
+        }
+
+        function createLink() {
+            const url = prompt("Masukkan URL:");
+            if (url) {
+            document.execCommand("createLink", false, url);
+            }
+        }
+
+        function insertImage() {
+            const imageUrl = prompt("Masukkan URL gambar:");
+            if (imageUrl) {
+            document.execCommand('insertImage', false, imageUrl);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('formTambahPelatihan');
+            const editor = document.getElementById('editor');
+            const konten = document.getElementById('konten');
+
+            form.addEventListener('submit', function (e) {
+                const editorContent = editor.innerHTML.trim();
+                konten.value = editorContent;
+
+                // Validasi kosong
+                if (!editorContent || editorContent === '<br>') {
+                    alert('Isi Berita / Konten tidak boleh kosong.');
+                    e.preventDefault();
+                }
+            });
         });
 </script>
 @endsection

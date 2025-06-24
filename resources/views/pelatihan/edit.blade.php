@@ -10,7 +10,7 @@
 <div class="container mt-5">
             <h3 class="mb-4 fw-bold"><i class='bx bx-edit-alt me-2'></i>Edit Pelatihan</h3>
 
-            <form action="{{ route('pelatihan.update', $pelatihan->id) }}" method="POST" enctype="multipart/form-data">
+            <form id="formEditPelatihan" action="{{ route('pelatihan.update', $pelatihan->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -158,9 +158,45 @@
 
 
                 {{-- Konten --}}
-                <div class="mb-4">
-                    <label for="konten" class="form-label fw-semibold"><i class='bx bx-news me-1'></i>Isi Berita / Konten</label>
-                    <textarea class="form-control" id="konten" name="konten" rows="6" required>{{ old('konten', $pelatihan->konten) }}</textarea>
+                <div class="mb-3">
+                <label class="form-label"><i class="bi bi-text-left me-1"></i>Isi Berita / Konten</label>
+
+                <!-- Toolbar -->
+                <div class="toolbar mb-2">
+
+                    <select onchange="execCmdWithArg('fontSize', this.value)">
+                        <option value="">Ukuran</option>
+                        <option value="1">Kecil</option>
+                        <option value="3">Normal</option>
+                        <option value="5">Besar</option>
+                    </select>
+                    <!-- Font family -->
+                    <select onchange="execCmdWithArg('fontName', this.value)">
+                        <option value="">Font</option>
+                        <option value="Arial">Arial</option>
+                        <option value="Courier New">Courier</option>
+                        <option value="Times New Roman">Times</option>
+                    </select>
+
+                    <button type="button" onclick="execCmd('bold')"><b>B</b></button>
+                    <button type="button" onclick="execCmd('italic')"><i>I</i></button>
+                    <button type="button" onclick="execCmd('underline')"><u>U</u></button>
+                    <button type="button" onclick="execCmd('insertUnorderedList')">• Bullet</button>
+                    <button type="button" onclick="execCmd('insertOrderedList')">1. Numbering</button>
+                    <button type="button" onclick="execCmd('justifyLeft')">⯇</button>
+                    <button type="button" onclick="execCmd('justifyCenter')">⯀</button>
+                    <button type="button" onclick="execCmd('justifyRight')">⯈</button>
+                    <button type="button" onclick="execCmd('justifyFull')">☰</button>
+                    <button type="button" onclick="createLink()">🔗 Link</button>
+                    <button type="button" onclick="execCmd('removeFormat')">🧹 Bersihkan</button>
+                    <button type="button" onclick="insertImage()">🖼 Gambar</button>
+                </div>
+
+                <!-- Editable Area -->
+                <div id="editor" contenteditable="true" style="border:1px solid #ccc; padding:10px; min-height:200px; background:white;">{{ old('konten', $pelatihan->konten) }}</div>
+
+                <!-- Hidden textarea for form submit -->
+                <textarea name="konten" id="konten" style="display:none;">{{ old('konten', $pelatihan->konten) }}</textarea>
                 </div>
 
                 {{-- Tombol --}}
@@ -177,6 +213,66 @@
     </div>
 </div>
 <script>
+function execCmd(command) {
+    document.execCommand(command, false, null);
+}
+
+function execCmdWithArg(command, arg) {
+    document.execCommand(command, false, arg);
+}
+
+function createLink() {
+    const url = prompt("Masukkan URL:");
+    if (url) {
+    document.execCommand("createLink", false, url);
+    }
+}
+
+function insertImage() {
+    const imageUrl = prompt("Masukkan URL gambar:");
+    if (imageUrl) {
+    document.execCommand('insertImage', false, imageUrl);
+    }
+}
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('formTambahPelatihan');
+    const editor = document.getElementById('editor');
+    const konten = document.getElementById('konten');
+
+    // Ambil konten dari textarea hidden dan tampilkan ke editor
+    editor.innerHTML = konten.value;
+
+    form.addEventListener('submit', function (e) {
+        const editorContent = editor.innerHTML.trim();
+        konten.value = editorContent;
+
+        // Validasi kosong
+        if (!editorContent || editorContent === '<br>') {
+            alert('Isi Berita / Konten tidak boleh kosong.');
+            e.preventDefault();
+        }
+    });
+});
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('formEditPelatihan');
+    const editor = document.getElementById('editor');
+    const konten = document.getElementById('konten');
+
+    // Tampilkan isi lama ke editor saat load
+    editor.innerHTML = konten.value;
+
+    // Salin isi editor ke textarea saat submit
+    form.addEventListener('submit', function (e) {
+        const editorContent = editor.innerHTML.trim();
+        konten.value = editorContent;
+
+        // Validasi (opsional)
+        if (!editorContent || editorContent === '<br>') {
+            alert('Isi Berita / Konten tidak boleh kosong.');
+            e.preventDefault();
+        }
+    });
+});
 document.addEventListener('DOMContentLoaded', function() {
     const zoomField = document.getElementById('zoomField');
     const lokasiField = document.getElementById('lokasiField');
